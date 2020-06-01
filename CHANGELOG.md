@@ -7,22 +7,42 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-- Removed individual versioning 
+- No unreleased changes yet.
+
+
+## [0.5.1] - 2020-06-01
+### Added
+- Added publishing Action to [PyPI](https://pypi.org/project/tdvisu/) [#4]
+
+### Changed
+- Changed setup.py with more documentation and simpler functionality.
+- Updated Readme with a guide on how to use construct_dpdb_visu [#2]
+
+### Removed
+- Removed publishing Action to testpypi [#4]
+
+
+## [0.5.0.dev1] - 2020-06-01
+
+### Added
+
+- Development version; beginning of the repository [#1]
 - Added version.py
 - Added module-name to imports
 - Added README to tdvisu directly
 
-## [0.5.0] - 2020-06-01
+### Changed
+- Fixed usage of `__version__` in tdvisu/construct_dpdb_visu.py
 
-### Added
+### Removed
+- Removed individual versioning 
 
-- Current development version
-
-
-[#78]: https://github.com/theskumar/python-dotenv/issues/78
+[#1]: https://github.com/VaeterchenFrost/tdvisu/issues/1
+[#2]: https://github.com/VaeterchenFrost/tdvisu/issues/2
+[#4]: https://github.com/VaeterchenFrost/tdvisu/issues/4
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v0.5.0...HEAD
-
-[0.5.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.0
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v0.5.1...master
+[0.5.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.1
+[0.5.0.dev1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.0-dev1
