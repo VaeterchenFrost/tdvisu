@@ -73,7 +73,6 @@ PSYCOPG2_8_5_TASTATUS = {
 }
 
 
-
 def good_db_status() -> tuple:
     """Any good db status to proceed."""
     return (pg.extensions.TRANSACTION_STATUS_IDLE,
@@ -138,7 +137,7 @@ class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
     def construct(self) -> dict:
         """Return the constructed Json."""
         raise NotImplementedError
-        
+
     @abc.abstractmethod
     def read_edgearray(self) -> list:
         """Return the edges between the bags."""

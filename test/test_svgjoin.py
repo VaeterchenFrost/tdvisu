@@ -29,7 +29,6 @@ from unittest_expander import expand, foreach, param
 from tdvisu.svgjoin import f_transform, append_svg
 
 
-
 MIN, MAX = 5, 1e6
 # Should be in between sizes considered for image-dimensions!
 BASE = randint(20, 3000)

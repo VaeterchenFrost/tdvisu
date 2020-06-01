@@ -23,7 +23,6 @@ import unittest
 from tdvisu.visualization import Visualization
 
 
-
 SOLUTIONTABLE1 = [["id", "0"], ["v1", "1"],
                   ["v2", "2"], ["v3", "4"],
                   ["nSol", "0"]]

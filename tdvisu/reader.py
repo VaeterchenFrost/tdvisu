@@ -20,7 +20,7 @@ def main()
     print(graph.edges)
 
 
-Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien, 
+Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien,
                     Martin Röbke, TU Dresden
 
     This program is free software: you can redistribute it and/or modify
