@@ -1,0 +1,8 @@
+name: tdvisu
+channels:
+  - alubbock
+  - defaults
+dependencies:
+  - python>=3.8
+  - graphviz
+  - setuptools

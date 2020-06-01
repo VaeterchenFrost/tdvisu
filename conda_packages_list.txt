@@ -1,0 +1,35 @@
+# packages in environment at C:\Users\Martin\.conda\envs\fresh_test:
+#
+# Name                    Version                   Build  Channel
+ca-certificates           2020.1.1                      0
+certifi                   2020.4.5.1               py38_0
+chardet                   3.0.4                    pypi_0    pypi
+graphviz                  2.41                          0    alubbock
+idna                      2.9                      pypi_0    pypi
+libiconv                  1.15                 h1df5818_7
+libpng                    1.6.37               h2a8f88b_0
+libxml2                   2.9.9                h464c3ec_0
+openssl                   1.1.1g               he774522_0
+phonenumbers              8.12.4                   pypi_0    pypi
+pip                       20.0.2                   py38_3
+psycopg2                  2.8.5                    pypi_0    pypi
+python                    3.8.3                he1778fa_0
+python-dateutil           2.8.1                    pypi_0    pypi
+python-graphviz           0.14                     pypi_0    pypi
+pyyaml                    5.3.1                    pypi_0    pypi
+requests                  2.23.0                   pypi_0    pypi
+setuptools                46.4.0                   py38_0
+six                       1.15.0                   pypi_0    pypi
+sqlite                    3.31.1               h2a8f88b_1
+tdvisu                    0.4                       dev_0    <develop>
+text-unidecode            1.3                      pypi_0    pypi
+toml                      0.10.1                   pypi_0    pypi
+unittest-expander         0.3.1                    pypi_0    pypi
+urllib3                   1.25.9                   pypi_0    pypi
+vc                        14.1                 h0510ff6_4
+vs2015_runtime            14.16.27012          hf0eaf9b_2
+wcwidth                   0.1.9                    pypi_0    pypi
+wheel                     0.34.2                   py38_0
+wincertstore              0.2                      py38_0
+xmltodict                 0.12.0                   pypi_0    pypi
+zlib                      1.2.11               h62dcd97_4
