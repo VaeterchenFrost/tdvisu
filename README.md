@@ -1,6 +1,18 @@
 # TdVisu
-![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg)
-![Upload Python Package TEST](https://github.com/VaeterchenFrost/tdvisu/workflows/Upload%20Python%20Package%20TEST/badge.svg)
+![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
+![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg) 
+[![PyPI license](https://img.shields.io/pypi/l/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
+
+![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/vaeterchenfrost/tdvisu?include_prereleases)
+[![PyPI version fury.io](https://badge.fury.io/py/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
+[![PyPI status](https://img.shields.io/pypi/status/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
+[![PyPI pyversions](https://img.shields.io/pypi/pyversions/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
+![PyPI - Wheel](https://img.shields.io/pypi/wheel/tdvisu)
+![GitHub repo size](https://img.shields.io/github/repo-size/VaeterchenFrost/tdvisu)
+![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VaeterchenFrost/tdvisu)
+![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/VaeterchenFrost/tdvisu/latest)
+
+
 
 Visualization for [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) on [tree decompositions](https://en.wikipedia.org/wiki/Tree_decomposition).
 Create a graph object for each desired graph that is of interest for the dynamic programming.
@@ -71,9 +83,23 @@ args='visugpusat.json examplefolder')
 For #SAT it produces for example three different graphs suffixed with a running integer to represent timesteps:
 
 + *TDStep* the tree decomposition with solved nodes
-+ *PrimalGraphStep* the primal graph with currently active variables
-+ *IncidenceGraphStep* the bipartite incidence graph with active clauses/variables
++ *PrimalGraphStep* the primal graph with currently active variables highlighted
++ *IncidenceGraphStep* the bipartite incidence graph with active clauses/variables highlighted
 
-Currently the graphs are images encoded in resolution independent **.svg files** (see https://www.lifewire.com/svg-file-4120603)
+The graphs are images encoded in resolution independent **.svg files** (see https://www.lifewire.com/svg-file-4120603)
 
-<img src="Bachelor/images/combined6DA4.svg" alt="Example SharpSat" width="50%"/>
+## How to use construct_dpdb_visu.py
+After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) with the there listed [requirements](https://github.com/hmarkus/dp_on_dbs#requirements), we need to
+- edit the [database.ini](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/database.ini) with our password to [postgresql](https://www.postgresql.org/)
+- Solve a problem with `python dpdb.py [GENERAL-OPTIONS] -f <INPUT-FILE> <PROBLEM> [PROBLEM-SPECIFIC-OPTIONS]`
+  - for the problem **VertexCover** 
+    - with flag `--gr-file` to store the htd Input (if the input was in a different format)
+  - for the problem **SharpSat**
+    - with flag `--store-formula` to store the formula in the database
+- Run 
+  - **SharpSat**: `python construct_dpdb_visu.py [PROBLEMNUMBER]`
+  - **VertexCover**: `python construct_dpdb_visu.py [PROBLEMNUMBER] --twfile [TWFILE]` 
+   with the file in DIMACS tw-format containing the edges of the graph.
+  
+
+<img src="doc/images/combined6DA4.svg" alt="Example SharpSat" width="50%"/>
