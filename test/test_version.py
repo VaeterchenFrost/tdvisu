@@ -35,7 +35,7 @@ class TestVersion(unittest.TestCase):
                  r"(?P<patch>0|[1-9]\d*)"
                  r"(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
                  r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
-                 "?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
+                 r"?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
         result = re.fullmatch(regex, version)
         msg = f"The version {version} does not adhere to semantic versioning!"
         self.assertIsNotNone(result, msg)
