@@ -1,4 +1,7 @@
 # TdVisu
+![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg)
+![Upload Python Package TEST](https://github.com/VaeterchenFrost/tdvisu/workflows/Upload%20Python%20Package%20TEST/badge.svg)
+
 Visualization for [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) on [tree decompositions](https://en.wikipedia.org/wiki/Tree_decomposition).
 Create a graph object for each desired graph that is of interest for the dynamic programming.
 Then the visualization generates highlights and adds additional solutions for user-defined time steps.
