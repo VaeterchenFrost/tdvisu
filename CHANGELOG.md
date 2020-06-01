@@ -22,7 +22,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 - Removed publishing Action to testpypi [#4]
 
 
-## [0.5.0.dev1] - 2020-06-01
+## [0.5.0-dev1] - 2020-06-01
 
 ### Added
 
@@ -45,4 +45,4 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 [Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v0.5.1...master
 [0.5.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.1
-[0.5.0.dev1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.0-dev1
+[0.5.0-dev1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.0-dev1
