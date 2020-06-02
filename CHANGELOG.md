@@ -8,6 +8,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ## [Unreleased]
 ### Added
 - added svgjoin parameters to JsonAPI [#6]
+- added workflow to display the sourcecode-files in [DIRECTORY](https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md)
 
 ### Changed 
 - moved JsonAPI and conda_packages to /doc
