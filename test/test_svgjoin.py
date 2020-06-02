@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Testing svgjoin.py
+"""
+Testing svgjoin.py
 Might want to consider using unittest.TestCase.assertAlmostEqual in some cases.
 
 Copyright (C) 2020  Martin Röbke

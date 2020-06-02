@@ -1,5 +1,7 @@
 # -*- coding: utf-8 -*-
-"""Load and manipulate svg images. Could also be streamed as string.
+"""
+Load and manipulate svg images. Could also be streamed as string.
+
 
 Copyright (C) 2020  Martin Röbke
 
