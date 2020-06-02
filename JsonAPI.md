@@ -1,35 +1,5 @@
-# Second version of the JSON format used to describe MSOL visualization on tree decompositions
+# The JSON format used to describe MSOL visualization on tree decompositions
 
-Changelog: 16.04.
-
-- removed **clausesJson** (now "incidenceGraph")
-- added **generalGraph** (e.g. for problems like vertex cover)
-    - has a "graphName"
-    - "varName" defaulting to just the number
-    - "edges" (assumed undirected) as pairs of vertices
-- added **incidenceGraph** (e.g. for problems with sat-clauses)
-    - names for both partitions, defaulting to 'clauses' and 'variables'
-    - naming-format for nodes in both partitions defaulting to just the number
-    - current default behaviour was to infer the primal graph from the clauses\
-        now controlled by the flags **inferPrimal** and **inferDual**
-
-19.05. v1.1a
-
-- made generalGraph.graphname optional, defaults to 'graph'
-
-22.05. v1.2
-
-- added several additional arguments (sortNodes, needAdjNodes...)
-
-31.05. v1.3
-
-- changed defaults in sortNodes, needAdjNodes to false.
-- added parameters from general_graph
-- added optional "joinpre", "solpre", "soljoinpre" to treeDecJson with previous defaults.
-
-02.06. v1.4
-
-- added svgjoin parameters
 
 ```perl
 {
