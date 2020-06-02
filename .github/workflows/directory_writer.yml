@@ -1,27 +1,26 @@
 # The objective of this GitHub Action is to update the DIRECTORY.md file (if needed)
 # when doing a git push
 name: directory_writer
-on: [push]
+on:
+  pull_request:
+  push:
+    branches:
+      - "master"
 jobs:
   build:
     runs-on: ubuntu-latest
+    
     steps:
-      - uses: actions/checkout@v1  # v1, NOT v2
+      - uses: actions/checkout@v2
+        with:
+          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v2
         with:
           python-version: 3.x
       - name: Write DIRECTORY.md
-        run: |
-          scripts/build_directory_md.py 2>&1 | tee DIRECTORY.md
-          git config --global user.name github-actions
-          git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'
-          git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
-      - name: Update DIRECTORY.md
-        uses: actions-go/push@v1
+        run: scripts/build_directory_md.py 2>&1 | tee DIRECTORY.md
+        
+      - uses: stefanzweifel/git-auto-commit-action@v4
         with:
-          # Instructs to create a commit with changed files
-          create-commit: true # optional, default is true
-          # A coma separated list of files to add to commit in addition to already staged ones. If not provided, all tracked files are committed.
-          commit-files: DIRECTORY.md # optional
-          # The commit message used when changes needs to be committed
           commit-message: updating DIRECTORY.md
+          file_pattern: DIRECTORY.md
