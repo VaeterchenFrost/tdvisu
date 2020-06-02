@@ -21,7 +21,7 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from typing import Union, Iterable
+from typing import Union, Iterable, Optional
 from dataclasses import dataclass
 
 
@@ -34,8 +34,8 @@ class SvgJoinData:
     suffix: str = '%d.svg'
     preserve_aspectratio: str = 'xMinYMin'
     numimages: int = 1
-    padding: Iterable[int] = 0
-    scale2: Iterable[float] = 1
+    padding: Union[int, Iterable[int]] = 0
+    scale2: Union[float, Iterable[float]] = 1.0
     v_top: Union[None, Union[float, str],Iterable[Union[float, str]]] = None
     v_bottom: Union[None, Union[float, str],Iterable[Union[float, str]]] = None
 
@@ -63,7 +63,7 @@ class IncidenceGraphData:
 class GeneralGraphData:
     """Class for holding different parameters for the general graph."""
     edges: list
-    extra_nodes: list = None
+    extra_nodes: Optional[list] = None
     graph_name: str = 'graph'
     file_basename: str = 'graph'
     var_name: str = ''
@@ -79,10 +79,11 @@ class GeneralGraphData:
 @dataclass
 class VisualizationData:
     """Class for holding different parameters for Visualization."""
-    incidence_graph: IncidenceGraphData = None
-    general_graph: GeneralGraphData = None
+    incidence_graph: Optional[IncidenceGraphData] = None
+    general_graph: Optional[GeneralGraphData] = None
+    scg_join: Optional[SvgJoinData] = None
     td_file: str = 'TDStep'
-    colors: list = None
+    colors: Optional[list] = None
     orientation: str = 'BT'
     linesmax: int = 100
     columnsmax: int = 20
@@ -90,7 +91,7 @@ class VisualizationData:
     fontsize: int = 20
     penwidth: float = 2.2
     fontcolor: str = 'black'
-    emphasis: dict = None
+    emphasis: Optional[dict] = None
 
     def __post_init__(self):
         if self.colors is None:
