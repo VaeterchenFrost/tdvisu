@@ -81,7 +81,7 @@ class VisualizationData:
     """Class for holding different parameters for Visualization."""
     incidence_graph: Optional[IncidenceGraphData] = None
     general_graph: Optional[GeneralGraphData] = None
-    scg_join: Optional[SvgJoinData] = None
+    svg_join: Optional[SvgJoinData] = None
     td_file: str = 'TDStep'
     colors: Optional[list] = None
     orientation: str = 'BT'
