@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Testing version.py
+"""
+Testing version.py
 
 Copyright (C) 2020  Martin Röbke
 

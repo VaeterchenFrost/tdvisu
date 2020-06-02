@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""Testing visualization.py
+"""
+Testing creation of bag strings in visualization.py
 
 Copyright (C) 2020  Martin Röbke
 

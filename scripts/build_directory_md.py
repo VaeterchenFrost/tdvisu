@@ -1,8 +1,9 @@
 # -*- coding: utf-8 -*-
 """
-MIT License
+Searching the directory for source-files and creating a markdown with its structure.
 
-Copyright (c) 2020 The Algorithms
+MIT License
+Copyright (c) 2020 The Algorithms, Martin Röbke
 
 Permission is hereby granted, free of charge, to any person obtaining a
 copy of this software and associated documentation files (the "Software"),
@@ -37,8 +38,9 @@ EXCLUDED_FILENAMES = ('__init__.py',)
 
 
 def good_file_paths(top_dir: str = '.') -> Iterator[str]:
+    """Return relative path to files with extension in AFFECTED_EXT."""
     for dir_path, dir_names, filenames in os.walk(top_dir):
-        dir_names[:] = [d for d in dir_names 
+        dir_names[:] = [d for d in dir_names
                         if d != 'scripts' and d[0] not in '._']
         for filename in filenames:
             if filename in EXCLUDED_FILENAMES:
@@ -51,11 +53,13 @@ def good_file_paths(top_dir: str = '.') -> Iterator[str]:
                     yield filename
 
 
-def md_prefix(i) -> str:
-    return f"{i * '  '}*" if i else "\n##"
+def md_prefix(nesting) -> str:
+    """Creating the prefix for the specified nesting level."""
+    return f"{nesting * '  '}*" if nesting else "\n##"
 
 
 def print_path(old_path: str, new_path: str) -> str:
+    """Print one header line in the markdown."""
     old_parts = old_path.split(os.sep)
     for i, new_part in enumerate(new_path.split(os.sep)):
         if i + 1 > len(old_parts) or old_parts[i] != new_part:
@@ -65,6 +69,7 @@ def print_path(old_path: str, new_path: str) -> str:
 
 
 def print_directory_md(top_dir: str = '.') -> None:
+    """Print the markdown for files with selected extensions recursing top_dir."""
     old_path = ''
     for filepath in sorted(good_file_paths(top_dir)):
         filepath, filename = os.path.split(filepath)
