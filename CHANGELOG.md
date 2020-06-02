@@ -9,7 +9,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 ### Added
 - added svgjoin parameters to JsonAPI [#6]
 
-###Changed 
+### Changed 
 - moved JsonAPI and conda_packages to /doc
 
 ### Removed
