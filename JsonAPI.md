@@ -109,8 +109,8 @@
             Optional("numimages" : INT, default=1),
             Optional("padding" : [INT], default=0),
             Optional("scale2" : [FLOAT], default=1),
-            Optional("v_top" : [FLOAT/STR], default='top'),
-            Optional("v_bottom" : [FLOAT/STR], default='bottom'),
+            Optional("v_top" : [FLOAT/STR], default=None),
+            Optional("v_bottom" : [FLOAT/STR], default=None),
         }
     )
 }
