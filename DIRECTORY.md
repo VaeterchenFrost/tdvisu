@@ -1,1 +1,1 @@
-/home/runner/work/_temp/af3a6db2-2903-4c74-99ea-8185ba4a8c1f.sh: line 1: scripts/build_directory_md.py: Permission denied
+/home/runner/work/_temp/bf655e23-c3e6-40c9-a157-dfda7c78bb85.sh: line 1: scripts/build_directory_md.py: Permission denied
