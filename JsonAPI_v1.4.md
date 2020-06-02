@@ -35,11 +35,11 @@ Changelog: 16.04.
 {
     "incidenceGraph" : false or
     {
-    	Optional("subgraphNameOne" : STR, default='clauses'),
-    	Optional("subgraphNameTwo" : STR, default='variables'),
+        Optional("subgraphNameOne" : STR, default='clauses'),
+        Optional("subgraphNameTwo" : STR, default='variables'),
 
-    	Optional("varNameOne" : STR, default=''),
-    	Optional("varNameTwo" : STR, default=''),
+        Optional("varNameOne" : STR, default=''),
+        Optional("varNameTwo" : STR, default=''),
 
         Optional("inferPrimal" : BOOLEAN, default=false),
         Optional("inferDual" : BOOLEAN, default=false),
