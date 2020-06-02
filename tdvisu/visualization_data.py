@@ -21,8 +21,23 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from typing import Union
+from typing import Union, Iterable
 from dataclasses import dataclass
+
+
+@dataclass
+class SvgJoinData:
+    """Class for holding different parameters for the joining of results."""
+    base_names: Union[str, Iterable[str]]
+    folder: str = ''
+    outname: str = 'combined'
+    suffix: str = '%d.svg'
+    preserve_aspectratio: str = 'xMinYMin'
+    numimages: int = 1
+    padding: Iterable[int] = 0
+    scale2: Iterable[float] = 1
+    v_top: Union[None, Union[float, str],Iterable[Union[float, str]]] = None
+    v_bottom: Union[None, Union[float, str],Iterable[Union[float, str]]] = None
 
 
 @dataclass
