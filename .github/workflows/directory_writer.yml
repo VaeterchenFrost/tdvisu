@@ -12,15 +12,19 @@ jobs:
     
     steps:
       - uses: actions/checkout@v2
-        with:
-          ref: ${{ github.head_ref }}
       - uses: actions/setup-python@v2
         with:
-          python-version: 3.x
+          python-version: 3.8
+     
       - name: Write DIRECTORY.md
         run: scripts/build_directory_md.py 2>&1 | tee DIRECTORY.md
         
-      - uses: stefanzweifel/git-auto-commit-action@v4
+      - name: Commit changes
+        uses: EndBug/add-and-commit@v4
         with:
-          commit-message: updating DIRECTORY.md
-          file_pattern: DIRECTORY.md
+          author_name: Martin Röbke
+          author_email: martin.roebke@tu-dresden.de
+          message: "Automaic update: DIRECTORY.md"
+          add: "DIRECTORY.md"
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
