@@ -1,31 +1,34 @@
 # The objective of this GitHub Action is to update the DIRECTORY.md file (if needed)
 # when doing a git push
+
 name: directory_writer
+
 on:
   pull_request:
   push:
     branches:
       - "master"
+
 jobs:
   build:
     runs-on: ubuntu-latest
-    
+
     steps:
       - uses: actions/checkout@v2
       - uses: actions/setup-python@v2
         with:
           python-version: 3.8
-     
+
       - name: Write DIRECTORY.md
         run: |
           python scripts/build_directory_md.py 2>&1 | tee DIRECTORY.md
-        
+
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
         with:
           author_name: Martin Röbke
           author_email: martin.roebke@tu-dresden.de
-          message: "Automaic update: DIRECTORY.md"
+          message: "Automatic Update: DIRECTORY.md"
           add: "DIRECTORY.md"
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
