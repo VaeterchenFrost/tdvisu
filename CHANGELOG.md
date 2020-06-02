@@ -6,9 +6,14 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/),
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
+### Added
+- added svgjoin parameters to JsonAPI [#6]
 
-- No unreleased changes yet.
+###Changed 
+- moved JsonAPI and conda_packages to /doc
 
+### Removed
+- Changelog in JsonAPI.md
 
 ## [0.5.1] - 2020-06-01
 ### Added
@@ -40,6 +45,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 [#1]: https://github.com/VaeterchenFrost/tdvisu/issues/1
 [#2]: https://github.com/VaeterchenFrost/tdvisu/issues/2
 [#4]: https://github.com/VaeterchenFrost/tdvisu/issues/4
+[#6]: https://github.com/VaeterchenFrost/tdvisu/issues/6
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 
