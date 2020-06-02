@@ -90,7 +90,7 @@ def read_cfg(cfg_file, section) -> dict:
         iniconfig.read(cfg_file)
         result = dict()
         result['host'] = iniconfig.get(section, 'host', fallback='localhost')
-        result['port'] = iniconfig.getint(section, 'port', fallback=5432)
+        result['port'] = iniconfig.get(section, 'port', fallback='5432')
         result['database'] = iniconfig.get(
             section, 'database', fallback='logicsem')
         result['user'] = iniconfig.get(section, 'user', fallback='postgres')

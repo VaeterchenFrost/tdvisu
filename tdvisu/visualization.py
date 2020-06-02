@@ -31,7 +31,7 @@ import io
 import itertools
 import logging
 from sys import stdin
-from typing import Iterable, Iterator, TypeVar
+from typing import Iterable, Iterator, TypeVar, List, Optional
 from dataclasses import asdict
 
 from graphviz import Digraph, Graph
@@ -416,7 +416,7 @@ class Visualization:
 
         # Prepare supporting graph timeline
 
-        _timeline = []
+        _timeline : List[Optional[object]] = []
         for step in self.timeline:
             if len(step) < 2:
                 _timeline.append(None)
