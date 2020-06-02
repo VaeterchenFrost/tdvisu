@@ -17,7 +17,8 @@ jobs:
           python-version: 3.8
      
       - name: Write DIRECTORY.md
-        run: ./scripts/build_directory_md.py 2>&1 | tee ./DIRECTORY.md
+        run: |
+          scripts/build_directory_md.py 2>&1 | tee DIRECTORY.md
         
       - name: Commit changes
         uses: EndBug/add-and-commit@v4
