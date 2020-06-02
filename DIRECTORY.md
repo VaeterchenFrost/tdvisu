@@ -1,5 +1,5 @@
 
-## [Setup](https://github.com/VaeterchenFrost/tdvisu/blob/master//setup.py)
+## [Setup](https://github.com/VaeterchenFrost/tdvisu/blob/master/setup.py)
 
 ## Tdvisu
   * [Construct Dpdb Visu](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/construct_dpdb_visu.py)
