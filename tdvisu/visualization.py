@@ -35,7 +35,8 @@ from typing import Iterable, Iterator, TypeVar
 from dataclasses import asdict
 
 from graphviz import Digraph, Graph
-from tdvisu.visualization_data import VisualizationData, IncidenceGraphData, GeneralGraphData
+from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
+                                       GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
 
 logging.basicConfig(
@@ -252,6 +253,7 @@ class Visualization:
         try:
             incid = visudata['incidenceGraph']
             general_graph = visudata['generalGraph']
+            svg_join = visudata.get('svg_join', None)
 
             incid_data: IncidenceGraphData = None
             if incid:
@@ -262,6 +264,12 @@ class Visualization:
             if general_graph:
                 general_graph_data = GeneralGraphData(**general_graph)
             visudata.pop('generalGraph')
+            svg_join_data: SvgJoinData = None
+            if svg_join:
+                svg_join_data = SvgJoinData(**svg_join)
+            if svg_join is not None:
+                visudata.pop('svg_join')
+
             self.timeline = visudata['tdTimeline']
             visudata.pop('tdTimeline')
             self.tree_dec = visudata['treeDecJson']
@@ -274,6 +282,7 @@ class Visualization:
             raise KeyError(f"Key {err} not found in the input Json.")
         return VisualizationData(incidence_graph=incid_data,
                                  general_graph=general_graph_data,
+                                 svg_join=svg_join_data,
                                  **visudata)
 
     def setup_tree_dec_graph(
