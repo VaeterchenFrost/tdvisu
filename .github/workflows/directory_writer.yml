@@ -17,7 +17,11 @@ jobs:
           git config --global user.email '${GITHUB_ACTOR}@users.noreply.github.com'
           git remote set-url origin https://x-access-token:${{ secrets.GITHUB_TOKEN }}@github.com/$GITHUB_REPOSITORY
       - name: Update DIRECTORY.md
-        run: |
-          git add DIRECTORY.md
-          git commit -am "updating DIRECTORY.md" ||  true
-          git push --force origin HEAD:$GITHUB_REF || true
+        uses: actions-go/push@v1
+        with:
+          # Instructs to create a commit with changed files
+          create-commit: true # optional, default is true
+          # A coma separated list of files to add to commit in addition to already staged ones. If not provided, all tracked files are committed.
+          commit-files: DIRECTORY.md # optional
+          # The commit message used when changes needs to be committed
+          commit-message: updating DIRECTORY.md
