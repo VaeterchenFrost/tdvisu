@@ -24,10 +24,11 @@ Copyright (C) 2020  Martin Röbke
 import unittest
 from os.path import dirname, join
 from random import randint
+from typing import Generator
 from benedict import benedict
 from unittest_expander import expand, foreach, param
 
-from tdvisu.svgjoin import f_transform, append_svg
+from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
 
 MIN, MAX = 5, 1e6
@@ -112,6 +113,49 @@ class TestNewHeight(unittest.TestCase):
         if isinstance(kargs, dict):
             result = f_transform(**kargs)
             self.assertEqual(result, expected)
+
+
+class TestGenArg(unittest.TestCase):
+    """Test the generator in svgjoin"""
+
+    def test_none(self):
+        """Should accept None as argument"""
+        gen = gen_arg(None)
+        self.assertIsInstance(gen, Generator)
+        self.assertListEqual([next(gen) for _ in range(3)],
+                             [None for _ in range(3)])
+
+    def test_int(self):
+        """One integer in generator"""
+        arg = randint(1, 100)
+        gen = gen_arg(arg)
+        size = randint(5, 20)
+        self.assertListEqual([next(gen) for _ in range(size)],
+                             [arg for _ in range(size)])
+
+    def test_string(self):
+        """Should yield the string itself"""
+        arg = "Hello Test"
+        gen = gen_arg(arg)
+        size = randint(5, 20)
+        self.assertListEqual([next(gen) for _ in range(size)],
+                             [arg for _ in range(size)])
+
+    def test_none_in_list(self):
+        """Should accept None as element in list"""
+        arg = [None, randint(1, 1e4), None]
+        gen = gen_arg(arg)
+        size = randint(5, 20)
+        self.assertListEqual([next(gen) for _ in range(size)],
+                             arg + [arg[-1] for _ in range(size - len(arg))])
+
+    def test_nested(self):
+        """Should only return elements from the first level"""
+        arg = [[1, 2], "String", None, [[[1]]]]
+        gen = gen_arg(arg)
+        size = randint(5, 20)
+        self.assertListEqual([next(gen) for _ in range(size)],
+                             arg + [arg[-1] for _ in range(size - len(arg))])
 
 
 class TestAppendSvg(unittest.TestCase):

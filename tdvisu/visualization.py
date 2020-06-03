@@ -35,8 +35,10 @@ from typing import Iterable, Iterator, TypeVar, List, Optional
 from dataclasses import asdict
 
 from graphviz import Digraph, Graph
-from tdvisu.visualization_data import VisualizationData, IncidenceGraphData, GeneralGraphData
+from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
+                                       GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
+from tdvisu.svgjoin import svg_join
 
 logging.basicConfig(
     format="%(asctime)s,%(msecs)d %(levelname)s"
@@ -100,6 +102,8 @@ class Visualization:
 
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
+        # LOGGER.debug("self.__dict__:%s", self.__dict__)
+        LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
 
     @staticmethod
     def base_style(graph, node, color='white', penwidth='1.0') -> None:
@@ -252,6 +256,7 @@ class Visualization:
         try:
             incid = visudata['incidenceGraph']
             general_graph = visudata['generalGraph']
+            svg_join = visudata.get('svg_join', None)
 
             incid_data: IncidenceGraphData = None
             if incid:
@@ -262,6 +267,12 @@ class Visualization:
             if general_graph:
                 general_graph_data = GeneralGraphData(**general_graph)
             visudata.pop('generalGraph')
+            svg_join_data: SvgJoinData = None
+            if svg_join:
+                svg_join_data = SvgJoinData(**svg_join)
+            if 'svg_join' in visudata.keys():
+                visudata.pop('svg_join')
+
             self.timeline = visudata['tdTimeline']
             visudata.pop('tdTimeline')
             self.tree_dec = visudata['treeDecJson']
@@ -274,6 +285,7 @@ class Visualization:
             raise KeyError(f"Key {err} not found in the input Json.")
         return VisualizationData(incidence_graph=incid_data,
                                  general_graph=general_graph_data,
+                                 svg_join=svg_join_data,
                                  **visudata)
 
     def setup_tree_dec_graph(
@@ -492,6 +504,8 @@ class Visualization:
             LOGGER.info(
                 "Created general-graph for file='%s'",
                 self.data.general_graph.file_basename)
+        if self.data.svg_join:
+            self.call_svgjoin()
 
     def general_graph(
             self,
@@ -775,6 +789,19 @@ class Visualization:
                                  style=_style)
 
             g_incid.render(view=view, format='svg', filename=_filename % i)
+
+    def call_svgjoin(self):
+        """Analyzes content in data.svg_join for the call to svg_join."""
+        sj_data = self.data.svg_join
+        if not sj_data.base_names:
+            LOGGER.warn(
+                "svg_join data in JsonAPI contains no file-names to join.")
+            return
+        if isinstance(sj_data.base_names, str):
+            sj_data.base_names = [sj_data.base_names]
+        sj_data.num_images = int(sj_data.num_images)
+        # Other arguments get handled directly in svgjoin for iterators etc.
+        svg_join(**asdict(sj_data))
 
 
 def main(args):
