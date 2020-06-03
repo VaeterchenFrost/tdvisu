@@ -63,53 +63,51 @@ class TestNewHeight:
     parameters_default = [
         param({'h_one_': BASE, 'h_two_': BASE},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='Only heights (same)'),
+               'scale2': 1}, id='Only heights (same)'),
         param({'h_one_': BASE, 'h_two_': 2 * BASE},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': 2 * BASE,
-                        'scale2': 1}, id='Only heights (larger)'),
+               'scale2': 1}, id='Only heights (larger)'),
         param({'h_one_': BASE, 'h_two_': 0.5 * BASE},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='Only heights (smaller)'),
+               'scale2': 1}, id='Only heights (smaller)'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='Default v_bottom'),
+               'scale2': 1}, id='Default v_bottom'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None, 'v_top': None},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='Default v_bottom&v_top'),
+               'scale2': 1}, id='Default v_bottom&v_top'),
         param({'h_one_': BASE, 'h_two_': BASE, 'scale2': 1},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='Default scale2')]
+               'scale2': 1}, id='Default scale2')]
 
     parameters_moving = [
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 1, 'v_top': 0},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id='static'),
+               'scale2': 1}, id='static'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 0, 'v_top': 1},
               {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}, id="switched bottom and top -> "
-                                            "should switch automatically!"),
+               'scale2': 1}, id="switched bottom and top -> "
+              "should switch automatically!"),
         param({'h_one_': BASE, 'h_two_': rand_smaller(BASE), 'v_bottom': 1, 'v_top': 0},
               {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
-                        'combine_height': BASE, 'scale2': BASE / last_random}
-              , id='scale up to BASE'),
+               'combine_height': BASE, 'scale2': BASE / last_random}, id='scale up to BASE'),
         param({'h_one_': BASE, 'h_two_': rand_larger(BASE), 'v_bottom': 1, 'v_top': 0},
               {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
-                        'combine_height': BASE, 'scale2': BASE / last_random}
-              , id='scale down to BASE'),
+               'combine_height': BASE, 'scale2': BASE / last_random}, id='scale down to BASE'),
     ]
 
     @mark.parametrize("test_input,expected", parameters_default)
     def test_parameters_default(self, test_input, expected):
         """Test that the default parameters from f_transform work as expected."""
         result = f_transform(**test_input)
-        self.assertEqual(result, expected)
+        assert result == expected
 
     @mark.parametrize("test_input,expected", parameters_moving)
     def test_parameters_moving(self, test_input, expected):
         """Test that different parameters for f_transform work as expected."""
 
         result = f_transform(**test_input)
-        self.assertEqual(result, expected)
+        assert result == expected
 
 
 class TestGenArg:
@@ -118,41 +116,38 @@ class TestGenArg:
     def test_none(self):
         """Should accept None as argument"""
         gen = gen_arg(None)
-        self.assertIsInstance(gen, Generator)
-        self.assertListEqual([next(gen) for _ in range(3)],
-                             [None for _ in range(3)])
+        assert isinstance(gen, Generator)
+        assert [next(gen) for _ in range(3)] == [None for _ in range(3)]
 
     def test_int(self):
         """One integer in generator"""
         arg = randint(1, 100)
         gen = gen_arg(arg)
         size = randint(5, 20)
-        self.assertListEqual([next(gen) for _ in range(size)],
-                             [arg for _ in range(size)])
+        assert[next(gen) for _ in range(size)] == [arg for _ in range(size)]
 
     def test_string(self):
         """Should yield the string itself"""
         arg = "Hello Test"
         gen = gen_arg(arg)
         size = randint(5, 20)
-        self.assertListEqual([next(gen) for _ in range(size)],
-                             [arg for _ in range(size)])
+        assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
 
     def test_none_in_list(self):
         """Should accept None as element in list"""
         arg = [None, randint(1, 1e4), None]
         gen = gen_arg(arg)
         size = randint(5, 20)
-        self.assertListEqual([next(gen) for _ in range(size)],
-                             arg + [arg[-1] for _ in range(size - len(arg))])
+        assert ([next(gen) for _ in range(size)] ==
+                arg + [arg[-1] for _ in range(size - len(arg))])
 
     def test_nested(self):
         """Should only return elements from the first level"""
         arg = [[1, 2], "String", None, [[[1]]]]
         gen = gen_arg(arg)
         size = randint(5, 20)
-        self.assertListEqual([next(gen) for _ in range(size)],
-                             arg + [arg[-1] for _ in range(size - len(arg))])
+        assert ([next(gen) for _ in range(size)] ==
+                arg + [arg[-1] for _ in range(size - len(arg))])
 
 
 class TestAppendSvg:
@@ -174,8 +169,7 @@ class TestAppendSvg:
                 # with open('result_simple_join.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
+                    assert result == benedict.from_xml(expected.read())
 
     def test_simple_join_switched(self):
         """Test the reverse order - compare to result."""
@@ -189,8 +183,7 @@ class TestAppendSvg:
                 # with open('result_simple_join_switched.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join_switched.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
+                    assert result == benedict.from_xml(expected.read())
 
     def test_simple_join_padding(self):
         """Test the horizontal padding - compare to result."""
@@ -204,8 +197,7 @@ class TestAppendSvg:
                 # with open('result_simple_join_padding.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join_padding.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
+                    assert result == benedict.from_xml(expected.read())
 
     def test_scaleddown_join(self):
         """Scale larger to same size - compare to result."""
@@ -219,8 +211,7 @@ class TestAppendSvg:
                 # with open('result_scaled_join.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_scaled_join.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
+                    assert result == benedict.from_xml(expected.read())
 
     def test_centered_smaller_join(self):
         """Center the smaller image - compare to result."""
@@ -235,8 +226,7 @@ class TestAppendSvg:
                 # with open('result_centered_join.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_centered_join.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
+                    assert result == benedict.from_xml(expected.read())
 
     def test_centered_larger_join(self):
         """Center the smaller image - compare to result."""
@@ -251,6 +241,4 @@ class TestAppendSvg:
                 # with open('result_centered_join2.svg', 'w') as file:
                 #     result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_centered_join2.svg'), 'r') as expected:
-                    self.assertEqual(
-                        result, benedict.from_xml(expected.read()))
-
+                    assert result == benedict.from_xml(expected.read())
