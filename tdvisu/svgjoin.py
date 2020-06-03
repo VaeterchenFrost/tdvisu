@@ -171,19 +171,22 @@ def append_svg(
 
 
 TRANSFORMATION_EXAMPLE = """
-           ----------v_top (-0.2)
----------0 |        |
-|       |  |        |
-| first |  | second |
-|       |  |        |
----------1 |        |
-           ----------v_bottom (1.2)
+(0,-0.5)===========> (1,-0.5)    
+ |              
+ |              ==========v_top (-0.2)
+ |   =========0 |        |
+ |   |       |  |        |
+ |   | first |  | second |
+ |   |       |  |        |
+ |   =========1 |        |
+ |              ==========v_bottom (1.2)
+ V (0,1.3)
 """
 
 
 def f_transform(h_one_, h_two_,
                 v_bottom: Union[float, str, None] = None,
-                v_top: Union[float, str, None] = None,
+                v_top: Union[float, str, None] = 'top',
                 scale2: float = 1) -> dict:
     """Calculate vertical position of second image.
 
@@ -203,7 +206,7 @@ def f_transform(h_one_, h_two_,
     v_bottom : float or str, optional
         Expected position of bottom of second image. The default is None.
     v_top : float or str, optional
-        Expected position of bottom of second image. The default is None.
+        Expected position of bottom of second image. The default is 'top'.
     scale2 : float, optional
         Scale the second image. Only used if either v_bottom or v_top is None.
 
