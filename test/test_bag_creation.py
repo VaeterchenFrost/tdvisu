@@ -37,7 +37,7 @@ SOLUTIONTABLEFLOAT = [["id", 0.1], ["v1", 1.],
                       ["nSol", 0.1]]
 
 
-class TestSolutionNode(unittest.TestCase):
+class TestSolutionNode:
     """Testing different solution_node capabilities."""
 
     def test_solutionnode_empty(self):
