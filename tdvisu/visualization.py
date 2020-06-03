@@ -160,9 +160,11 @@ class Visualization:
     @staticmethod
     def solution_node(
             solution_table,
-            toplabel='',
-            bottomlabel='',
-            transpose=False, linesmax=1000, columnsmax=50) -> str:
+            toplabel: str = '',
+            bottomlabel: str = '',
+            transpose: bool = False,
+            linesmax: int = 1000,
+            columnsmax: int = 50) -> str:
         """Fill the node from the 2D 'solution_table' (columnbased!).
         Optionally add a line above and/or below the table.
 
@@ -428,7 +430,7 @@ class Visualization:
 
         # Prepare supporting graph timeline
 
-        _timeline : List[Optional[object]] = []
+        _timeline: List[Optional[object]] = []
         for step in self.timeline:
             if len(step) < 2:
                 _timeline.append(None)

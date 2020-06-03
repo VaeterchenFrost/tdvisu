@@ -21,39 +21,35 @@ Copyright (C) 2020  Martin Röbke
 """
 from datetime import date
 import re
-import unittest
+from pytest import fail
 from tdvisu.version import __date__, __version__ as version
 
 
-class TestVersion(unittest.TestCase):
-    """Testing fields in version."""
-
-    def test_semantic_version(self):
-        """Test the version-format with https://semver.org/spec/v2.0.0.html."""
-        self.assertIsInstance(version, str)
-        regex = (
-            r"^(?P<major>0|[1-9]\d*)\."
-            r"(?P<minor>0|[1-9]\d*)\."
-            r"(?P<patch>0|[1-9]\d*)"
-            r"(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
-            r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
-            r"?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
-        result = re.fullmatch(regex, version)
-        msg = f"The version {version} does not adhere to semantic versioning!"
-        self.assertIsNotNone(result, msg)
-
-    def test_date(self):
-        """The date should be 'YYYY-MM-DD' isoformat to be fully portable."""
-        self.assertIsInstance(__date__, str)
-        # Is it an existing date?
-        try:
-            date.fromisoformat(__date__)
-        except ValueError as err:
-            msg = f"""The date {__date__} is not in the format YYYY-MM-DD!
-                    ValueError: {err}
-                    Today would be: '{date.today().isoformat()}'"""
-            self.fail(msg)
+def test_semantic_version():
+    """Test the version-format with https://semver.org/spec/v2.0.0.html."""
+    assert isinstance(version, str)
+    regex = (
+        r"^(?P<major>0|[1-9]\d*)\."
+        r"(?P<minor>0|[1-9]\d*)\."
+        r"(?P<patch>0|[1-9]\d*)"
+        r"(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+        r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
+        r"?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
+    result = re.fullmatch(regex, version)
+    if result is None:
+        fail(
+            f"The version {version} does not adhere to semantic versioning!",
+            pytrace=False)
 
 
-if __name__ == '__main__':
-    unittest.main()
+def test_date():
+    """The date should be 'YYYY-MM-DD' isoformat to be fully portable."""
+    assert isinstance(__date__, str)
+    # Is it an existing date?
+    try:
+        date.fromisoformat(__date__)
+    except ValueError as err:
+        msg = f"""The date {__date__} is not in the format YYYY-MM-DD!
+                ValueError: {err}
+                Today would be: '{date.today().isoformat()}'"""
+        fail(msg, pytrace=False)
