@@ -5,7 +5,6 @@ name: Tests
 
 on:
   push:
-    branches: [ master ]
     paths-ignore:
     - 'doc/**'
     - 'gh-disabled-workflows/**'
