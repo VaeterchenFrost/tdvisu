@@ -62,37 +62,37 @@ class TestNewHeight:
 
     parameters_default = [
         param({'h_one_': BASE, 'h_two_': BASE},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='Only heights (same)'),
         param({'h_one_': BASE, 'h_two_': 2 * BASE},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': 2 * BASE,
+              {'vertical_snd': 0.0,  'combine_height': 2 * BASE,
                'scale2': 1}, id='Only heights (larger)'),
         param({'h_one_': BASE, 'h_two_': 0.5 * BASE},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='Only heights (smaller)'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='Default v_bottom'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None, 'v_top': None},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='Default v_bottom&v_top'),
         param({'h_one_': BASE, 'h_two_': BASE, 'scale2': 1},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='Default scale2')]
 
     parameters_moving = [
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id='static'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 0, 'v_top': 1},
-              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+              {'vertical_snd': 0.0,  'combine_height': BASE,
                'scale2': 1}, id="switched bottom and top -> "
               "should switch automatically!"),
         param({'h_one_': BASE, 'h_two_': rand_smaller(BASE), 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
+              {'vertical_snd': 0.0, 
                'combine_height': BASE, 'scale2': BASE / last_random}, id='scale up to BASE'),
         param({'h_one_': BASE, 'h_two_': rand_larger(BASE), 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
+              {'vertical_snd': 0.0, 
                'combine_height': BASE, 'scale2': BASE / last_random}, id='scale down to BASE'),
     ]
 
@@ -164,9 +164,9 @@ class TestAppendSvg:
                 im_2 = benedict.from_xml(file2.read())
                 result = append_svg(im_1, im_2)
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_simple_join.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_simple_join.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
 
@@ -178,9 +178,9 @@ class TestAppendSvg:
                 im_2 = benedict.from_xml(file2.read())
                 result = append_svg(im_2, im_1)
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_simple_join_switched.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_simple_join_switched.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join_switched.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
 
@@ -192,9 +192,9 @@ class TestAppendSvg:
                 im_2 = benedict.from_xml(file2.read())
                 result = append_svg(im_2, im_1, centerpad=100)
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_simple_join_padding.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_simple_join_padding.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_simple_join_padding.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
 
@@ -206,9 +206,9 @@ class TestAppendSvg:
                 im_2 = benedict.from_xml(file2.read())
                 result = append_svg(im_2, im_1, v_bottom=0, v_top=1)
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_scaled_join.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_scaled_join.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_scaled_join.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
 
@@ -221,9 +221,9 @@ class TestAppendSvg:
                 result = append_svg(
                     im_1, im_2, v_bottom='center', v_top='center')
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_centered_join.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_centered_join.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_centered_join.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
 
@@ -236,8 +236,8 @@ class TestAppendSvg:
                 result = append_svg(
                     im_2, im_1, v_bottom='center', v_top='center')
                 result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # # to write:
-                # with open('result_centered_join2.svg', 'w') as file:
-                #     result.to_xml(output=file, pretty=True)
+                # to write:
+                with open('result_centered_join2.svg', 'w') as file:
+                    result.to_xml(output=file, pretty=True)
                 with open(join(self.DIR, 'result_centered_join2.svg'), 'r') as expected:
                     assert result == benedict.from_xml(expected.read())
