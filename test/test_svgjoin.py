@@ -21,12 +21,11 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import unittest
+from pytest import param, mark
 from os.path import dirname, join
 from random import randint
 from typing import Generator
 from benedict import benedict
-from unittest_expander import expand, foreach, param
 
 from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
@@ -58,64 +57,62 @@ def rand_smaller(number):
     return last_random
 
 
-@expand
-class TestNewHeight(unittest.TestCase):
+class TestNewHeight:
     """Test the transform method in svgjoin"""
 
     parameters_default = [
         param({'h_one_': BASE, 'h_two_': BASE},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('Only heights (same)'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='Only heights (same)'),
         param({'h_one_': BASE, 'h_two_': 2 * BASE},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': 2 * BASE,
-                        'scale2': 1}).label('Only heights (larger)'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': 2 * BASE,
+                        'scale2': 1}, id='Only heights (larger)'),
         param({'h_one_': BASE, 'h_two_': 0.5 * BASE},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('Only heights (smaller)'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='Only heights (smaller)'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('Default v_bottom'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='Default v_bottom'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None, 'v_top': None},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('Default v_bottom&v_top'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='Default v_bottom&v_top'),
         param({'h_one_': BASE, 'h_two_': BASE, 'scale2': 1},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('Default scale2')]
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='Default scale2')]
 
     parameters_moving = [
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 1, 'v_top': 0},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label('static'),
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id='static'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 0, 'v_top': 1},
-              expected={'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
-                        'scale2': 1}).label("switched bottom and top -> "
+              {'vertical_snd': 0.0, 'vertical_fst': 0.0, 'combine_height': BASE,
+                        'scale2': 1}, id="switched bottom and top -> "
                                             "should switch automatically!"),
         param({'h_one_': BASE, 'h_two_': rand_smaller(BASE), 'v_bottom': 1, 'v_top': 0},
-              expected={'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
+              {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
                         'combine_height': BASE, 'scale2': BASE / last_random}
-              ).label('scale up to BASE'),
+              , id='scale up to BASE'),
         param({'h_one_': BASE, 'h_two_': rand_larger(BASE), 'v_bottom': 1, 'v_top': 0},
-              expected={'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
+              {'vertical_snd': BASE - last_random, 'vertical_fst': 0.0,
                         'combine_height': BASE, 'scale2': BASE / last_random}
-              ).label('scale down to BASE'),
+              , id='scale down to BASE'),
     ]
 
-    @foreach(parameters_default)
-    def test_parameters_default(self, kargs, expected):
+    @mark.parametrize("test_input,expected", parameters_default)
+    def test_parameters_default(self, test_input, expected):
         """Test that the default parameters from f_transform work as expected."""
-        if isinstance(kargs, dict):
-            result = f_transform(**kargs)
-            self.assertEqual(result, expected)
+        result = f_transform(**test_input)
+        self.assertEqual(result, expected)
 
-    @foreach(parameters_moving)
-    def test_parameters_moving(self, kargs, expected):
+    @mark.parametrize("test_input,expected", parameters_moving)
+    def test_parameters_moving(self, test_input, expected):
         """Test that different parameters for f_transform work as expected."""
-        if isinstance(kargs, dict):
-            result = f_transform(**kargs)
-            self.assertEqual(result, expected)
+
+        result = f_transform(**test_input)
+        self.assertEqual(result, expected)
 
 
-class TestGenArg(unittest.TestCase):
+class TestGenArg:
     """Test the generator in svgjoin"""
 
     def test_none(self):
@@ -158,7 +155,7 @@ class TestGenArg(unittest.TestCase):
                              arg + [arg[-1] for _ in range(size - len(arg))])
 
 
-class TestAppendSvg(unittest.TestCase):
+class TestAppendSvg:
     """Test the append_svg method in svgjoin"""
 
     DIR = dirname(__file__)
@@ -257,18 +254,3 @@ class TestAppendSvg(unittest.TestCase):
                     self.assertEqual(
                         result, benedict.from_xml(expected.read()))
 
-
-if __name__ == '__main__':
-    import sys
-    VERBOSITY = 1  # increase for more output
-
-    def run_tests(*test_case_classes):
-        """Create a test suite for the testcases in 'test_case_classes'."""
-        suite = unittest.TestSuite(
-            unittest.TestLoader().loadTestsFromTestCase(cls)
-            for cls in test_case_classes)
-        unittest.TextTestRunner(
-            stream=sys.stdout,
-            verbosity=VERBOSITY).run(suite)
-    # run selected tests:
-    run_tests(TestNewHeight, TestAppendSvg)
