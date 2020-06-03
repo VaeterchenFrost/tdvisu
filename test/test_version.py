@@ -30,12 +30,13 @@ class TestVersion(unittest.TestCase):
     def test_semantic_version(self):
         """Test the version-format with https://semver.org/spec/v2.0.0.html."""
         self.assertIsInstance(version, str)
-        regex = (r"^(?P<major>0|[1-9]\d*)\."
-                 r"(?P<minor>0|[1-9]\d*)\."
-                 r"(?P<patch>0|[1-9]\d*)"
-                 r"(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
-                 r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
-                 r"?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
+        regex = (
+            r"^(?P<major>0|[1-9]\d*)\."
+            r"(?P<minor>0|[1-9]\d*)\."
+            r"(?P<patch>0|[1-9]\d*)"
+            r"(?:-(?P<prerelease>(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*)"
+            r"(?:\.(?:0|[1-9]\d*|\d*[a-zA-Z-][0-9a-zA-Z-]*))*))"
+            r"?(?:\+(?P<buildmetadata>[0-9a-zA-Z-]+(?:\.[0-9a-zA-Z-]+)*))?$")
         result = re.fullmatch(regex, version)
         msg = f"The version {version} does not adhere to semantic versioning!"
         self.assertIsNotNone(result, msg)

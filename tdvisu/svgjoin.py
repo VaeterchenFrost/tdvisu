@@ -21,7 +21,7 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable, Generator
+from typing import Union, Iterable, Generator, Any
 from collections.abc import Iterable as iter_type
 from benedict import benedict
 
@@ -29,7 +29,7 @@ from benedict import benedict
 LOGGER = logging.getLogger(__name__)
 
 
-def gen_arg(arg_or_iter: object) -> Generator:
+def gen_arg(arg_or_iter: Any) -> Generator:
     """
     Infinite generator for the next argument of `arg_or_iter`.
     If the argument is exhausted, always return the last element.
