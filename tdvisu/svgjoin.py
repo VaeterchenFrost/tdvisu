@@ -21,11 +21,39 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable
+from typing import Union, Iterable, Generator
+from collections.abc import Iterable as iter_type
 from benedict import benedict
 
 
 LOGGER = logging.getLogger(__name__)
+
+
+def gen_arg(arg_or_iter: object) -> Generator:
+    """
+    Infinite generator for the next argument of `arg_or_iter`.
+    If the argument is exhausted, always return the last element.
+
+    Parameters
+    ----------
+    arg_or_iter : object
+        Object to iterate over. Considers three cases:
+            string: yields the string as one element indefinitely
+            iterable: yields all elements from it, and only the last one after.
+            not iterable: yield the object indefinitely
+    """
+    if isinstance(arg_or_iter, str):
+        while True:
+            yield arg_or_iter
+    elif not isinstance(arg_or_iter, iter_type):
+        while True:
+            yield arg_or_iter
+    else:
+        item = None
+        for item in arg_or_iter:
+            yield item
+    while True:
+        yield item
 
 
 def append_svg(
@@ -299,6 +327,11 @@ def svg_join(
     resultname = folder + outname + suffix
     names = [folder + name + suffix for name in in_names]
 
+    gen_padding = gen_arg(padding)
+    gen_scale2 = gen_arg(scale2)
+    gen_v_top = gen_arg(v_top)
+    gen_v_bottom = gen_arg(v_bottom)
+
     for step in range(1, num_images + 1):
         # first - needs at least two images
         with open(names[0] % step) as file:
@@ -306,15 +339,17 @@ def svg_join(
         with open(names[1] % step) as file:
             im_2 = benedict.from_xml(file.read())
 
-        result = append_svg(im_1, im_2, padding, v_bottom=v_bottom,
-                            v_top=v_top, scale2=scale2)
+        result = append_svg(im_1, im_2, centerpad=next(gen_padding),
+                            v_bottom=next(gen_v_bottom),
+                            v_top=next(gen_v_top), scale2=next(gen_scale2))
 
         # rest:
         for name in names[2:]:
             with open(name % step) as file:
                 image = benedict.from_xml(file.read())
-            result = append_svg(result, image, padding, v_bottom=v_bottom,
-                                v_top=v_top, scale2=scale2)
+            result = append_svg(result, image, centerpad=next(gen_padding),
+                                v_bottom=next(gen_v_bottom),
+                                v_top=next(gen_v_top), scale2=next(gen_scale2))
 
         result['svg']['@preserveAspectRatio'] = preserve_aspectratio
         with open(resultname % step, 'w') as file:
