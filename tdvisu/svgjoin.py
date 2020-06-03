@@ -262,7 +262,7 @@ def f_transform(h_one_, h_two_,
 
 
 def svg_join(
-        in_names: list,
+        base_names: list,
         folder: str = '',
         num_images: int = 1,
         outname: str = 'combined',
@@ -311,11 +311,11 @@ def svg_join(
 
     """
     # names empty?
-    if not in_names:
+    if not base_names:
         LOGGER.warning("svg_join found no images to combine!")
         return
     # only one?
-    if len(in_names) == 1:
+    if len(base_names) == 1:
         LOGGER.warning("svg_join called with one file - nothing to join!")
         return
     # could use path library for normalizing the path
@@ -325,7 +325,7 @@ def svg_join(
             folder += '/'
 
     resultname = folder + outname + suffix
-    names = [folder + name + suffix for name in in_names]
+    names = [folder + name + suffix for name in base_names]
 
     gen_padding = gen_arg(padding)
     gen_scale2 = gen_arg(scale2)

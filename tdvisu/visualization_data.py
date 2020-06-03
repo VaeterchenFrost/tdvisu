@@ -33,7 +33,7 @@ class SvgJoinData:
     outname: str = 'combined'
     suffix: str = '%d.svg'
     preserve_aspectratio: str = 'xMinYMin'
-    numimages: int = 1
+    num_images: int = 1
     padding: Union[int, Iterable[int]] = 0
     scale2: Union[float, Iterable[float]] = 1.0
     v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = 'top'

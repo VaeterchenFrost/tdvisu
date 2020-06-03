@@ -799,9 +799,9 @@ class Visualization:
             return
         if isinstance(sj_data.base_names, str):
             sj_data.base_names = [sj_data.base_names]
-        sj_data.numimages = int(sj_data.numimages)
+        sj_data.num_images = int(sj_data.num_images)
         # Other arguments get handled directly in svgjoin for iterators etc.
-        svg_join(**sj_data)
+        svg_join(**asdict(sj_data))
 
 
 def main(args):
