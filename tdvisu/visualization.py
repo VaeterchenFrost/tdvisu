@@ -35,9 +35,9 @@ from typing import Iterable, Iterator, TypeVar
 from dataclasses import asdict
 
 from graphviz import Digraph, Graph
-from .visualization_data import VisualizationData, IncidenceGraphData
-from .visualization_data import GeneralGraphData, SvgJoinData
-from . import __date__, __version__ as version
+from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
+                                       GeneralGraphData, SvgJoinData)
+from tdvisu.version import __date__, __version__ as version
 
 logging.basicConfig(
     format="%(asctime)s,%(msecs)d %(levelname)s"
