@@ -23,7 +23,7 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable, Generator, Any
+from typing import Union, Iterable, Generator, Any, List
 from collections.abc import Iterable as iter_type
 from benedict import benedict
 
@@ -56,6 +56,14 @@ def gen_arg(arg_or_iter: Any) -> Generator:
             yield item
     while True:
         yield item
+
+
+def test_viewbox(viewbox: List[float]):
+    """Should be of form [0, 0, +x, +y]"""
+    assert len(viewbox) == 4, "viewbox should have exactly 4 values"
+    assert viewbox[:2] == [0., 0.], "[min-x,min-y] should be zero."
+    assert viewbox[2] > 0, "should have positive width"
+    assert viewbox[3] > 0, "should have positive height"
 
 
 def append_svg(
@@ -113,8 +121,13 @@ def append_svg(
     # https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 
     pattern = re.compile(r'\s*,\s*|\s+')
-    viewbox1 = re.split(pattern, first_svg['@viewBox'])
-    viewbox2 = re.split(pattern, second_svg['@viewBox'])
+    viewbox1: List[float] = list(
+        map(float, re.split(pattern, first_svg['@viewBox'])))
+    viewbox2: List[float] = list(
+        map(float, re.split(pattern, second_svg['@viewBox'])))
+
+    test_viewbox(viewbox1)  # viewbox1 validation
+    test_viewbox(viewbox2)  # viewbox2 validation
 
     trafo_result = f_transform(
         viewbox1[HEIGHT], viewbox2[HEIGHT], v_bottom, v_top, scale2)
@@ -122,36 +135,32 @@ def append_svg(
     combine_height = trafo_result['combine_height']
     scale2 = trafo_result['scale2']
     vertical_fst = trafo_result['vertical_fst']
+
     LOGGER.info(
-        "Transformed with vertical_snd=%s combine_height=%s scale2=%s vertical_fst=%s",
-        vertical_snd,
-        combine_height,
-        scale2,
-        vertical_fst)
+        "Transformed with vertical_snd=%s vertical_fst=%s combine_height=%s scale2=%s",
+        *(vertical_snd, vertical_fst, combine_height, scale2))
 
     viewbox1[HEIGHT] = str(combine_height)
     h_displacement = float(viewbox1[WIDTH]) + centerpad
     viewbox1[WIDTH] = str(max(float(viewbox1[WIDTH]),
                               h_displacement + scale2 * float(viewbox2[WIDTH])))
 
-    first_svg['@viewBox'] = ' '.join(viewbox1)
-    # update width,height
+    first_svg['@viewBox'] = ' '.join(map(str, viewbox1))  # new viewbox
+    # update width and height
     first_svg['@width'] = viewbox1[WIDTH] + 'pt'
     first_svg['@height'] = viewbox1[HEIGHT] + 'pt'
     # move second image group next to first
-    transform = second_svg['g'].get('@transform', '')
-    if transform:
-        transform += ' '
-    transform += f"translate({h_displacement} {vertical_snd}) scale({scale2})"
-
+    transform = f"translate({h_displacement} {vertical_snd}) scale({scale2}) "
+    # now scales with scale2
+    transform += second_svg['g'].get('@transform', '')
     second_svg['g']['@transform'] = transform
+
     if vertical_fst > 0:
-        # move first image
+        # move first image, add after other transform
         transform = first_svg['g'].get('@transform', '')
-        if transform:
-            transform += ' '
-        transform += f"translate(0 {vertical_fst})"
+        transform += f" translate(0 {vertical_fst})"
         first_svg['g']['@transform'] = transform
+
     # add group to list of 'g'
     if isinstance(first_svg['g'], list):
         first_svg['g'].append(second_svg['g'])
@@ -201,16 +210,14 @@ def f_transform(h_one_, h_two_,
     Returns
     -------
     dict
-        v_displacement
-        combine_height
-        scale2
+        'vertical_snd','vertical_fst','combine_height','scale2'
 
     """
     v_displacement = 0
     # cast to float
     h_one = float(h_one_)
     h_two = float(h_two_)
-    LOGGER.info("Calculating with h_one=%f h_two=%f", h_one, h_two)
+    LOGGER.debug("Calculating with h_one=%f h_two=%f", h_one, h_two)
     # normalize values
     conversion = {'bottom': 1, 'center': 0.5, 'top': 0, 'inf': 0,
                   -float('inf'): 1, float('inf'): 0}
