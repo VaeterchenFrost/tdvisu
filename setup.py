@@ -49,7 +49,7 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Visualization',
     'Topic :: Multimedia :: Graphics :: Presentation']
 
-tests_require = ['unittest_expander']
+tests_require = ['pytest']
 
 setup(name="tdvisu",
       version=version,
