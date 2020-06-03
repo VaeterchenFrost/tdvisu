@@ -20,77 +20,57 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-
+from pytest import param, mark
 from tdvisu.visualization import Visualization
 
 
 SOLUTIONTABLE1 = [["id", "0"], ["v1", "1"],
-                  ["v2", "2"], ["v3", "4"],
-                  ["nSol", "0"]]
+                  ["v2", "2"], ["v3", "4"], ["nSol", "0"]]
 
-SOLUTIONTABLEINT = [["id", 0], ["v1", 1],
-                    ["v2", 2], ["v3", 4],
-                    ["nSol", 0]]
+SOLUTIONTABLEINT = [["id", 0], ["v1", 1], ["v2", 2], ["v3", 4], ["nSol", 0]]
 
-SOLUTIONTABLEFLOAT = [["id", 0.1], ["v1", 1.],
-                      ["v2", 2.2222], ["v3", 4.4],
+SOLUTIONTABLEFLOAT = [["id", 0.1], ["v1", 1.], ["v2", 2.2222], ["v3", 4.4],
                       ["nSol", 0.1]]
 
+SOLUTIONHEADER = [["id"], ["v1"], ["v2"], ["v3"], ["nSol"]]
 
-class TestSolutionNode:
+
+parameters_sol = [
+    param({'solution_table': tuple()},
+          "{empty}", id='with empty args'),
+    param({'solution_table': tuple(), 'toplabel': 'top'},
+          "{top|empty}", id='with one toplabel'),
+    param({'solution_table': tuple(), 'bottomlabel': 'bottom'},
+          "{empty|bottom}", id='with one bottomlabel'),
+    param({'solution_table': SOLUTIONTABLE1, 'toplabel': 'top',
+           'bottomlabel': 'bottom', 'transpose': True},
+          "{top|{{id|v1|v2|v3|nSol}|{0|1|2|4|0}}|bottom}",
+          id='with both labels and transposed'),
+    param({'solution_table': SOLUTIONTABLE1},
+          "{{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}}",
+          id='not transposed no label'),
+    param({'solution_table': SOLUTIONTABLE1, 'toplabel': 'top',
+           'bottomlabel': 'bottom'},
+          "{top|{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}|bottom}",
+          id='not transposed plus labels'),
+    param({'solution_table': SOLUTIONHEADER},
+          "{{{id}|{v1}|{v2}|{v3}|{nSol}}}",
+          id='only header'),
+    param({'solution_table': SOLUTIONHEADER, 'toplabel': 'top',
+           'bottomlabel': 'bottom'},
+          "{top|{{id}|{v1}|{v2}|{v3}|{nSol}}|bottom}",
+          id='only header plus labels'),
+    param({'solution_table': SOLUTIONTABLEINT},
+          "{{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}}",
+          id='conversion of ints in table'),
+    param({'solution_table': SOLUTIONTABLEFLOAT},
+          "{{{id|0.1}|{v1|1.0}|{v2|2.2222}|{v3|4.4}|{nSol|0.1}}}",
+          id='conversion of floats'), ]
+
+
+@mark.parametrize("arguments,expected", parameters_sol)
+def test_solutionnode(arguments, expected):
     """Testing different solution_node capabilities."""
 
-    @staticmethod
-    def test_solutionnode_empty():
-        """Solution node with empty args."""
-        result = Visualization.solution_node([])
-        assert result == "{empty}"
-
-    @staticmethod
-    def test_solutionnode_empty_toplabel():
-        """Solution node with one toplabel."""
-        result = Visualization.solution_node([], "top")
-        assert result == "{top|empty}"
-
-    @staticmethod
-    def test_solutionnode_empty_bottomlabel():
-        """Solution node with one bottomlabel."""
-        result = Visualization.solution_node([], bottomlabel="bottom")
-        assert result == "{empty|bottom}"
-
-    @staticmethod
-    def test_solutionnode_transpose():
-        """Solution node with both labels and transposed SOLUTIONTABLE1."""
-        result = Visualization.solution_node(
-            SOLUTIONTABLE1, "top", "bottom", transpose=True)
-        assert result == "{top|{{id|v1|v2|v3|nSol}|{0|1|2|4|0}}|bottom}"
-
-    @staticmethod
-    def test_solutionnode_fulltable():
-        """Solution node with SOLUTIONTABLE1 not transposed."""
-        result = Visualization.solution_node(SOLUTIONTABLE1)
-        assert result == "{{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}}"
-
-        result = Visualization.solution_node(SOLUTIONTABLE1, "top", "bottom")
-        assert result == "{top|{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}|bottom}"
-
-    @staticmethod
-    def test_solutionnode_only_header():
-        """Solution node with only one line."""
-        solution_table = [["id"], ["v1"],
-                          ["v2"], ["v3"],
-                          ["nSol"]]
-        result = Visualization.solution_node(solution_table)
-        assert result == "{{{id}|{v1}|{v2}|{v3}|{nSol}}}"
-
-        result = Visualization.solution_node(solution_table, "top", "bottom")
-        assert result == "{top|{{id}|{v1}|{v2}|{v3}|{nSol}}|bottom}"
-
-    @staticmethod
-    def test_solutionnode_header_numbers():
-        """Solution node with different number formats."""
-        result = Visualization.solution_node(SOLUTIONTABLEINT)
-        assert result == "{{{id|0}|{v1|1}|{v2|2}|{v3|4}|{nSol|0}}}"
-
-        result = Visualization.solution_node(SOLUTIONTABLEFLOAT)
-        assert result == "{{{id|0.1}|{v1|1.0}|{v2|2.2222}|{v3|4.4}|{nSol|0.1}}}"
+    result = Visualization.solution_node(**arguments)
+    assert result == expected
