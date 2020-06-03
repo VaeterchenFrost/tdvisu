@@ -171,8 +171,8 @@ def append_svg(
 
 
 TRANSFORMATION_EXAMPLE = """
-(0,-0.5)===========> (1,-0.5)    
- |              
+(0,-0.5)===========> (1,-0.5)
+ |
  |              ==========v_top (-0.2)
  |   =========0 |        |
  |   |       |  |        |
@@ -188,12 +188,12 @@ def f_transform(h_one_, h_two_,
                 v_bottom: Union[float, str, None] = None,
                 v_top: Union[float, str, None] = 'top',
                 scale2: float = 1) -> dict:
-    """Calculate vertical position of second image.
+    """Calculate vertical position and scaling of second image.
 
-    The input scale is in units from\n
+    The input for v_bottom, v_top is in units from\n
     0: top of first image\n
     1: bottom of first image\n
-    v_displacement is the needed vertical displacement of image 2.\n
+
     See also the 'transformation_example'!
 
 
@@ -208,12 +208,12 @@ def f_transform(h_one_, h_two_,
     v_top : float or str, optional
         Expected position of bottom of second image. The default is 'top'.
     scale2 : float, optional
-        Scale the second image. Only used if either v_bottom or v_top is None.
+        Scale the second image. Only used if NOT BOTH v_bottom or v_top are set.
 
     Returns
     -------
     dict
-        'vertical_snd','vertical_fst','combine_height','scale2'
+        'vertical_snd','combine_height','scale2'
 
     """
     v_displacement = 0
@@ -232,7 +232,7 @@ def f_transform(h_one_, h_two_,
         raise ValueError(f"Encountered {v_top=} not in {conversion=}")
 
     size2 = h_two * scale2
-    # cases (special case None)
+    # Get v_bottom and v_top calculated (special case None for not set)
     if v_bottom is None and v_top is None:
         v_top = 0  # set to top of first
         v_bottom = v_top + size2 / h_one
@@ -241,15 +241,15 @@ def f_transform(h_one_, h_two_,
         v_bottom = v_top + size2 / h_one
     elif v_top is None:
         v_top = v_bottom - size2 / h_one
-    elif v_bottom == v_top:
-        # moving the centerline according to value and scaling
-        LOGGER.info(
-            "The values of 'v_top', 'v_bottom' are both interpreted "
-            "as %f - interpreting as centerline!", v_top)
-        half = size2 / h_one / 2
-        v_top = v_top - half
-        v_bottom = v_bottom + half
     else:
+        if v_bottom == v_top:
+            # moving the centerline according to value and scaling
+            LOGGER.info(
+                "The values of 'v_top', 'v_bottom' are both interpreted "
+                "as %f - interpreting as centerline!", v_top)
+            half = size2 / h_one / 2
+            v_top = v_top - half
+            v_bottom = v_bottom + half
         if v_bottom < v_top:  # swap
             v_top, v_bottom = v_bottom, v_top
         # resulting in scaling
@@ -257,18 +257,14 @@ def f_transform(h_one_, h_two_,
         size2 = h_two * scale2
 
     if size2 < 10:
-        LOGGER.warning("Image two got scaled down to size %s!", size2)
+        LOGGER.warning("Image got scaled down to small size (%s)!", size2)
 
-    # h_two standard
-    v_displacement = (v_bottom - min(0, v_top)) * h_one - h_two
+    v_displacement = v_top * h_one
 
     # bottom - top
-    combine_height = (max(h_one, v_bottom * h_one) -
-                      min(0, v_top * h_one))
+    combine_height = (max(1, v_bottom) - min(0, v_top)) * h_one
 
-    # size2 smaller than size1: move 2nd up!
     return {'vertical_snd': v_displacement,
-            'vertical_fst': -min(0, v_top) * h_one,
             'combine_height': combine_height,
             'scale2': scale2}
 
