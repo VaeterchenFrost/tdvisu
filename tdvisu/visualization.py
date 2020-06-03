@@ -101,6 +101,7 @@ class Visualization:
 
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
+        LOGGER.debug("self.__dict__:%s", self.__dict__)
 
     @staticmethod
     def base_style(graph, node, color='white', penwidth='1.0') -> None:
@@ -267,7 +268,7 @@ class Visualization:
             svg_join_data: SvgJoinData = None
             if svg_join:
                 svg_join_data = SvgJoinData(**svg_join)
-            if svg_join is not None:
+            if 'svg_join' in visudata.keys():
                 visudata.pop('svg_join')
 
             self.timeline = visudata['tdTimeline']
