@@ -102,7 +102,7 @@ class Visualization:
 
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
-        LOGGER.debug("self.__dict__:%s", self.__dict__)
+        # LOGGER.debug("self.__dict__:%s", self.__dict__)
         LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
 
     @staticmethod
