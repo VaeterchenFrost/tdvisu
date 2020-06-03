@@ -21,7 +21,7 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union
+from typing import Union, Iterable
 from benedict import benedict
 
 
@@ -238,12 +238,12 @@ def svg_join(
         folder: str = '',
         num_images: int = 1,
         outname: str = 'combined',
-        padding: int = 0,
-        preserve_aspectratio: str = 'xMinYMin',
         suffix: str = '%d.svg',
-        scale2: float = 1,
-        v_top: Union[float, str] = 'top',
-        v_bottom: Union[float, str] = None):
+        preserve_aspectratio: str = 'xMinYMin',
+        padding: Union[int, Iterable[int]] = 0,
+        scale2: Union[float, Iterable[float]] = 1,
+        v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = 'top',
+        v_bottom: Union[None, float, str, Iterable[Union[None, float, str]]] = None):
     """
     Joines different svg-images from tdvisu placed in 'folder' for every timestep
     in the horizontal order specified in 'in_names'.
@@ -327,5 +327,8 @@ if __name__ == "__main__":
         format="%(asctime)s,%(msecs)d %(levelname)s"
         "[%(filename)s:%(lineno)d] %(message)s",
         datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
-    svg_join(['TDStep', 'PrimalGraphStep', 'IncidenceGraphStep'], 'Archive/DA4',
-             num_images=6, padding=40, v_top='center', v_bottom='center')
+    svg_join(['TDStep', 'PrimalGraphStep', 'IncidenceGraphStep'],
+             'Archive/DA4',
+             num_images=6,
+             padding=40,
+             v_top='center', v_bottom='center')

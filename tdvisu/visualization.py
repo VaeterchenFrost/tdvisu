@@ -506,7 +506,7 @@ class Visualization:
                 self.data.general_graph.file_basename)
         if self.data.svg_join:
             self.call_svgjoin()
-    
+
     def general_graph(
             self,
             timeline,
@@ -789,18 +789,20 @@ class Visualization:
                                  style=_style)
 
             g_incid.render(view=view, format='svg', filename=_filename % i)
-            
+
     def call_svgjoin(self):
         """Analyzes content in data.svg_join for the call to svg_join."""
         sj_data = self.data.svg_join
         if not sj_data.base_names:
-            LOGGER.warn("svg_join data in JsonAPI contains no file-names to join.")
+            LOGGER.warn(
+                "svg_join data in JsonAPI contains no file-names to join.")
             return
-        if isinstance(sj_data.base_names, str): 
+        if isinstance(sj_data.base_names, str):
             sj_data.base_names = [sj_data.base_names]
         sj_data.numimages = int(sj_data.numimages)
         # Other arguments get handled directly in svgjoin for iterators etc.
         svg_join(**sj_data)
+
 
 def main(args):
     """Main Function. Calling Visualization for arguments in 'args'."""
