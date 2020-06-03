@@ -27,7 +27,7 @@ from dataclasses import dataclass
 
 @dataclass
 class SvgJoinData:
-    """Class for holding different parameters for the joining of results."""
+    """Class for holding different parameters to join the results."""
     base_names: Union[str, Iterable[str]]
     folder: str = ''
     outname: str = 'combined'
