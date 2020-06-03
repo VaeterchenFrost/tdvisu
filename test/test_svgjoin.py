@@ -21,10 +21,10 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from pytest import param, mark
 from os.path import dirname, join
 from random import randint
 from typing import Generator
+from pytest import param, mark
 from benedict import benedict
 
 from tdvisu.svgjoin import f_transform, append_svg, gen_arg
@@ -96,17 +96,16 @@ class TestNewHeight:
                'combine_height': BASE, 'scale2': BASE / last_random}, id='scale down to BASE'),
     ]
 
-    @mark.parametrize("test_input,expected", parameters_default)
-    def test_parameters_default(self, test_input, expected):
+    @mark.parametrize("arguments,expected", parameters_default)
+    def test_parameters_default(self, arguments, expected):
         """Test that the default parameters from f_transform work as expected."""
-        result = f_transform(**test_input)
+        result = f_transform(**arguments)
         assert result == expected
 
-    @mark.parametrize("test_input,expected", parameters_moving)
-    def test_parameters_moving(self, test_input, expected):
+    @mark.parametrize("arguments,expected", parameters_moving)
+    def test_parameters_moving(self, arguments, expected):
         """Test that different parameters for f_transform work as expected."""
-
-        result = f_transform(**test_input)
+        result = f_transform(**arguments)
         assert result == expected
 
 
