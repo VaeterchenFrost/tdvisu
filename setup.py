@@ -3,7 +3,6 @@
 
 from setuptools import setup
 from tdvisu.version import __version__ as version
-from os.path import join, dirname
 
 
 def read_files(files, delim: str = "\n") -> str:
@@ -28,7 +27,7 @@ def read_files(files, delim: str = "\n") -> str:
     data = []
     try:
         for file in files:
-            with open(join(dirname(__file__), file), encoding='utf-8') as handle:
+            with open(file, encoding='utf-8') as handle:
                 data.append(handle.read())
     except IOError:
         pass
