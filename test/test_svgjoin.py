@@ -2,7 +2,6 @@
 """
 Testing svgjoin.py
 
-IMPORTANT: 
 
 Copyright (C) 2020  Martin Röbke
 
@@ -32,11 +31,13 @@ from benedict import benedict
 
 from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
+
+WRITE = False # ??? Write Testimages instead of just reading them ???
+
 IMAGE_FOLDER = 'expected_images'
 DIR = join(dirname(__file__), IMAGE_FOLDER)
 FILE1 = join(dirname(__file__), 'IncidenceGraphStep11.svg')
 FILE2 = join(dirname(__file__), 'PrimalGraphStep11.svg')
-WRITE = False
 
 MIN, MAX = 5, 1e6
 # Should be in between sizes considered for image-dimensions!
