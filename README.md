@@ -1,7 +1,9 @@
 # TdVisu
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
-![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg) 
 [![PyPI license](https://img.shields.io/pypi/l/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
+![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg) 
+[![codecov](https://codecov.io/gh/VaeterchenFrost/tdvisu/branch/master/graph/badge.svg)](https://codecov.io/gh/VaeterchenFrost/tdvisu)
+
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/vaeterchenfrost/tdvisu?include_prereleases)
 [![PyPI version fury.io](https://badge.fury.io/py/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
@@ -12,7 +14,7 @@
 ![GitHub code size in bytes](https://img.shields.io/github/languages/code-size/VaeterchenFrost/tdvisu)
 ![GitHub commits since latest release (by SemVer)](https://img.shields.io/github/commits-since/VaeterchenFrost/tdvisu/latest)
 
-
+----------
 
 Visualization for [dynamic programming](https://en.wikipedia.org/wiki/Dynamic_programming) on [tree decompositions](https://en.wikipedia.org/wiki/Tree_decomposition).
 
@@ -26,6 +28,7 @@ For the portable and light weight '.svg' format, all graphs for a timestep can b
 
 With the '.svg' format the images are highly customizable, and even combining several timesteps together using svg [animate](https://developer.mozilla.org/en-US/docs/Web/SVG/Element/animate) would be an option in the future.
 
+----------
 
 # Using
 [Alubbock:Graphviz](https://anaconda.org/alubbock/graphviz) (or [Graphviz (>=2.38)](https://graphviz.gitlab.io/download/))
@@ -68,6 +71,7 @@ pip install .[test]
 pytest .\test\
 ```
 
+----------
 
 # How to use
 
@@ -144,3 +148,6 @@ In case any dependencies changed, or just to update some, check in
 - For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml )
 
 **Now you are set for the new release :tada:**
+
+----------
+
