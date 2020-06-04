@@ -1,7 +1,8 @@
 # -*- coding: utf-8 -*-
 """
 Testing svgjoin.py
-Might want to consider using unittest.TestCase.assertAlmostEqual in some cases.
+
+IMPORTANT: 
 
 Copyright (C) 2020  Martin Röbke
 
@@ -21,6 +22,7 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
+from os import makedirs
 from os.path import dirname, join
 from random import randint
 from typing import Generator
@@ -30,6 +32,11 @@ from benedict import benedict
 
 from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
+IMAGE_FOLDER = 'expected_images'
+DIR = join(dirname(__file__), IMAGE_FOLDER)
+FILE1 = join(dirname(__file__), 'IncidenceGraphStep11.svg')
+FILE2 = join(dirname(__file__), 'PrimalGraphStep11.svg')
+WRITE = False
 
 MIN, MAX = 5, 1e6
 # Should be in between sizes considered for image-dimensions!
@@ -137,47 +144,80 @@ def test_gen_arg(arg):
 
 
 @mark.parametrize(
-    "otherargs, filename, reverse_images",
+    "otherargs, filename, reverse",
     [param(dict(), 'result_simple_join', False,
            id="Combine two example svg images to a new one"),
-     param(dict(), 'result_simple_join_switched', True,
+     param(dict(), 'result_simple_join', True,
            id="Test the reverse order"),
      param(dict(centerpad=100), 'result_simple_join_padding', True,
            id="Add horizontal padding"),
-     param(dict(v_bottom=0, v_top=1), 'result_scaled_join', True,
-           id="Scale larger to same size "),
      param(dict(v_bottom='center', v_top='center'), 'result_centered_join', False,
            id="Center the image"),
-     param(dict(v_bottom='center', v_top='center'), 'result_centered_join2', True,
-           id="Center the image and reversed"),
-     param(dict(v_bottom='bottom', v_top='center'), 'result_lower_half', False,
-           id="Center the image and reversed"),
-     param(dict(v_bottom='center', v_top='top'), 'result_upper_half', True,
-           id="Center the image and reversed"),
-     param(dict(v_bottom='center', v_top='top'), 'result_upper_half', True,
+     param(dict(v_bottom='center', v_top='center'), 'result_centered_join', True,
            id="Center the image and reversed")
      ]
 )
 @mark.parametrize(
     "scale2",
-    [1, 2, 0.7, 0.1]
+    [1, 2, 0.5, 0.2]
 )
-def test_append_svg(otherargs, filename, reverse_images, scale2, write=True):
-    """Combine two example svg images to a new one - compare to result."""
-    DIR = dirname(__file__)
-    FILE1 = join(DIR, 'IncidenceGraphStep11.svg')
-    FILE2 = join(DIR, 'PrimalGraphStep11.svg')
-    filename += f"_scale{int(scale2*10)}to10.svg"
-    print(scale2)
+def test_append_svg_scaled(otherargs, filename, reverse, scale2, write=WRITE):
+    """Combine two example svg images - different scalings for second image."""
+    filename += f"_scale{int(scale2*10)}to10_{reverse=}.svg"
     with open(FILE1) as file1:
         im_1 = benedict.from_xml(file1.read())
         with open(FILE2) as file2:
             im_2 = benedict.from_xml(file2.read())
-            order = (im_2, im_1) if reverse_images else (im_1, im_2)
+            order = (im_2, im_1) if reverse else (im_1, im_2)
             result = append_svg(*order, scale2=scale2, **otherargs)
 
             result['svg']['@preserveAspectRatio'] = "xMinYMin"
             if write:
+                makedirs(DIR, exist_ok=True)
+                with open(join(DIR, filename), 'w') as outfile:
+                    result.to_xml(output=outfile, pretty=True)
+            with open(join(DIR, filename), 'r') as expected:
+                assert result == benedict.from_xml(expected.read())
+
+
+@mark.parametrize(
+    "otherargs, filename, reverse",
+    [
+        param(dict(v_bottom=0, v_top=1), 'result_same_size', False,
+              id="Scale second to same size"),
+        param(dict(v_bottom=0, v_top=1), 'result_same_size', True,
+              id="Scale first to same size"),
+        param(dict(v_bottom='bottom', v_top='center'), 'result_lower_half', False,
+              id="Move to lower half"),
+        param(dict(v_bottom='center', v_top='top'), 'result_upper_half', False,
+              id="Move to upper half"),
+        param(dict(v_bottom='center', v_top='top'), 'result_upper_half', True,
+              id="Move to upper half and reversed"),
+        param(dict(v_bottom='top', v_top=-.5), 'result_top_up', False,
+              id="Move to top_-0.5"),
+        param(dict(v_bottom=0.2, v_top=-.3), 'result_0p2_up', False,
+              id="Move to 0.2_-0.3"),
+        param(dict(v_bottom='bottom', v_top=1.5), 'result_1p5_down', False,
+              id="Move below bottom_1.5"),
+    ]
+)
+@mark.parametrize(
+    "padding",
+    [0, 50, 200]
+)
+def test_append_svg_pinned(otherargs, filename, reverse, padding, write=WRITE):
+    """Combine two example svg images - scaling with v_bottom and v_top."""
+    filename += f"_padding{padding}_{reverse=}.svg"
+    with open(FILE1) as file1:
+        im_1 = benedict.from_xml(file1.read())
+        with open(FILE2) as file2:
+            im_2 = benedict.from_xml(file2.read())
+            order = (im_2, im_1) if reverse else (im_1, im_2)
+            result = append_svg(*order, centerpad=padding, **otherargs)
+
+            result['svg']['@preserveAspectRatio'] = "xMinYMin"
+            if write:
+                makedirs(DIR, exist_ok=True)
                 with open(join(DIR, filename), 'w') as outfile:
                     result.to_xml(output=outfile, pretty=True)
             with open(join(DIR, filename), 'r') as expected:
