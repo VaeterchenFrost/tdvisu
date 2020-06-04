@@ -32,7 +32,7 @@ from benedict import benedict
 from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
 
-WRITE = False # ??? Write Testimages instead of just reading them ???
+WRITE = False  # ??? Write Testimages instead of just reading them ???
 
 IMAGE_FOLDER = 'expected_images'
 DIR = join(dirname(__file__), IMAGE_FOLDER)

@@ -30,6 +30,10 @@ from benedict import benedict
 
 LOGGER = logging.getLogger(__name__)
 
+# indices
+WIDTH = 2
+HEIGHT = 3
+
 
 def gen_arg(arg_or_iter: Any) -> Generator:
     """
@@ -62,8 +66,8 @@ def test_viewbox(viewbox: List[float]):
     """Should be of form [0, 0, +x, +y]"""
     assert len(viewbox) == 4, "viewbox should have exactly 4 values"
     assert viewbox[:2] == [0., 0.], "[min-x,min-y] should be zero."
-    assert viewbox[2] > 0, "should have positive width"
-    assert viewbox[3] > 0, "should have positive height"
+    assert viewbox[WIDTH] > 0, "should have positive width"
+    assert viewbox[HEIGHT] > 0, "should have positive height"
 
 
 def append_svg(
@@ -101,7 +105,7 @@ def append_svg(
         Optional scaling.
     ndigits : int, optional
         Rounding results to that many decimal places. The default is 3.
-        
+
     Returns
     -------
     dict
@@ -109,9 +113,6 @@ def append_svg(
 
     """
 
-    # indices
-    WIDTH = 2
-    HEIGHT = 3
     first_svg = first_dict['svg']
     second_svg = snd_dict['svg']
 
