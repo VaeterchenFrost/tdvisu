@@ -127,9 +127,16 @@ In case any dependencies changed, or just to update some, check in
 
 ## Push
 - Push changes to master
-- Wait for all automated checks (All checks have passed...)
+- Wait for all automated checks! (All checks have passed...)
+
+## Create Release
+- On the GitHub page go to: Release, **[Draft a new release](https://github.com/VaeterchenFrost/tdvisu/releases/new )** 
+- Enter v'YOUR VERSION NUMBER' as the tag.
+- Add a **Release Title** (could be just the version)
+- Add some description (like in the CHANGELOG.md)
+- Click on **Publish release** on the bottom
 
 ## Should automatically release to [PyPI]
-- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml)
+- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml )
 
-Now you are set for the new release :tada:
+**Now you are set for the new release :tada:**
