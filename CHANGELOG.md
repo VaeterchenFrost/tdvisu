@@ -9,6 +9,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 No unreleased changes yet.
 
+## [1.0.1] - 2020-06-04
+### Added
+- Codecoverage with [Codecov]
+
+### Changed
+- Changed path of image SharpSatExample to the absolute URL for [PyPI].
+
 ## [1.0.0] - 2020-06-04
 ### Added
 - Added svgjoin parameters to JsonAPI [#6]
@@ -63,8 +70,10 @@ No unreleased changes yet.
 [PyPI]: https://pypi.org/project/tdvisu/
 [mypy]: https://github.com/python/mypy
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
+[Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.0.0...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.0.1...master
+[1.0.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.0.1
 [1.0.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.0.0
 [0.5.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.1
 [0.5.0-dev1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v0.5.0-dev1
