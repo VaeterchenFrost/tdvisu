@@ -72,7 +72,8 @@ def append_svg(
         centerpad: float = 0.,
         v_bottom: float = None,
         v_top: float = None,
-        scale2: float = 1) -> dict:
+        scale2: float = 1,
+        ndigits: int = 3) -> dict:
     """Modifies the first of two xml-svg dictionary containing a viewbox to
     append the second svg to the right of the first image.
 
@@ -98,7 +99,9 @@ def append_svg(
         If smaller than v_bottom they get swapped.
     scale2 : float, optional
         Optional scaling.
-
+    ndigits : int, optional
+        Rounding results to that many decimal places. The default is 3.
+        
     Returns
     -------
     dict
@@ -139,17 +142,19 @@ def append_svg(
         "Transformed with vertical_snd=%s combine_height=%s scale2=%s",
         *(vertical_snd, combine_height, scale2))
 
-    viewbox1[HEIGHT] = str(combine_height)
+    viewbox1[HEIGHT] = round(combine_height - 0.5)
     h_displacement = float(viewbox1[WIDTH]) + centerpad
-    viewbox1[WIDTH] = str(max(float(viewbox1[WIDTH]),
-                              h_displacement + scale2 * float(viewbox2[WIDTH])))
+    viewbox1[WIDTH] = round(max(float(viewbox1[WIDTH]),
+                                h_displacement + scale2 * viewbox2[WIDTH]) - 0.5)
 
+    # new viewbox
     first_svg['@viewBox'] = ' '.join(map(str, viewbox1))  # new viewbox
     # update width and height
-    first_svg['@width'] = viewbox1[WIDTH] + 'pt'
-    first_svg['@height'] = viewbox1[HEIGHT] + 'pt'
+    first_svg['@width'] = f"{viewbox1[WIDTH]}pt"
+    first_svg['@height'] = f"{viewbox1[HEIGHT]}pt"
     # move second image group next to first
-    transform = f"translate({h_displacement} {max(0,vertical_snd)}) scale({scale2}) "
+    v_transform = round(max(0, vertical_snd), ndigits)
+    transform = f"translate({h_displacement} {v_transform}) scale({scale2}) "
     # now scales with scale2
     transform += second_svg['g'].get('@transform', '')
     second_svg['g']['@transform'] = transform
@@ -157,7 +162,7 @@ def append_svg(
     if vertical_snd < 0:
         # move first image, add after other transform
         transform = first_svg['g'].get('@transform', '')
-        transform += f" translate(0 {-vertical_snd})"
+        transform += f" translate(0 {round(-vertical_snd,ndigits)})"
         first_svg['g']['@transform'] = transform
 
     # add group to list of 'g'
