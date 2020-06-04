@@ -25,9 +25,12 @@ def read_files(files, delim: str = "\n") -> str:
         The concatenated string.
     """
     data = []
-    for file in files:
-        with open(file, encoding='utf-8') as handle:
-            data.append(handle.read())
+    try:
+        for file in files:
+            with open(file, encoding='utf-8') as handle:
+                data.append(handle.read())
+    except IOError:
+        pass
     return delim.join(data)
 
 
