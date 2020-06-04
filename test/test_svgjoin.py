@@ -24,6 +24,7 @@ Copyright (C) 2020  Martin Röbke
 from os.path import dirname, join
 from random import randint
 from typing import Generator
+from collections.abc import Iterable as iter_type
 from pytest import param, mark
 from benedict import benedict
 
@@ -62,37 +63,37 @@ class TestNewHeight:
 
     parameters_default = [
         param({'h_one_': BASE, 'h_two_': BASE},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='Only heights (same)'),
         param({'h_one_': BASE, 'h_two_': 2 * BASE},
-              {'vertical_snd': 0.0,  'combine_height': 2 * BASE,
+              {'vertical_snd': 0.0, 'combine_height': 2 * BASE,
                'scale2': 1}, id='Only heights (larger)'),
         param({'h_one_': BASE, 'h_two_': 0.5 * BASE},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='Only heights (smaller)'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='Default v_bottom'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': None, 'v_top': None},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='Default v_bottom&v_top'),
         param({'h_one_': BASE, 'h_two_': BASE, 'scale2': 1},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='Default scale2')]
 
     parameters_moving = [
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id='static'),
         param({'h_one_': BASE, 'h_two_': BASE, 'v_bottom': 0, 'v_top': 1},
-              {'vertical_snd': 0.0,  'combine_height': BASE,
+              {'vertical_snd': 0.0, 'combine_height': BASE,
                'scale2': 1}, id="switched bottom and top -> "
               "should switch automatically!"),
         param({'h_one_': BASE, 'h_two_': rand_smaller(BASE), 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': 0.0, 
+              {'vertical_snd': 0.0,
                'combine_height': BASE, 'scale2': BASE / last_random}, id='scale up to BASE'),
         param({'h_one_': BASE, 'h_two_': rand_larger(BASE), 'v_bottom': 1, 'v_top': 0},
-              {'vertical_snd': 0.0, 
+              {'vertical_snd': 0.0,
                'combine_height': BASE, 'scale2': BASE / last_random}, id='scale down to BASE'),
     ]
 
@@ -109,42 +110,29 @@ class TestNewHeight:
         assert result == expected
 
 
-class TestGenArg:
+@mark.parametrize(
+    "arg",
+    [param(None,
+           id="Should accept None as argument"),
+     param(randint(1, 100),
+           id="One integer in generator"),
+     param("Hello Test",
+           id="Should yield the string itself"),
+     param([None, randint(1, 1e4), None],
+           id="Should accept None as element in list"),
+     param([[1, 2], "String", None, [[[1]]]],
+           id="Should only return elements from the first level")
+     ]
+)
+def test_gen_arg(arg):
     """Test the generator in svgjoin"""
-
-    def test_none(self):
-        """Should accept None as argument"""
-        gen = gen_arg(None)
-        assert isinstance(gen, Generator)
-        assert [next(gen) for _ in range(3)] == [None for _ in range(3)]
-
-    def test_int(self):
-        """One integer in generator"""
-        arg = randint(1, 100)
-        gen = gen_arg(arg)
-        size = randint(5, 20)
-        assert[next(gen) for _ in range(size)] == [arg for _ in range(size)]
-
-    def test_string(self):
-        """Should yield the string itself"""
-        arg = "Hello Test"
-        gen = gen_arg(arg)
-        size = randint(5, 20)
+    gen = gen_arg(arg)
+    assert isinstance(gen, Generator)
+    size = randint(10, 40)
+    assert [next(gen) for _ in range(size)] == [None for _ in range(size)]
+    if isinstance(arg, str) or not isinstance(arg, iter_type):
         assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
-
-    def test_none_in_list(self):
-        """Should accept None as element in list"""
-        arg = [None, randint(1, 1e4), None]
-        gen = gen_arg(arg)
-        size = randint(5, 20)
-        assert ([next(gen) for _ in range(size)] ==
-                arg + [arg[-1] for _ in range(size - len(arg))])
-
-    def test_nested(self):
-        """Should only return elements from the first level"""
-        arg = [[1, 2], "String", None, [[[1]]]]
-        gen = gen_arg(arg)
-        size = randint(5, 20)
+    else:
         assert ([next(gen) for _ in range(size)] ==
                 arg + [arg[-1] for _ in range(size - len(arg))])
 
