@@ -37,31 +37,32 @@ After downloading the latest verion, go to the source-directory.
 With [Conda](https://docs.conda.io/en/latest/) on the system installed, the dependencies for this project can be automatically installed in a new environment - or in a place of your choosing:
 
 Open a *conda-command-prompt* with admin privileges and run the commands from the *gpusat-VISU\tdvisualization_repo* folder:
+to create a new environment with basic dependencies:
 ```shell
 conda env create -f .\environment.yml
 ```
-to create a new environment with basic dependencies
+to activate the environment:
 ```shell
 conda activate tdvisu
 ```
-to activate the environment
+to register the graphviz plugins:
 ```shell
 dot.exe -c
 ```
-to register the plugins
+to install the project in the environment: (to get *pip* see: https://pip.pypa.io/en/stable/)
 ```shell
-pip install --pre .
+pip install -h (for more information on install options)
+pip install .
 ```
-to install the project in the environment (currently in pre-release, to get *pip* see: https://anaconda.org/anaconda/pip)
+to confirm that the visualization finds all dependencies:
 ```shell
 python .\tdvisu\visualization.py -h
 ```
-to confirm that the visualization finds all dependencies.
+to run all tests:
 ```shell
 pip install .[test] 
-python -m unittest
+pytest .\test\
 ```
-to run all tests.
 
 
 # How to use
