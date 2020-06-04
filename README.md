@@ -140,7 +140,7 @@ In case any dependencies changed, or just to update some, check in
 - Add some description (like in the CHANGELOG.md)
 - Click on **Publish release** on the bottom
 
-## Should automatically release to [PyPI]
+## Should automatically release to [PyPI](https://pypi.org/project/tdvisu/ )
 - For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml )
 
 **Now you are set for the new release :tada:**
