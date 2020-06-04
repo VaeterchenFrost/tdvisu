@@ -134,11 +134,10 @@ def append_svg(
     vertical_snd = trafo_result['vertical_snd']
     combine_height = trafo_result['combine_height']
     scale2 = trafo_result['scale2']
-    vertical_fst = trafo_result['vertical_fst']
 
     LOGGER.info(
-        "Transformed with vertical_snd=%s vertical_fst=%s combine_height=%s scale2=%s",
-        *(vertical_snd, vertical_fst, combine_height, scale2))
+        "Transformed with vertical_snd=%s combine_height=%s scale2=%s",
+        *(vertical_snd, combine_height, scale2))
 
     viewbox1[HEIGHT] = str(combine_height)
     h_displacement = float(viewbox1[WIDTH]) + centerpad
@@ -150,15 +149,15 @@ def append_svg(
     first_svg['@width'] = viewbox1[WIDTH] + 'pt'
     first_svg['@height'] = viewbox1[HEIGHT] + 'pt'
     # move second image group next to first
-    transform = f"translate({h_displacement} {vertical_snd}) scale({scale2}) "
+    transform = f"translate({h_displacement} {max(0,vertical_snd)}) scale({scale2}) "
     # now scales with scale2
     transform += second_svg['g'].get('@transform', '')
     second_svg['g']['@transform'] = transform
 
-    if vertical_fst > 0:
+    if vertical_snd < 0:
         # move first image, add after other transform
         transform = first_svg['g'].get('@transform', '')
-        transform += f" translate(0 {vertical_fst})"
+        transform += f" translate(0 {-vertical_snd})"
         first_svg['g']['@transform'] = transform
 
     # add group to list of 'g'
