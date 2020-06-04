@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<svg width="732.8599999999999pt" height="554.0pt" viewBox="0.0 0.0 732.8599999999999 554.0" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin">
+<svg width="732pt" height="554pt" viewBox="0.0 0.0 732 554" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin">
 	<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 550)">
 		<title>%3</title>
 		<polygon fill="white" stroke="transparent" points="-4,4 -4,-550 346,-550 346,4 -4,4"></polygon>
@@ -195,7 +195,7 @@
 			<path fill="none" stroke="#da1167" stroke-width="2.2" d="M65.6,-46.73C113.53,-76.34 231.68,-149.34 274.86,-176.03"></path>
 		</g>
 	</g>
-	<g id="graph0" class="graph" transform="translate(350.0 94.56999999999998) scale(0.9999999999999999) scale(1 1) rotate(0) translate(4 360.856)">
+	<g id="graph0" class="graph" transform="translate(350.0 94.57) scale(0.9999999999999999) scale(1 1) rotate(0) translate(4 360.856)">
 		<title>%3</title>
 		<polygon fill="white" stroke="none" points="-4,4 -4,-360.856 378.856,-360.856 378.856,4 -4,4"></polygon>
 		<g id="node1" class="node">
