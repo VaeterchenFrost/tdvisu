@@ -138,33 +138,44 @@ def test_gen_arg(arg):
 
 @mark.parametrize(
     "otherargs, filename, reverse_images",
-    [param(dict(),'result_simple_join.svg',False,
+    [param(dict(), 'result_simple_join', False,
            id="Combine two example svg images to a new one"),
-     param(dict(),'result_simple_join_switched.svg',True,
+     param(dict(), 'result_simple_join_switched', True,
            id="Test the reverse order"),
-     param(dict(centerpad=100),'result_simple_join_padding.svg',True,
+     param(dict(centerpad=100), 'result_simple_join_padding', True,
            id="Add horizontal padding"),
-     param(dict(v_bottom=0, v_top=1),'result_scaled_join.svg',True,
+     param(dict(v_bottom=0, v_top=1), 'result_scaled_join', True,
            id="Scale larger to same size "),
-     param(dict(v_bottom='center', v_top='center'),'result_centered_join.svg',False,
+     param(dict(v_bottom='center', v_top='center'), 'result_centered_join', False,
            id="Center the image"),
-     param(dict(v_bottom='center', v_top='center'),'result_centered_join2.svg',True,
+     param(dict(v_bottom='center', v_top='center'), 'result_centered_join2', True,
+           id="Center the image and reversed"),
+     param(dict(v_bottom='bottom', v_top='center'), 'result_lower_half', False,
+           id="Center the image and reversed"),
+     param(dict(v_bottom='center', v_top='top'), 'result_upper_half', True,
+           id="Center the image and reversed"),
+     param(dict(v_bottom='center', v_top='top'), 'result_upper_half', True,
            id="Center the image and reversed")
      ]
 )
-def test_append_svg(otherargs, filename, reverse_images, write=True):
+@mark.parametrize(
+    "scale2",
+    [1, 2, 0.7, 0.1]
+)
+def test_append_svg(otherargs, filename, reverse_images, scale2, write=True):
     """Combine two example svg images to a new one - compare to result."""
     DIR = dirname(__file__)
     FILE1 = join(DIR, 'IncidenceGraphStep11.svg')
     FILE2 = join(DIR, 'PrimalGraphStep11.svg')
+    filename += f"_scale{int(scale2*10)}to10.svg"
+    print(scale2)
     with open(FILE1) as file1:
         im_1 = benedict.from_xml(file1.read())
         with open(FILE2) as file2:
             im_2 = benedict.from_xml(file2.read())
-            if reverse_images: # reversed order
-                result = append_svg(im_2, im_1, **otherargs)
-            else: # normal order
-                result = append_svg(im_1, im_2, **otherargs)
+            order = (im_2, im_1) if reverse_images else (im_1, im_2)
+            result = append_svg(*order, scale2=scale2, **otherargs)
+
             result['svg']['@preserveAspectRatio'] = "xMinYMin"
             if write:
                 with open(join(DIR, filename), 'w') as outfile:
