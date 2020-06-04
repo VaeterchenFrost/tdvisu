@@ -129,7 +129,6 @@ def test_gen_arg(arg):
     gen = gen_arg(arg)
     assert isinstance(gen, Generator)
     size = randint(10, 40)
-    assert [next(gen) for _ in range(size)] == [None for _ in range(size)]
     if isinstance(arg, str) or not isinstance(arg, iter_type):
         assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
     else:
