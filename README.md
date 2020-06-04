@@ -106,3 +106,30 @@ After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) w
 
 # New Release
 
+## Version
+- Bump `/version.py` according to the changes made
+- Change date to the release day, keep format 
+
+## Requirements
+In case any dependencies changed, or just to update some, check in
+- *requirements.txt*
+- *stable-requirements.txt* (using `pip freeze`)
+- *setup.py* (only `tests_require = ['pytest']` right now)
+
+## Write Changelog.md
+- Add tag with link (see bottom for linking examples)
+- Add changes, maybe some are already in *Unreleased*
+- Update *Unreleased* with **(No) unreleased changes**
+
+## Review code
+- Run tests (pytest)
+- Check codestyle (pylint)
+
+## Push
+- Push changes to master
+- Wait for all automated checks (All checks have passed...)
+
+## Should automatically release to [PyPI]
+- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml)
+
+Now you are set for the new release :tada:
