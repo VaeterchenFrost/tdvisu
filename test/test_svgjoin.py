@@ -136,95 +136,38 @@ def test_gen_arg(arg):
                 arg + [arg[-1] for _ in range(size - len(arg))])
 
 
-class TestAppendSvg:
-    """Test the append_svg method in svgjoin"""
-
+@mark.parametrize(
+    "otherargs, filename, reverse_images",
+    [param(dict(),'result_simple_join.svg',False,
+           id="Combine two example svg images to a new one"),
+     param(dict(),'result_simple_join_switched.svg',True,
+           id="Test the reverse order"),
+     param(dict(centerpad=100),'result_simple_join_padding.svg',True,
+           id="Add horizontal padding"),
+     param(dict(v_bottom=0, v_top=1),'result_scaled_join.svg',True,
+           id="Scale larger to same size "),
+     param(dict(v_bottom='center', v_top='center'),'result_centered_join.svg',False,
+           id="Center the image"),
+     param(dict(v_bottom='center', v_top='center'),'result_centered_join2.svg',True,
+           id="Center the image and reversed")
+     ]
+)
+def test_append_svg(otherargs, filename, reverse_images, write=True):
+    """Combine two example svg images to a new one - compare to result."""
     DIR = dirname(__file__)
     FILE1 = join(DIR, 'IncidenceGraphStep11.svg')
     FILE2 = join(DIR, 'PrimalGraphStep11.svg')
-
-    def test_simple_join(self):
-        """Combine two example svg images to a new one - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(im_1, im_2)
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_simple_join.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_simple_join.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
-
-    def test_simple_join_switched(self):
-        """Test the reverse order - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(im_2, im_1)
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_simple_join_switched.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_simple_join_switched.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
-
-    def test_simple_join_padding(self):
-        """Test the horizontal padding - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(im_2, im_1, centerpad=100)
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_simple_join_padding.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_simple_join_padding.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
-
-    def test_scaleddown_join(self):
-        """Scale larger to same size - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(im_2, im_1, v_bottom=0, v_top=1)
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_scaled_join.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_scaled_join.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
-
-    def test_centered_smaller_join(self):
-        """Center the smaller image - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(
-                    im_1, im_2, v_bottom='center', v_top='center')
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_centered_join.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_centered_join.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
-
-    def test_centered_larger_join(self):
-        """Center the smaller image - compare to result."""
-        with open(self.FILE1) as file1:
-            im_1 = benedict.from_xml(file1.read())
-            with open(self.FILE2) as file2:
-                im_2 = benedict.from_xml(file2.read())
-                result = append_svg(
-                    im_2, im_1, v_bottom='center', v_top='center')
-                result['svg']['@preserveAspectRatio'] = "xMinYMin"
-                # to write:
-                with open('result_centered_join2.svg', 'w') as file:
-                    result.to_xml(output=file, pretty=True)
-                with open(join(self.DIR, 'result_centered_join2.svg'), 'r') as expected:
-                    assert result == benedict.from_xml(expected.read())
+    with open(FILE1) as file1:
+        im_1 = benedict.from_xml(file1.read())
+        with open(FILE2) as file2:
+            im_2 = benedict.from_xml(file2.read())
+            if reverse_images: # reversed order
+                result = append_svg(im_2, im_1, **otherargs)
+            else: # normal order
+                result = append_svg(im_1, im_2, **otherargs)
+            result['svg']['@preserveAspectRatio'] = "xMinYMin"
+            if write:
+                with open(join(DIR, filename), 'w') as outfile:
+                    result.to_xml(output=outfile, pretty=True)
+            with open(join(DIR, filename), 'r') as expected:
+                assert result == benedict.from_xml(expected.read())
