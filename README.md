@@ -89,6 +89,8 @@ For #SAT it produces for example three different graphs suffixed with a running 
 
 The graphs are images encoded in resolution independent **.svg files** (see https://www.lifewire.com/svg-file-4120603)
 
+<p align="center"><img src="doc/images/combined6DA4.svg" width="70%"/></p>
+
 ## How to use construct_dpdb_visu.py
 After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) with the there listed [requirements](https://github.com/hmarkus/dp_on_dbs#requirements), we need to
 - edit the [database.ini](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/database.ini) with our password to [postgresql](https://www.postgresql.org/)
@@ -101,6 +103,6 @@ After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) w
   - **SharpSat**: `python construct_dpdb_visu.py [PROBLEMNUMBER]`
   - **VertexCover**: `python construct_dpdb_visu.py [PROBLEMNUMBER] --twfile [TWFILE]` 
    with the file in DIMACS tw-format containing the edges of the graph.
-  
 
-<img src="doc/images/combined6DA4.svg" alt="Example SharpSat" width="50%"/>
+# New Release
+
