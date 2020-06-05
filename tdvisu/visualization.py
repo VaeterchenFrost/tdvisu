@@ -272,7 +272,7 @@ class Visualization:
             svg_join_data: SvgJoinData = None
             if svg_join:
                 svg_join_data = SvgJoinData(**svg_join)
-            if 'svg_join' in visudata.keys():
+            if 'svg_join' in visudata:
                 visudata.pop('svg_join')
 
             self.timeline = visudata['tdTimeline']
