@@ -26,13 +26,14 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import json
+import argparse
 import io
 import itertools
+import json
 import logging
+from dataclasses import asdict
 from sys import stdin
 from typing import Iterable, Iterator, TypeVar, List, Optional
-from dataclasses import asdict
 
 from graphviz import Digraph, Graph
 from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
@@ -262,7 +263,8 @@ class Visualization:
 
             incid_data: IncidenceGraphData = None
             if _incid:
-                _incid['edges'] = [[x['id'], x['list']] for x in _incid['edges']]
+                _incid['edges'] = [[x['id'], x['list']]
+                                   for x in _incid['edges']]
                 incid_data = IncidenceGraphData(**_incid)
             visudata.pop('incidenceGraph')
             general_graph_data: GeneralGraphData = None
@@ -807,8 +809,19 @@ class Visualization:
             svg_join(**asdict(sj_data))
 
 
-def main(args):
-    """Main Function. Calling Visualization for arguments in 'args'."""
+def main(args: argparse.Namespace) -> None:
+    """
+    Main method running construct_dpdb_visu for arguments in 'args'
+
+    Parameters
+    ----------
+    args : argparse.Namespace
+        The namespace containing all (command-line) parameters.
+
+    Returns
+    -------
+    None
+    """
 
     # get loglevel
     try:
@@ -820,7 +833,7 @@ def main(args):
     console.setLevel(loglevel)
     LOGGER.removeHandler()
     LOGGER.addHandler(console)
-    
+
     infile = args.infile
     outfolder = args.outfolder
     if not outfolder:
@@ -835,8 +848,7 @@ def main(args):
 
 
 if __name__ == "__main__":
-
-    import argparse
+    # Parse args, call main
 
     PARSER = argparse.ArgumentParser(
         description="""
@@ -872,6 +884,6 @@ if __name__ == "__main__":
         help="set the minimal loglevel")
 
     # get cmd-arguments
-    ARGS = PARSER.parse_args()
+    _args = PARSER.parse_args()
     # call main()
-    main(ARGS)
+    main(_args)
