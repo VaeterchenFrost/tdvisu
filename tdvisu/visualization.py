@@ -44,7 +44,7 @@ from tdvisu.svgjoin import svg_join
 logging.basicConfig(
     format="%(asctime)s,%(msecs)d %(levelname)s"
     "[%(filename)s:%(lineno)d] %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S', loglevel=0)
+    datefmt='%Y-%m-%d %H:%M:%S')
 
 LOGGER = logging.getLogger(__name__)
 
