@@ -23,14 +23,14 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-
-import json
 import abc
+import argparse
+import json
 import logging
 import pathlib
 
-from time import sleep
 from configparser import ConfigParser
+from time import sleep
 
 import psycopg2 as pg
 
@@ -439,11 +439,11 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
             'labeldict': labeldict,
             'num_vars': self.read_num_vars()}
 
-        generalGraph = {'edges': self.read_twfile()} if self.tw_file else False
+        general_gr = {'edges': self.read_twfile()} if self.tw_file else False
 
         timeline = self.read_timeline(edgearray)
         return {'incidenceGraph': False,
-                'generalGraph': generalGraph,
+                'generalGraph': general_gr,
                 'tdTimeline': timeline,
                 'treeDecJson': tree_dec_json}
 
@@ -501,9 +501,51 @@ def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
     return {}
 
 
-if __name__ == "__main__":
+def main(args: argparse.Namespace) -> None:
+    """
+    Main method running construct_dpdb_visu for arguments in 'args'
 
-    import argparse
+    Parameters
+    ----------
+    args : argparse.Namespace
+        The namespace containing all (command-line) parameters.
+
+    Returns
+    -------
+    None
+    """
+    LOGGER.info('%s', args)
+    # get loglevel
+    try:
+        loglevel = int(float(args.loglevel))
+    except ValueError:
+        loglevel = args.loglevel.upper()
+    LOGGER.setLevel(loglevel)
+    problem_ = args.problemnumber
+    # get twfile if supplied
+    try:
+        tw_file_ = args.twfile
+    except AttributeError:
+        tw_file_ = None
+    result_json = create_json(problem=problem_, tw_file=tw_file_)
+    # build json filename, can be supplied with problem-number
+    try:
+        outfile = args.outfile % problem_
+    except TypeError:
+        outfile = args.outfile
+    LOGGER.info("Output file-name: %s", outfile)
+    with open(outfile, 'w') as file:
+        json.dump(
+            result_json,
+            file,
+            sort_keys=True,
+            indent=2 if args.pretty else None,
+            ensure_ascii=False)
+        LOGGER.debug("Wrote to %s", file)
+
+
+if __name__ == "__main__":
+    # Parse args, call main
 
     PARSER = argparse.ArgumentParser(
         description="""
@@ -546,32 +588,5 @@ if __name__ == "__main__":
                         version='%(prog)s ' + version + ', ' + __date__)
 
     # get cmd-arguments
-    args = PARSER.parse_args()
-    LOGGER.info('%s', args)
-    # get loglevel
-    try:
-        loglevel = int(float(args.loglevel))
-    except ValueError:
-        loglevel = args.loglevel.upper()
-    LOGGER.setLevel(loglevel)
-    problem_ = args.problemnumber
-    # get twfile if supplied
-    try:
-        tw_file_ = args.twfile
-    except AttributeError:
-        tw_file_ = None
-    RESULTJSON = create_json(problem=problem_, tw_file=tw_file_)
-    # build json filename, can be supplied with problem-number
-    try:
-        outfile = args.outfile % problem_
-    except TypeError:
-        outfile = args.outfile
-    LOGGER.info("Output file-name: %s", outfile)
-    with open(outfile, 'w') as file:
-        json.dump(
-            RESULTJSON,
-            file,
-            sort_keys=True,
-            indent=2 if args.pretty else None,
-            ensure_ascii=False)
-        LOGGER.debug("Wrote to %s", file)
+    _args = PARSER.parse_args()
+    main(_args)
