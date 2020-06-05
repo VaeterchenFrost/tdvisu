@@ -29,7 +29,7 @@ from dataclasses import dataclass
 class SvgJoinData:
     """Class for holding different parameters to join the results."""
     base_names: Union[str, Iterable[str]]
-    folder: str = ''
+    folder: Optional[str] = None
     outname: str = 'combined'
     suffix: str = '%d.svg'
     preserve_aspectratio: str = 'xMinYMin'

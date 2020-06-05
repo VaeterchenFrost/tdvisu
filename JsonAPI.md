@@ -102,7 +102,7 @@
     Optional("svgjoin" :
         {
             "base_names" : [STR],
-            Optional("folder" : STR, default=''),
+            Optional("folder" : STR/NULL, default=null),
             Optional("outname" : STR, default='combined'),
             Optional("suffix" : STR, default='%d.svg'),
             Optional("preserve_aspectratio" : STR, default='xMinYMin'),
@@ -110,7 +110,7 @@
             Optional("padding" : [INT], default=0),
             Optional("scale2" : [FLOAT], default=1),
             Optional("v_top" : [FLOAT/STR], default='top'),
-            Optional("v_bottom" : [FLOAT/STR], default=None),
+            Optional("v_bottom" : [FLOAT/STR]/NULL, default=null),
         }
     )
 }
