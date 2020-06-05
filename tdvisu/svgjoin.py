@@ -323,6 +323,7 @@ def svg_join(
     None.
 
     """
+    LOGGER.info("Starting joining: %s", base_names)
     # names empty?
     if not base_names:
         LOGGER.warning("svg_join found no images to combine!")
@@ -367,7 +368,10 @@ def svg_join(
         result['svg']['@preserveAspectRatio'] = preserve_aspectratio
         with open(resultname % step, 'w') as file:
             result.to_xml(output=file, pretty=True)
-            LOGGER.info("Wrote combined: %s", resultname % step)
+
+        if step < 10:
+            LOGGER.debug("Wrote combined: %s", resultname % step)
+    LOGGER.info("Finished svg_join")
 
 
 if __name__ == "__main__":
