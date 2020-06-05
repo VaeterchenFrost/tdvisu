@@ -37,13 +37,38 @@ With the '.svg' format the images are highly customizable, and even combining se
 
 [for dpdb: psycopg2 (2.8.5)](https://www.psycopg.org/docs/index.html)
 
-# How to install
+----------
 
-After downloading the latest verion, go to the source-directory. 
+# To register the graphviz plugins
+https://gitlab.com/graphviz/graphviz/-/issues/1352
+```shell
+dot.exe -c
+```
 
-With [Conda](https://docs.conda.io/en/latest/) on the system installed, the dependencies for this project can be automatically installed in a new environment - or in a place of your choosing:
+# To install
 
-Open a *conda-command-prompt* with admin privileges and run the commands from the *gpusat-VISU\tdvisualization_repo* folder:
+In a command prompt with pip (to get *pip* see: https://pip.pypa.io/en/stable/) installed:
+Just run
+```shell
+pip install -h (for more information on install options)
+pip install tdvisu
+```
+
+# To isolate the dependencies
+
+With [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html ) on the system installed you can isolate the environment with for example:
+```shell
+virtualenv tdvisu_dir -p 3.8
+cd tdvisu_dir/bin/
+source activate
+```
+With [Conda](https://docs.conda.io/en/latest/) on the system installed the dependencies for this project can be automatically installed in a new environment:
+
+To download the latest version from the default branch:
+```shell
+git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
+```
+Open a *conda-command-prompt* with admin privileges and run the commands from the project folder:
 to create a new environment with basic dependencies:
 ```shell
 conda env create -f .\environment.yml
@@ -52,11 +77,20 @@ to activate the environment:
 ```shell
 conda activate tdvisu
 ```
-to register the graphviz plugins:
+
+# Install from source
+
+To clone the complete repository:
 ```shell
-dot.exe -c
+git clone https://github.com/VaeterchenFrost/tdvisu
 ```
-to install the project in the environment: (to get *pip* see: https://pip.pypa.io/en/stable/)
+
+To download only the latest version from the default branch:
+```shell
+git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
+```
+
+To install the project from the source folder:
 ```shell
 pip install -h (for more information on install options)
 pip install .
