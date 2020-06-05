@@ -43,7 +43,7 @@ from tdvisu.svgjoin import svg_join
 logging.basicConfig(
     format="%(asctime)s,%(msecs)d %(levelname)s"
     "[%(filename)s:%(lineno)d] %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S')
+    datefmt='%Y-%m-%d %H:%M:%S', loglevel=0)
 
 LOGGER = logging.getLogger(__name__)
 
@@ -256,22 +256,22 @@ class Visualization:
         LOGGER.debug("Found keys: %s", visudata.keys())
 
         try:
-            incid = visudata['incidenceGraph']
-            general_graph = visudata['generalGraph']
-            svg_join = visudata.get('svg_join', None)
+            _incid = visudata['incidenceGraph']
+            _general_graph = visudata['generalGraph']
+            _svg_join = visudata.get('svg_join', None)
 
             incid_data: IncidenceGraphData = None
-            if incid:
-                incid['edges'] = [[x['id'], x['list']] for x in incid['edges']]
-                incid_data = IncidenceGraphData(**incid)
+            if _incid:
+                _incid['edges'] = [[x['id'], x['list']] for x in _incid['edges']]
+                incid_data = IncidenceGraphData(**_incid)
             visudata.pop('incidenceGraph')
             general_graph_data: GeneralGraphData = None
-            if general_graph:
-                general_graph_data = GeneralGraphData(**general_graph)
+            if _general_graph:
+                general_graph_data = GeneralGraphData(**_general_graph)
             visudata.pop('generalGraph')
             svg_join_data: SvgJoinData = None
-            if svg_join:
-                svg_join_data = SvgJoinData(**svg_join)
+            if _svg_join:
+                svg_join_data = SvgJoinData(**_svg_join)
             if 'svg_join' in visudata:
                 visudata.pop('svg_join')
 
@@ -733,13 +733,8 @@ class Visualization:
 
         # make edgelist variable-based (varX, clauseY), ...
         #  var_cl_iter [(1, 1), (4, 1), ...
-        vcmapping = map(
-            lambda y: map(
-                lambda x: (x, y[0]),
-                y[1]),
-            __incid.edges)
-
-        var_cl_iter = tuple(flatten(vcmapping))
+        var_cl_iter = tuple(flatten([[(x, y[0]) for x in y[1]]
+                                     for y in __incid.edges]))
 
         bodybaselen = len(g_incid.body)
         for i, variables in enumerate(timeline, start=1):    # all timesteps
@@ -796,14 +791,20 @@ class Visualization:
         """Analyzes content in data.svg_join for the call to svg_join."""
         sj_data = self.data.svg_join
         if not sj_data.base_names:
-            LOGGER.warn(
+            LOGGER.warning(
                 "svg_join data in JsonAPI contains no file-names to join.")
             return
         if isinstance(sj_data.base_names, str):
             sj_data.base_names = [sj_data.base_names]
         sj_data.num_images = int(sj_data.num_images)
         # Other arguments get handled directly in svgjoin for iterators etc.
-        svg_join(**asdict(sj_data))
+        # Use default outfolder only if folder is None
+        if sj_data.folder is None:
+            updated_sj_data = asdict(sj_data)
+            updated_sj_data["folder"] = self.outfolder
+            svg_join(**updated_sj_data)
+        else:
+            svg_join(**asdict(sj_data))
 
 
 def main(args):
@@ -815,7 +816,11 @@ def main(args):
     except ValueError:
         loglevel = args.loglevel.upper()
     LOGGER.setLevel(loglevel)
-
+    console = logging.StreamHandler()
+    console.setLevel(loglevel)
+    LOGGER.removeHandler()
+    LOGGER.addHandler(console)
+    
     infile = args.infile
     outfolder = args.outfolder
     if not outfolder:
