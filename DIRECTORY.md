@@ -6,6 +6,7 @@
   * [Dijkstra](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/dijkstra.py)
   * [Reader](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/reader.py)
   * [Svgjoin](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/svgjoin.py)
+  * [Utilities](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/utilities.py)
   * [Version](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/version.py)
   * [Visualization](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/visualization.py)
   * [Visualization Data](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/visualization_data.py)
