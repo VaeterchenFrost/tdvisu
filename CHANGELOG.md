@@ -7,7 +7,30 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
 
-No unreleased changes yet.
+### Added
+- Added file utilities.py with several static or shared things like
+    - Constants: CFG_EXT, LOGLEVEL_EPILOG, DEFAULT_LOGGING_CFG 
+    - Methods: 
+        - flatten
+        - read_yml_or_cfg combining yaml, json, cfg reader in one
+        - logging_cfg configure logging with file or DEFAULT_LOGGING_CFG 
+        - helper convert_to_adj from dijkstra.py
+        - add_edge_to (edges and adj list)
+        - gen_arg infinite Generator
+    - Styles:
+        - base_style, emphasise_node, style_hide_node, style_hide_edge
+    - Graph manipulation:
+        - bag_node
+        - solution_node
+      
+- Added file logging.yml (and .ini) with logging configuration for the module
+
+### Changed
+- Changed path of image SharpSatExample to the absolute URL for [PyPI].
+- Changed names of loggers to absolute name. Should be easy to adjust if needed.
+- Changed logging defaults and config in tdvisu/visualization.py and construct_dpdb_visu.py
+- Updated ArgumentParser help
+- Some fixes of code-style or variable names. 
 
 ## [1.0.1] - 2020-06-04
 ### Added

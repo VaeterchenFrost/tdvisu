@@ -506,7 +506,7 @@ def main(args: argparse.Namespace) -> None:
             loglevel = int(float(args.loglevel))
         except ValueError:
             loglevel = args.loglevel.upper()
-    logging.basicConfig(level=loglevel)
+    logging.basicConfig(level=loglevel)  # Output logging for setup
     logging_cfg(filename='logging.yml', loglevel=loglevel)
     LOGGER.info("Called with '%s'", args)
 
