@@ -15,19 +15,19 @@ handlers:
 loggers:
   visualization.py:
     level: NOTSET
-    handlers: [console]
+    
   svgjoin.py:
     level: NOTSET
-    handlers: [console]
+    
   reader.py:
     level: NOTSET
-    handlers: [console]
+    
   construct_dpdb_visu.py:
     level: NOTSET
-    handlers: [console]
+    
   utilities.py:
     level: NOTSET
-    handlers: [console]
+
 root:
-  level: DEBUG
+  level: WARNING
   handlers: [console]
