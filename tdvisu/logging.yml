@@ -10,29 +10,24 @@ handlers:
   console:
     class: logging.StreamHandler
     level: WARNING
-    formatter: simple
+    formatter: full
     stream: ext://sys.stdout
 loggers:
   visualization.py:
     level: NOTSET
     handlers: [console]
-    propagate: no
   svgjoin.py:
     level: NOTSET
     handlers: [console]
-    propagate: no
   reader.py:
     level: NOTSET
     handlers: [console]
-    propagate: no
   construct_dpdb_visu.py:
     level: NOTSET
     handlers: [console]
-    propagate: no
   utilities.py:
     level: NOTSET
     handlers: [console]
-    propagate: no
 root:
-  level: WARNING
+  level: DEBUG
   handlers: [console]

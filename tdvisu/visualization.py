@@ -40,7 +40,8 @@ from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten, bag_node, solution_node, base_style
+from tdvisu.utilities import flatten, LOGLEVEL_EPILOG
+from tdvisu.utilities import bag_node, solution_node, base_style
 from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
 
@@ -697,30 +698,20 @@ if __name__ == "__main__":
         under certain conditions; see COPYING for more information.
 
         Visualizing Dynamic Programming on Tree-Decompositions.""",
-        epilog="""Logging levels for python 3.8.2:
-            CRITICAL: 50
-            ERROR:    40
-            WARNING:  30
-            INFO:     20
-            DEBUG:    10
-            NOTSET:    0 (will traverse the logging hierarchy until a value is found)
-            """,
+        epilog=LOGLEVEL_EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter)
 
     # possible to use stdin for the file.
     PARSER.add_argument('infile', nargs='?',
                         type=argparse.FileType('r', encoding='UTF-8'),
                         default=stdin,
-                        help="Input file for the visualization. "
-                        "Must be a Json fulfilling the 'JsonAPI_v1.3.md'")
+                        help="Input file for the visualization "
+                        "must be a Json fulfilling the 'JsonAPI.md'")
     PARSER.add_argument('outfolder',
                         help="Folder to output the visualization results.")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
-    PARSER.add_argument(
-        '--loglevel',
-        default='WARNING',
-        help="set the minimal loglevel")
+    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
 
     # get cmd-arguments
     _args = PARSER.parse_args()

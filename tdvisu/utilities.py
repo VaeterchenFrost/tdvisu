@@ -24,14 +24,55 @@ Copyright (C) 2020  Martin Röbke
 from collections.abc import Iterable as iter_type
 from configparser import ConfigParser, ParsingError, Error as CfgError
 import logging
+import logging.config
 from itertools import chain
 from pathlib import Path
-from typing import Generator, Any, Iterable, Iterator, TypeVar, Union
+from typing import Generator, Any, Iterable, Iterator, TypeVar, Union, Optional
 import yaml
 
 LOGGER = logging.getLogger('utilities.py')
 
 CFG_EXT = ('.ini', '.cfg', '.conf', '.config')
+LOGLEVEL_EPILOG = """
+Logging levels for python 3.8.2:
+    CRITICAL: 50
+    ERROR:    40
+    WARNING:  30
+    INFO:     20
+    DEBUG:    10
+    NOTSET:    0 (will traverse the logging hierarchy until a value is found)
+    """
+DEFAULT_LOGGING_CFG = {'version': 1,
+    'formatters': {
+        'simple': {
+            'format': '%(asctime)s %(levelname)s %(message)s',
+            'datefmt': '%H:%M:%S'}},
+    'handlers': {
+        'console': {
+            'class': 'logging.StreamHandler',
+            'level': 'WARNING',
+            'formatter': 'simple',
+            'stream': 'ext://sys.stdout'}},
+    'loggers': {
+        'visualization.py': {
+            'level': 'NOTSET',
+            'handlers': ['console'],
+            'propagate': False},
+        'svgjoin.py': {
+            'level': 'NOTSET',
+            'handlers': ['console'],
+            'propagate': False},
+        'reader.py': {
+            'level': 'NOTSET',
+            'handlers': ['console'],
+            'propagate': False},
+        'construct_dpdb_visu.py': {
+            'level': 'NOTSET',
+            'handlers': ['console'],
+            'propagate': False}},
+    'root': {
+        'level': 'WARNING',
+        'handlers': ['console']}}
 
 _T = TypeVar('_T')
 
@@ -103,6 +144,40 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
             print(err_str.format(exc, file.resolve(), prefer_cfg))
 
 
+def logging_cfg(filename: str, prefer_cfg:bool=False, loglevel:Optional[int]=None) -> None:
+    """Configure logging for this module"""
+    LOGGER.info("Read logging configuration from %s", filename)
+    read_err = "could not read configuration from '%s'"
+    config_err = "could not use logging configuration from '%s'"
+
+    file = Path(filename)
+    if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
+        try:
+            logging.config.fileConfig(file, defaults=DEFAULT_LOGGING_CFG)
+            if loglevel is not None:
+                root = logging.getLogger()
+                root.setLevel(loglevel)
+                for handler in root.handlers:
+                    handler.setLevel(loglevel)
+            return
+        except OSError:
+            LOGGER.warning(read_err, file.resolve())
+        except BaseException:
+            LOGGER.warning(config_err, file.resolve())
+    try:                                                    # dict
+        file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
+        logging.config.dictConfig(file_content)
+        if loglevel is not None:
+                root = logging.getLogger()
+                root.setLevel(loglevel)
+                for handler in root.handlers:
+                    handler.setLevel(loglevel)
+        return
+    except OSError:
+        LOGGER.warning(read_err, file.resolve())
+    except BaseException:
+        LOGGER.warning(config_err, file.resolve())
+        
 def convert_to_adj(edgelist, directed=False) -> dict:
     """
     Helper function to convert the edgelist into the adj-format from NetworkX.
@@ -337,54 +412,3 @@ def solution_node(
         result += '|' + bottomlabel
 
     return '{' + result + '}'
-
-
-class DefaultLoggingCfg:
-    """Hold and update the default configuration for logging."""
-
-    def __init__(self):
-        self.dict = {
-            'version': 1,
-            'formatters': {
-                'simple': {
-                    'format': '%(asctime)s %(levelname)s %(message)s',
-                    'datefmt': '%H:%M:%S'}},
-            'handlers': {
-                'console': {
-                    'class': 'logging.StreamHandler',
-                    'level': 'WARNING',
-                    'formatter': 'simple',
-                    'stream': 'ext://sys.stdout'}},
-            'loggers': {
-                'visualization.py': {
-                    'level': 'NOTSET',
-                    'handlers': ['console'],
-                    'propagate': False},
-                'svgjoin.py': {
-                    'level': 'NOTSET',
-                    'handlers': ['console'],
-                    'propagate': False},
-                'reader.py': {
-                    'level': 'NOTSET',
-                    'handlers': ['console'],
-                    'propagate': False},
-                'construct_dpdb_visu.py': {
-                    'level': 'NOTSET',
-                    'handlers': ['console'],
-                    'propagate': False}},
-            'root': {
-                'level': 'WARNING',
-                'handlers': ['console']}}
-
-    def update_level(self, loglevel):
-        """Update the default loglevel in the dict."""
-        try:
-            for handler in self.dict['handlers']:
-                handler['level'] = loglevel
-        except BaseException:
-            LOGGER.warning("could not find handlers in DEFAULT_LOGGING_CFG!")
-        try:
-            for logger in self.dict['loggers']:
-                logger['level'] = loglevel
-        except BaseException:
-            LOGGER.warning("could not find handlers in DEFAULT_LOGGING_CFG!")

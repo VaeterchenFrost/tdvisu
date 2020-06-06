@@ -28,11 +28,8 @@ import argparse
 import json
 import logging
 
-from logging.config import dictConfig as log_dict_cfg
-from logging.config import fileConfig as log_file_cfg
-from pathlib import Path
+
 from time import sleep
-from typing import Optional
 
 import psycopg2 as pg
 
@@ -41,18 +38,17 @@ from tdvisu.dijkstra import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
-from tdvisu.utilities import read_yml_or_cfg, CFG_EXT, DefaultLoggingCfg
+from tdvisu.utilities import read_yml_or_cfg, logging_cfg, LOGLEVEL_EPILOG
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
 DEFAULT_DBCONFIG = {
-    "postgresql": {
+    
         "host": "localhost",
         "port": 5432,
         "database": "logicsem",
         "user": "postgres",
-        "application_name": "dpdb-admin"
-    }
+        "application_name": "dpdb-admin"  
 }
 
 PSYCOPG2_8_5_TASTATUS = {
@@ -93,7 +89,7 @@ def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
             "Found keys %s in %s[%s]", content.keys(), cfg_file, section)
     except (OSError, AttributeError, TypeError) as err:
         LOGGER.warning("Encountered %s while reading config '%s' section '%s'",
-                       err, cfg_file, section, exc_info=1)
+                       err, cfg_file, section, exc_info=True)
         content = {}
     return content
 
@@ -103,34 +99,6 @@ def db_config(filename='database.ini', section='postgresql') -> dict:
     LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
     cfg = read_cfg(filename, section)
     return {**DEFAULT_DBCONFIG, **cfg}
-
-
-def logging_cfg(filename: str, prefer_cfg:bool=False, loglevel:Optional[int]=None) -> None:
-    """Configure logging for this module"""
-    LOGGER.info("Read logging configuration from %s", filename)
-    READ_ERR = "could not read configuration from '%s'"
-    CONFIG_ERR = "could not use logging configuration from '%s'"
-    DefaultConfig = DefaultLoggingCfg()
-    if loglevel is not None:
-        DefaultConfig.update_level(loglevel)
-        
-    file = Path(filename)
-    if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
-        try:
-            log_file_cfg(file, defaults=DEFAULT_LOGGING_CFG)
-            return
-        except OSError:
-            LOGGER.warning(READ_ERR, file.resolve())
-        except BaseException:
-            LOGGER.warning(CONFIG_ERR, file.resolve())
-    try:                                                    # dict
-        file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
-        log_dict_cfg(file_content)
-        return
-    except OSError:
-        LOGGER.warning(READ_ERR, file.resolve())
-    except BaseException:
-        LOGGER.warning(CONFIG_ERR, file.resolve())
 
 
 class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
@@ -472,7 +440,7 @@ def connect() -> pg.extensions.connection:
     conn = None
     try:
         # read connection parameters
-        params = db_config()
+        params = db_config(filename='Archive/database.json')
         db_name = params['database']
         LOGGER.info("Connecting to the PostgreSQL database '%s'...", db_name)
         conn = pg.connect(**params)
@@ -538,7 +506,7 @@ def main(args: argparse.Namespace) -> None:
         loglevel = int(float(args.loglevel))
     except ValueError:
         loglevel = args.loglevel.upper()
-
+    logging.basicConfig(level=loglevel)
     logging_cfg(filename='logging.yml', loglevel=loglevel)
 
     problem_ = args.problemnumber
@@ -576,14 +544,7 @@ if __name__ == "__main__":
 
         Extracts Information from https://github.com/hmarkus/dp_on_dbs runs
         for further visualization.""",
-        epilog="""Logging levels for python 3.8.2:
-            CRITICAL: 50
-            ERROR:    40
-            WARNING:  30
-            INFO:     20
-            DEBUG:    10
-            NOTSET:    0 (will traverse the logging hierarchy until a value is found)
-            """,
+        epilog=LOGLEVEL_EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
@@ -593,17 +554,14 @@ if __name__ == "__main__":
                         type=argparse.FileType('r', encoding='UTF-8'),
                         help="tw-File containing the edges of the graph - "
                         "obtained from dpdb with option --gr-file GR_FILE.")
-    PARSER.add_argument('--loglevel', default='INFO', help="default:'INFO'")
-    PARSER.add_argument(
-        '--outfile',
-        default='dbjson%d.json',
-        help="default:'dbjson%%d.json'")
+    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
+    PARSER.add_argument('--outfile', default='dbjson%d.json',
+                        help="default:'dbjson%%d.json'")
     PARSER.add_argument('--pretty', action='store_true',
                         help="Pretty-print the JSON.")
-    PARSER.add_argument(
-        '--inter-nodes',
-        action='store_true',
-        help="Calculate path between successive nodes during the evaluation order.")
+    PARSER.add_argument('--inter-nodes', action='store_true',
+                        help="Calculate path between successive nodes "
+                        "during the evaluation order.")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
 
