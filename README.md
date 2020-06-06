@@ -146,6 +146,16 @@ After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) w
   - **VertexCover**: `python construct_dpdb_visu.py [PROBLEMNUMBER] --twfile [TWFILE]` 
    with the file in DIMACS tw-format containing the edges of the graph.
 
+# Installation of the psycopg2 package 
+
+See https://www.psycopg.org/docs/install.html#build-prerequisites
+
+For example on linux today this might need
+`sudo apt install libpq-dev` 
+before completion.
+
+-----------------
+
 # New Release
 
 ## Version
