@@ -194,7 +194,7 @@ def f_transform(h_one_, h_two_,
         'vertical_snd','combine_height','scale2'
 
     """
-    v_displacement = 0
+    v_displacement = 0.
     # cast to float
     h_one = float(h_one_)
     h_two = float(h_two_)
@@ -237,7 +237,7 @@ def f_transform(h_one_, h_two_,
     if size2 < 10:
         LOGGER.warning("Image got scaled down to small size (%s)!", size2)
 
-    v_displacement = v_top * h_one
+    v_displacement = int(v_top * h_one)
 
     # bottom - top
     combine_height = (max(1, v_bottom) - min(0, v_top)) * h_one
