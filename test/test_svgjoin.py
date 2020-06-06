@@ -39,7 +39,7 @@ DIR = join(dirname(__file__), IMAGE_FOLDER)
 FILE1 = join(dirname(__file__), 'IncidenceGraphStep11.svg')
 FILE2 = join(dirname(__file__), 'PrimalGraphStep11.svg')
 
-MIN, MAX = 5, 1e6
+MIN, MAX = 5, 1_000_000
 # Should be in between sizes considered for image-dimensions!
 BASE = randint(20, 3000)
 last_random = None
@@ -126,7 +126,7 @@ class TestNewHeight:
            id="One integer in generator"),
      param("Hello Test",
            id="Should yield the string itself"),
-     param([None, randint(1, 1e4), None],
+     param([None, randint(1, 1000), None],
            id="Should accept None as element in list"),
      param([[1, 2], "String", None, [[[1]]]],
            id="Should only return elements from the first level")

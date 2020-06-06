@@ -23,14 +23,13 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-
-import json
 import abc
+import argparse
+import json
 import logging
-import pathlib
+
 
 from time import sleep
-from configparser import ConfigParser
 
 import psycopg2 as pg
 
@@ -39,16 +38,17 @@ from tdvisu.dijkstra import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
+from tdvisu.utilities import read_yml_or_cfg, logging_cfg, LOGLEVEL_EPILOG
 
+LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
-logging.basicConfig(
-    format="%(asctime)s,%(msecs)d %(levelname)-8s"
-    "[%(filename)s:%(lineno)d] %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S',
-    level=logging.WARNING)
-
-LOGGER = logging.getLogger(__name__)
-
+DEFAULT_DBCONFIG = {
+    "host": "localhost",
+    "port": 5432,
+    "database": "logicsem",
+    "user": "postgres",
+    "application_name": "dpdb-admin"
+}
 
 PSYCOPG2_8_5_TASTATUS = {
     pg.extensions.TRANSACTION_STATUS_IDLE:
@@ -79,40 +79,25 @@ def good_db_status() -> tuple:
             pg.extensions.TRANSACTION_STATUS_INTRANS)
 
 
-def read_cfg(cfg_file, section) -> dict:
-    """Read the config file and return the result.
-
-    Works for both .ini and .json files but
-    assumes json-format if the ending is NOT .ini
-    """
-    if pathlib.Path(cfg_file).suffix.lower() == '.ini':
-        iniconfig = ConfigParser()
-        iniconfig.read(cfg_file)
-        result = dict()
-        result['host'] = iniconfig.get(section, 'host', fallback='localhost')
-        result['port'] = iniconfig.get(section, 'port', fallback='5432')
-        result['database'] = iniconfig.get(
-            section, 'database', fallback='logicsem')
-        result['user'] = iniconfig.get(section, 'user', fallback='postgres')
-        result['password'] = iniconfig.get(section, 'password')
-        result['application_name'] = iniconfig.get(
-            section, 'application_name', fallback='dpdb-admin')
-        return {section: result}
-
-    # default behaviour
-    with open(cfg_file) as jsonfile:
-        return json.load(jsonfile)
+def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
+    """Read the config file and return the result of one section."""
+    try:
+        file_content = read_yml_or_cfg(cfg_file, prefer_cfg=prefer_cfg)
+        content = dict(file_content[section])
+        LOGGER.debug(
+            "Found keys %s in %s[%s]", content.keys(), cfg_file, section)
+    except (OSError, AttributeError, TypeError) as err:
+        LOGGER.warning("Encountered %s while reading config '%s' section '%s'",
+                       err, cfg_file, section, exc_info=True)
+        content = {}
+    return content
 
 
-def config(filename='database.ini', section='postgresql') -> dict:
+def db_config(filename='database.ini', section='postgresql') -> dict:
     """Return the database config as JSON"""
-    cfg = read_cfg(filename, section)
-    if section in cfg:
-        db_config = cfg[section]
-    else:
-        raise Exception(f'Section {section} not found in the {filename} file')
     LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
-    return db_config
+    cfg = read_cfg(filename, section)
+    return {**DEFAULT_DBCONFIG, **cfg}
 
 
 class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
@@ -439,11 +424,11 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
             'labeldict': labeldict,
             'num_vars': self.read_num_vars()}
 
-        generalGraph = {'edges': self.read_twfile()} if self.tw_file else False
+        general_gr = {'edges': self.read_twfile()} if self.tw_file else False
 
         timeline = self.read_timeline(edgearray)
         return {'incidenceGraph': False,
-                'generalGraph': generalGraph,
+                'generalGraph': general_gr,
                 'tdTimeline': timeline,
                 'treeDecJson': tree_dec_json}
 
@@ -454,7 +439,7 @@ def connect() -> pg.extensions.connection:
     conn = None
     try:
         # read connection parameters
-        params = config()
+        params = db_config(filename='Archive/database.json')
         db_name = params['database']
         LOGGER.info("Connecting to the PostgreSQL database '%s'...", db_name)
         conn = pg.connect(**params)
@@ -501,9 +486,55 @@ def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
     return {}
 
 
-if __name__ == "__main__":
+def main(args: argparse.Namespace) -> None:
+    """
+    Main method running construct_dpdb_visu for arguments in 'args'
 
-    import argparse
+    Parameters
+    ----------
+    args : argparse.Namespace
+        The namespace containing all (command-line) parameters.
+
+    Returns
+    -------
+    None
+    """
+
+    loglevel = None  # passed to the configuration of the root-logger
+    if args.loglevel is not None:
+        try:
+            loglevel = int(float(args.loglevel))
+        except ValueError:
+            loglevel = args.loglevel.upper()
+    logging.basicConfig(level=loglevel)  # Output logging for setup
+    logging_cfg(filename='logging.yml', loglevel=loglevel)
+    LOGGER.info("Called with '%s'", args)
+
+    problem_ = args.problemnumber
+    # get twfile if supplied
+    try:
+        tw_file_ = args.twfile
+    except AttributeError:
+        tw_file_ = None
+    result_json = create_json(problem=problem_, tw_file=tw_file_)
+    # build json filename, can be supplied with problem-number
+    try:
+        outfile = args.outfile % problem_
+    except TypeError:
+        outfile = args.outfile
+    LOGGER.info("Output file-name: %s", outfile)
+    with open(outfile, 'w') as file:
+        json.dump(
+            result_json,
+            file,
+            sort_keys=True,
+            indent=2 if args.pretty else None,
+            ensure_ascii=False)
+        LOGGER.debug("Wrote to %s", file)
+
+
+if __name__ == "__main__":
+    # Parse args, call main
 
     PARSER = argparse.ArgumentParser(
         description="""
@@ -514,14 +545,7 @@ if __name__ == "__main__":
 
         Extracts Information from https://github.com/hmarkus/dp_on_dbs runs
         for further visualization.""",
-        epilog="""Logging levels for python 3.8.2:
-            CRITICAL: 50
-            ERROR:    40
-            WARNING:  30
-            INFO:     20
-            DEBUG:    10
-            NOTSET:    0 (will traverse the logging hierarchy until a value is found)
-            """,
+        epilog=LOGLEVEL_EPILOG,
         formatter_class=argparse.RawDescriptionHelpFormatter
     )
 
@@ -531,47 +555,17 @@ if __name__ == "__main__":
                         type=argparse.FileType('r', encoding='UTF-8'),
                         help="tw-File containing the edges of the graph - "
                         "obtained from dpdb with option --gr-file GR_FILE.")
-    PARSER.add_argument('--loglevel', default='INFO', help="default:'INFO'")
-    PARSER.add_argument(
-        '--outfile',
-        default='dbjson%d.json',
-        help="default:'dbjson%%d.json'")
+    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
+    PARSER.add_argument('--outfile', default='dbjson%d.json',
+                        help="default:'dbjson%%d.json'")
     PARSER.add_argument('--pretty', action='store_true',
                         help="Pretty-print the JSON.")
-    PARSER.add_argument(
-        '--inter-nodes',
-        action='store_true',
-        help="Calculate path between successive nodes during the evaluation order.")
+    PARSER.add_argument('--inter-nodes', action='store_true',
+                        help="Calculate path between successive nodes "
+                        "during the evaluation order.")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
 
     # get cmd-arguments
-    args = PARSER.parse_args()
-    LOGGER.info('%s', args)
-    # get loglevel
-    try:
-        loglevel = int(float(args.loglevel))
-    except ValueError:
-        loglevel = args.loglevel.upper()
-    LOGGER.setLevel(loglevel)
-    problem_ = args.problemnumber
-    # get twfile if supplied
-    try:
-        tw_file_ = args.twfile
-    except AttributeError:
-        tw_file_ = None
-    RESULTJSON = create_json(problem=problem_, tw_file=tw_file_)
-    # build json filename, can be supplied with problem-number
-    try:
-        outfile = args.outfile % problem_
-    except TypeError:
-        outfile = args.outfile
-    LOGGER.info("Output file-name: %s", outfile)
-    with open(outfile, 'w') as file:
-        json.dump(
-            RESULTJSON,
-            file,
-            sort_keys=True,
-            indent=2 if args.pretty else None,
-            ensure_ascii=False)
-        LOGGER.debug("Wrote to %s", file)
+    _args = PARSER.parse_args()
+    main(_args)

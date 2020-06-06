@@ -21,7 +21,7 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pytest import param, mark
-from tdvisu.visualization import Visualization
+from tdvisu.utilities import solution_node
 
 
 SOLUTIONTABLE1 = [["id", "0"], ["v1", "1"],
@@ -72,5 +72,5 @@ parameters_sol = [
 def test_solutionnode(arguments, expected):
     """Testing different solution_node capabilities."""
 
-    result = Visualization.solution_node(**arguments)
+    result = solution_node(**arguments)
     assert result == expected

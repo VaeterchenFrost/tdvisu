@@ -1,0 +1,33 @@
+version: 1
+formatters:
+  simple:
+    format: "%(asctime)s %(levelname)s %(message)s"
+    datefmt: "%H:%M:%S"
+  full:
+    format: "%(asctime)s,%(msecs)d %(levelname)s[%(filename)s:%(lineno)d] %(message)s"
+    datefmt: "%Y-%m-%d %H:%M:%S"
+handlers:
+  console:
+    class: logging.StreamHandler
+    level: WARNING
+    formatter: full
+    stream: ext://sys.stdout
+loggers:
+  visualization.py:
+    level: NOTSET
+    
+  svgjoin.py:
+    level: NOTSET
+    
+  reader.py:
+    level: NOTSET
+    
+  construct_dpdb_visu.py:
+    level: NOTSET
+    
+  utilities.py:
+    level: NOTSET
+
+root:
+  level: WARNING
+  handlers: [console]

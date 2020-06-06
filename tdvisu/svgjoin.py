@@ -23,43 +23,16 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable, Generator, Any, List
-from collections.abc import Iterable as iter_type
+from typing import Union, Iterable, List, Dict
 from benedict import benedict
 
+from tdvisu.utilities import gen_arg
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('svg_join.py')
 
 # indices
 WIDTH = 2
 HEIGHT = 3
-
-
-def gen_arg(arg_or_iter: Any) -> Generator:
-    """
-    Infinite generator for the next argument of `arg_or_iter`.
-    If the argument is exhausted, always return the last element.
-
-    Parameters
-    ----------
-    arg_or_iter : object
-        Object to iterate over. Considers three cases:
-            string: yields the string as one element indefinitely
-            iterable: yields all elements from it, and only the last one after.
-            not iterable: yield the object indefinitely
-    """
-    if isinstance(arg_or_iter, str):
-        while True:
-            yield arg_or_iter
-    elif not isinstance(arg_or_iter, iter_type):
-        while True:
-            yield arg_or_iter
-    else:
-        item = None
-        for item in arg_or_iter:
-            yield item
-    while True:
-        yield item
 
 
 def test_viewbox(viewbox: List[float]):
@@ -192,7 +165,7 @@ TRANSFORMATION_EXAMPLE = """
 def f_transform(h_one_, h_two_,
                 v_bottom: Union[float, str, None] = None,
                 v_top: Union[float, str, None] = 'top',
-                scale2: float = 1) -> dict:
+                scale2: float = 1) -> Dict[str, float]:
     """Calculate vertical position and scaling of second image.
 
     The input for v_bottom, v_top is in units from\n
@@ -217,11 +190,11 @@ def f_transform(h_one_, h_two_,
 
     Returns
     -------
-    dict
+    dict[str->float]
         'vertical_snd','combine_height','scale2'
 
     """
-    v_displacement = 0
+    v_displacement = 0.
     # cast to float
     h_one = float(h_one_)
     h_two = float(h_two_)
@@ -323,6 +296,7 @@ def svg_join(
     None.
 
     """
+    LOGGER.info("Starting joining: %s", base_names)
     # names empty?
     if not base_names:
         LOGGER.warning("svg_join found no images to combine!")
@@ -367,14 +341,14 @@ def svg_join(
         result['svg']['@preserveAspectRatio'] = preserve_aspectratio
         with open(resultname % step, 'w') as file:
             result.to_xml(output=file, pretty=True)
-            LOGGER.info("Wrote combined: %s", resultname % step)
+
+        if step < 10:
+            LOGGER.debug("Wrote combined: %s", resultname % step)
+    LOGGER.info("Finished svg_join")
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        format="%(asctime)s,%(msecs)d %(levelname)s"
-        "[%(filename)s:%(lineno)d] %(message)s",
-        datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
+
     svg_join(['TDStep', 'PrimalGraphStep', 'IncidenceGraphStep'],
              'Archive/DA4',
              num_images=6,
