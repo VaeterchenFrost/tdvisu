@@ -22,11 +22,16 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from collections.abc import Iterable as iter_type
-from configparser import ConfigParser, Error as CfgError
+from configparser import ConfigParser, ParsingError, Error as CfgError
+import logging
 from itertools import chain
 from pathlib import Path
 from typing import Generator, Any, Iterable, Iterator, TypeVar, Union
 import yaml
+
+LOGGER = logging.getLogger('utilities.py')
+
+CFG_EXT = ('.ini', '.cfg', '.conf', '.config')
 
 _T = TypeVar('_T')
 
@@ -43,7 +48,7 @@ def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
 
 
 def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
-                    cfg_ext=('.ini', '.cfg', '.conf', '.config')) -> Any:
+                    cfg_ext=CFG_EXT) -> Any:
     """
     Read the file and return its content as a python object.
 
@@ -77,11 +82,11 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
     if prefer_cfg:
         try:
             config = ConfigParser()
-            config.read(file.open())
+            config.read(file)
             if config.sections():
                 return config
             print(err_str.format("empty config", file.resolve(), prefer_cfg))
-        except CfgError as exc:
+        except (ParsingError, CfgError) as exc:
             print(err_str.format(exc, file.resolve(), prefer_cfg))
 
     # try yaml file next
@@ -94,7 +99,7 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
             config = ConfigParser()
             config.read(file.open())
             return config
-        except CfgError as exc:
+        except (ParsingError, CfgError) as exc:
             print(err_str.format(exc, file.resolve(), prefer_cfg))
 
 
@@ -332,3 +337,54 @@ def solution_node(
         result += '|' + bottomlabel
 
     return '{' + result + '}'
+
+
+class DefaultLoggingCfg:
+    """Hold and update the default configuration for logging."""
+
+    def __init__(self):
+        self.dict = {
+            'version': 1,
+            'formatters': {
+                'simple': {
+                    'format': '%(asctime)s %(levelname)s %(message)s',
+                    'datefmt': '%H:%M:%S'}},
+            'handlers': {
+                'console': {
+                    'class': 'logging.StreamHandler',
+                    'level': 'WARNING',
+                    'formatter': 'simple',
+                    'stream': 'ext://sys.stdout'}},
+            'loggers': {
+                'visualization.py': {
+                    'level': 'NOTSET',
+                    'handlers': ['console'],
+                    'propagate': False},
+                'svgjoin.py': {
+                    'level': 'NOTSET',
+                    'handlers': ['console'],
+                    'propagate': False},
+                'reader.py': {
+                    'level': 'NOTSET',
+                    'handlers': ['console'],
+                    'propagate': False},
+                'construct_dpdb_visu.py': {
+                    'level': 'NOTSET',
+                    'handlers': ['console'],
+                    'propagate': False}},
+            'root': {
+                'level': 'WARNING',
+                'handlers': ['console']}}
+
+    def update_level(self, loglevel):
+        """Update the default loglevel in the dict."""
+        try:
+            for handler in self.dict['handlers']:
+                handler['level'] = loglevel
+        except BaseException:
+            LOGGER.warning("could not find handlers in DEFAULT_LOGGING_CFG!")
+        try:
+            for logger in self.dict['loggers']:
+                logger['level'] = loglevel
+        except BaseException:
+            LOGGER.warning("could not find handlers in DEFAULT_LOGGING_CFG!")

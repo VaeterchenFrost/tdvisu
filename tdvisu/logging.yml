@@ -29,6 +29,10 @@ loggers:
     level: NOTSET
     handlers: [console]
     propagate: no
+  utilities.py:
+    level: NOTSET
+    handlers: [console]
+    propagate: no
 root:
   level: WARNING
   handlers: [console]

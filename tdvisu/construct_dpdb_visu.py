@@ -28,7 +28,11 @@ import argparse
 import json
 import logging
 
+from logging.config import dictConfig as log_dict_cfg
+from logging.config import fileConfig as log_file_cfg
+from pathlib import Path
 from time import sleep
+from typing import Optional
 
 import psycopg2 as pg
 
@@ -37,7 +41,7 @@ from tdvisu.dijkstra import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
-from tdvisu.utilities import read_yml_or_cfg
+from tdvisu.utilities import read_yml_or_cfg, CFG_EXT, DefaultLoggingCfg
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
@@ -82,30 +86,51 @@ def good_db_status() -> tuple:
 
 def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
     """Read the config file and return the result of one section."""
-
     try:
         file_content = read_yml_or_cfg(cfg_file, prefer_cfg=prefer_cfg)
         content = dict(file_content[section])
         LOGGER.debug(
             "Found keys %s in %s[%s]", content.keys(), cfg_file, section)
     except (OSError, AttributeError, TypeError) as err:
-        LOGGER.warning("Encountered %s while reading config %s",
-                       err, cfg_file, exc_info=1)
+        LOGGER.warning("Encountered %s while reading config '%s' section '%s'",
+                       err, cfg_file, section, exc_info=1)
         content = {}
-
-    result = {**DEFAULT_DBCONFIG, **content}
-    return {section: result}
+    return content
 
 
-def config(filename='database.ini', section='postgresql') -> dict:
+def db_config(filename='database.ini', section='postgresql') -> dict:
     """Return the database config as JSON"""
-    cfg = read_cfg(filename, section)
-    if section in cfg:
-        db_config = cfg[section]
-    else:
-        raise Exception(f'Section {section} not found in the {filename} file')
     LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
-    return db_config
+    cfg = read_cfg(filename, section)
+    return {**DEFAULT_DBCONFIG, **cfg}
+
+
+def logging_cfg(filename: str, prefer_cfg:bool=False, loglevel:Optional[int]=None) -> None:
+    """Configure logging for this module"""
+    LOGGER.info("Read logging configuration from %s", filename)
+    READ_ERR = "could not read configuration from '%s'"
+    CONFIG_ERR = "could not use logging configuration from '%s'"
+    DefaultConfig = DefaultLoggingCfg()
+    if loglevel is not None:
+        DefaultConfig.update_level(loglevel)
+        
+    file = Path(filename)
+    if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
+        try:
+            log_file_cfg(file, defaults=DEFAULT_LOGGING_CFG)
+            return
+        except OSError:
+            LOGGER.warning(READ_ERR, file.resolve())
+        except BaseException:
+            LOGGER.warning(CONFIG_ERR, file.resolve())
+    try:                                                    # dict
+        file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
+        log_dict_cfg(file_content)
+        return
+    except OSError:
+        LOGGER.warning(READ_ERR, file.resolve())
+    except BaseException:
+        LOGGER.warning(CONFIG_ERR, file.resolve())
 
 
 class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
@@ -447,7 +472,7 @@ def connect() -> pg.extensions.connection:
     conn = None
     try:
         # read connection parameters
-        params = config()
+        params = db_config()
         db_name = params['database']
         LOGGER.info("Connecting to the PostgreSQL database '%s'...", db_name)
         conn = pg.connect(**params)
@@ -507,13 +532,15 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-    LOGGER.info('%s', args)
+    LOGGER.info("Called with '%s'", args)
     # get loglevel
     try:
         loglevel = int(float(args.loglevel))
     except ValueError:
         loglevel = args.loglevel.upper()
-    LOGGER.setLevel(loglevel)
+
+    logging_cfg(filename='logging.yml', loglevel=loglevel)
+
     problem_ = args.problemnumber
     # get twfile if supplied
     try:
