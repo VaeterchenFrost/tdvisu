@@ -47,6 +47,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from heapq import heappush, heappop
 from itertools import count
 
+from tdvisu.utilities import convert_to_adj
 
 def bidirectional_dijkstra(edges, source, target, weight='weight'):
     r"""Dijkstra's algorithm for shortest paths using bidirectional search.
@@ -227,39 +228,6 @@ def _weight_function(weight, multigraph=False):
     if multigraph:
         return lambda u, v, d: min(edge.get(weight, 1) for edge in d.values())
     return lambda u, v, data: data.get(weight, 1)
-
-
-def convert_to_adj(edgelist, directed=False):
-    """
-    Helper function to convert the edgelist into the adj-format from NetworkX.
-
-    Parameters
-    ----------
-    edgelist : array-like of pairs of vertices.
-        Simple edgelist. Example:
-            [(2, 1), (3, 2), (4, 2), (5, 4)]
-    directed : bool, optional
-        Whether to add the backward edges too. The default is False.
-
-    Returns
-    -------
-    adj : dict of edges with empty attributes
-        See Docs » Module code » networkx.classes.graph.adj(self)
-        for detailed structure.
-        Basically: dict of {source1:{target1:{'attr1':value,},},...}
-        https://networkx.github.io/documentation/networkx-2.1/_modules/networkx/classes/graph.html
-    """
-    adj = dict()
-    for (u, v) in edgelist:
-        if u not in adj:
-            adj[u] = {}
-        adj[u][v] = {}
-        if not directed:
-            # add reversed edge
-            if v not in adj:
-                adj[v] = {}
-            adj[v][u] = {}
-    return adj
 
 
 if __name__ == "__main__":

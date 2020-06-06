@@ -23,43 +23,16 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable, Generator, Any, List
-from collections.abc import Iterable as iter_type
+from typing import Union, Iterable, List
 from benedict import benedict
 
+from tdvisu.utilities import gen_arg
 
 LOGGER = logging.getLogger('svg_join.py')
 
 # indices
 WIDTH = 2
 HEIGHT = 3
-
-
-def gen_arg(arg_or_iter: Any) -> Generator:
-    """
-    Infinite generator for the next argument of `arg_or_iter`.
-    If the argument is exhausted, always return the last element.
-
-    Parameters
-    ----------
-    arg_or_iter : object
-        Object to iterate over. Considers three cases:
-            string: yields the string as one element indefinitely
-            iterable: yields all elements from it, and only the last one after.
-            not iterable: yield the object indefinitely
-    """
-    if isinstance(arg_or_iter, str):
-        while True:
-            yield arg_or_iter
-    elif not isinstance(arg_or_iter, iter_type):
-        while True:
-            yield arg_or_iter
-    else:
-        item = None
-        for item in arg_or_iter:
-            yield item
-    while True:
-        yield item
 
 
 def test_viewbox(viewbox: List[float]):

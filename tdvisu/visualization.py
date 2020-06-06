@@ -28,7 +28,6 @@ Copyright (C) 2020  Martin Röbke
 
 import argparse
 import io
-import itertools
 import json
 import logging
 from dataclasses import asdict
@@ -40,6 +39,7 @@ from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
+from tdvisu.utilities import flatten
 
 
 LOGGER = logging.getLogger('visualization.py')
@@ -70,20 +70,6 @@ def read_json(json_data) -> dict:
         result = json_data
     assert len(result) > 0, "Please input a valid JSON resource!"
     return result
-
-
-_T = TypeVar('_T')
-
-
-def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
-    """ Flatten at first level.
-
-    Turn ex=[[1,2],[3,4]] into
-    [1, 2, 3, 4]
-    and [ex,ex] into
-    [[1, 2], [3, 4], [1, 2], [3, 4]]
-    """
-    return itertools.chain.from_iterable(iterable)
 
 
 class Visualization:
@@ -818,7 +804,10 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-
+    
+    # Read logging.yml
+    
+    with open('logging.yml')
     # get loglevel
     try:
         loglevel = int(float(args.loglevel))

@@ -42,6 +42,7 @@ Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien,
 import logging
 import sys
 
+from tdvisu.utilities import add_edge_to
 
 logger = logging.getLogger('reader.py')
 
@@ -129,38 +130,6 @@ class DimacsReader(Reader):
         sys.exit(1)
 
 
-def _add_edge_to(edges, adjacency_dict, vertex1, vertex2) -> None:
-    """
-    Adding (undirected) edge from 'vertex1' to 'vertex2'
-    to the edges and adjacency-list.
-
-    Parameters
-    ----------
-    edges : set-like
-        Set of tuples of vertices.
-    adjacency_dict : dict-like
-        Saves adjecent vertices for each vertex.
-    vertex1 : any
-        First vertex of the new edge.
-    vertex2 : any
-        Second vertex of the new edge.
-
-    Returns
-    -------
-    None
-
-    """
-    if vertex1 in adjacency_dict:
-        adjacency_dict[vertex1].add(vertex2)
-    else:
-        adjacency_dict[vertex1] = {vertex2}
-    if vertex2 in adjacency_dict:
-        adjacency_dict[vertex2].add(vertex1)
-    else:
-        adjacency_dict[vertex2] = {vertex1}
-    edges.add((vertex1, vertex2))
-
-
 class TwReader(DimacsReader):
     """Dimacs Reader for the 'tw' format (saving directed edges).
     Stores edges and adjacency together with
@@ -196,7 +165,7 @@ class TwReader(DimacsReader):
             vertex1 = int(line[0])
             vertex2 = int(line[1])
 
-            _add_edge_to(self.edges, self.adjacency_dict, vertex1, vertex2)
+            add_edge_to(self.edges, self.adjacency_dict, vertex1, vertex2)
 
         if len(self.edges) != self.num_edges:
             logger.warning(
