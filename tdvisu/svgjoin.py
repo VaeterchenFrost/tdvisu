@@ -23,7 +23,7 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
-from typing import Union, Iterable, List
+from typing import Union, Iterable, List, Dict
 from benedict import benedict
 
 from tdvisu.utilities import gen_arg
@@ -165,7 +165,7 @@ TRANSFORMATION_EXAMPLE = """
 def f_transform(h_one_, h_two_,
                 v_bottom: Union[float, str, None] = None,
                 v_top: Union[float, str, None] = 'top',
-                scale2: float = 1) -> dict:
+                scale2: float = 1) -> Dict[str, float]:
     """Calculate vertical position and scaling of second image.
 
     The input for v_bottom, v_top is in units from\n
@@ -190,7 +190,7 @@ def f_transform(h_one_, h_two_,
 
     Returns
     -------
-    dict
+    dict[str->float]
         'vertical_snd','combine_height','scale2'
 
     """
@@ -237,7 +237,7 @@ def f_transform(h_one_, h_two_,
     if size2 < 10:
         LOGGER.warning("Image got scaled down to small size (%s)!", size2)
 
-    v_displacement = int(v_top * h_one)
+    v_displacement = v_top * h_one
 
     # bottom - top
     combine_height = (max(1, v_bottom) - min(0, v_top)) * h_one
