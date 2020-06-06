@@ -40,7 +40,7 @@ from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten, LOGLEVEL_EPILOG
+from tdvisu.utilities import flatten, LOGLEVEL_EPILOG, logging_cfg
 from tdvisu.utilities import bag_node, solution_node, base_style
 from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
@@ -663,16 +663,15 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-
-    # Read logging.yml
-
-    # with open('logging.yml')
-    # get loglevel
-    try:
-        loglevel = int(float(args.loglevel))
-    except ValueError:
-        loglevel = args.loglevel.upper()
-    LOGGER.setLevel(loglevel)
+    loglevel = None  # passed the configuration of the root-logger
+    if args.loglevel is not None:
+        try:
+            loglevel = int(float(args.loglevel))
+        except ValueError:
+            loglevel = args.loglevel.upper()
+    logging.basicConfig(level=loglevel)
+    logging_cfg(filename='logging.yml', loglevel=loglevel)
+    LOGGER.info("Called with '%s'", args)
 
     infile = args.infile
     outfolder = args.outfolder
