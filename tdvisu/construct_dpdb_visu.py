@@ -27,9 +27,7 @@ import abc
 import argparse
 import json
 import logging
-import pathlib
 
-from configparser import ConfigParser
 from time import sleep
 
 import psycopg2 as pg
@@ -39,10 +37,19 @@ from tdvisu.dijkstra import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
-
+from tdvisu.utilities import read_yml_or_cfg
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
+DEFAULT_DBCONFIG = {
+    "postgresql": {
+        "host": "localhost",
+        "port": 5432,
+        "database": "logicsem",
+        "user": "postgres",
+        "application_name": "dpdb-admin"
+    }
+}
 
 PSYCOPG2_8_5_TASTATUS = {
     pg.extensions.TRANSACTION_STATUS_IDLE:
@@ -73,29 +80,21 @@ def good_db_status() -> tuple:
             pg.extensions.TRANSACTION_STATUS_INTRANS)
 
 
-def read_cfg(cfg_file, section) -> dict:
-    """Read the config file and return the result.
+def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
+    """Read the config file and return the result of one section."""
 
-    Works for both .ini and .json files but
-    assumes json-format if the ending is NOT .ini
-    """
-    if pathlib.Path(cfg_file).suffix.lower() == '.ini':
-        iniconfig = ConfigParser()
-        iniconfig.read(cfg_file)
-        result = dict()
-        result['host'] = iniconfig.get(section, 'host', fallback='localhost')
-        result['port'] = iniconfig.get(section, 'port', fallback='5432')
-        result['database'] = iniconfig.get(
-            section, 'database', fallback='logicsem')
-        result['user'] = iniconfig.get(section, 'user', fallback='postgres')
-        result['password'] = iniconfig.get(section, 'password')
-        result['application_name'] = iniconfig.get(
-            section, 'application_name', fallback='dpdb-admin')
-        return {section: result}
+    try:
+        file_content = read_yml_or_cfg(cfg_file, prefer_cfg=prefer_cfg)
+        content = dict(file_content[section])
+        LOGGER.debug(
+            "Found keys %s in %s[%s]", content.keys(), cfg_file, section)
+    except (OSError, AttributeError, TypeError) as err:
+        LOGGER.warning("Encountered %s while reading config %s",
+                       err, cfg_file, exc_info=1)
+        content = {}
 
-    # default behaviour
-    with open(cfg_file) as jsonfile:
-        return json.load(jsonfile)
+    result = {**DEFAULT_DBCONFIG, **content}
+    return {section: result}
 
 
 def config(filename='database.ini', section='postgresql') -> dict:

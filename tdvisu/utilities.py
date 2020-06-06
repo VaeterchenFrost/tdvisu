@@ -20,10 +20,13 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-from itertools import chain
-from collections.abc import Iterable as iter_type
-from typing import Generator, Any, Iterable, Iterator, TypeVar
 
+from collections.abc import Iterable as iter_type
+from configparser import ConfigParser, Error as CfgError
+from itertools import chain
+from pathlib import Path
+from typing import Generator, Any, Iterable, Iterator, TypeVar, Union
+import yaml
 
 _T = TypeVar('_T')
 
@@ -37,6 +40,62 @@ def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
     [[1, 2], [3, 4], [1, 2], [3, 4]]
     """
     return chain.from_iterable(iterable)
+
+
+def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
+                    cfg_ext=('.ini', '.cfg', '.conf', '.config')) -> Any:
+    """
+    Read the file and return its content as a python object.
+
+    Parameters
+    ----------
+    file : file-like
+        The file to read from.
+    is_cfg : bool, optional
+        Indicate that the file should be in 'config' format.
+        Assumed only for ext '.ini', '.cfg', '.conf' and '.config'.
+        The default is None.
+
+    Returns
+    -------
+    Any
+        Most likely a dict or a ConfigParser supporting get().
+        But maybe just a list or a single object.
+
+    """
+    err_str = """utilities.read_yml_or_cfg encountered '{}' while
+                reading config from '{}' and prefer_cfg={}"""
+
+    file = Path(file)
+    if not file.exists():
+        raise FileNotFoundError(file.absolute())
+    if not file.is_file():
+        raise IsADirectoryError(file.resolve())
+
+    # continue with file
+    prefer_cfg = prefer_cfg or file.suffix.lower() in cfg_ext
+    if prefer_cfg:
+        try:
+            config = ConfigParser()
+            config.read(file.open())
+            if config.sections():
+                return config
+            print(err_str.format("empty config", file.resolve(), prefer_cfg))
+        except CfgError as exc:
+            print(err_str.format(exc, file.resolve(), prefer_cfg))
+
+    # try yaml file next
+    try:
+        return yaml.safe_load(file.open())
+    except yaml.error.MarkedYAMLError as exc:
+        print(err_str.format(exc, file.resolve(), prefer_cfg))
+    if not prefer_cfg:
+        try:
+            config = ConfigParser()
+            config.read(file.open())
+            return config
+        except CfgError as exc:
+            print(err_str.format(exc, file.resolve(), prefer_cfg))
 
 
 def convert_to_adj(edgelist, directed=False) -> dict:
