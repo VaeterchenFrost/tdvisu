@@ -42,7 +42,8 @@ Logging levels for python 3.8.2:
     DEBUG:    10
     NOTSET:    0 (will traverse the logging hierarchy until a value is found)
     """
-DEFAULT_LOGGING_CFG = {'version': 1,
+DEFAULT_LOGGING_CFG = {
+    'version': 1,
     'formatters': {
         'simple': {
             'format': '%(asctime)s %(levelname)s %(message)s',
@@ -144,7 +145,8 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
             print(err_str.format(exc, file.resolve(), prefer_cfg))
 
 
-def logging_cfg(filename: str, prefer_cfg:bool=False, loglevel:Optional[int]=None) -> None:
+def logging_cfg(filename: str, prefer_cfg: bool = False,
+                loglevel: Optional[int] = None) -> None:
     """Configure logging for this module"""
     LOGGER.info("Read logging configuration from %s", filename)
     read_err = "could not read configuration from '%s'"
@@ -168,16 +170,17 @@ def logging_cfg(filename: str, prefer_cfg:bool=False, loglevel:Optional[int]=Non
         file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
         logging.config.dictConfig(file_content)
         if loglevel is not None:
-                root = logging.getLogger()
-                root.setLevel(loglevel)
-                for handler in root.handlers:
-                    handler.setLevel(loglevel)
+            root = logging.getLogger()
+            root.setLevel(loglevel)
+            for handler in root.handlers:
+                handler.setLevel(loglevel)
         return
     except OSError:
         LOGGER.warning(read_err, file.resolve())
     except BaseException:
         LOGGER.warning(config_err, file.resolve())
-        
+
+
 def convert_to_adj(edgelist, directed=False) -> dict:
     """
     Helper function to convert the edgelist into the adj-format from NetworkX.

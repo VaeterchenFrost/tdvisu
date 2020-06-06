@@ -43,12 +43,11 @@ from tdvisu.utilities import read_yml_or_cfg, logging_cfg, LOGLEVEL_EPILOG
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
 DEFAULT_DBCONFIG = {
-    
-        "host": "localhost",
-        "port": 5432,
-        "database": "logicsem",
-        "user": "postgres",
-        "application_name": "dpdb-admin"  
+    "host": "localhost",
+    "port": 5432,
+    "database": "logicsem",
+    "user": "postgres",
+    "application_name": "dpdb-admin"
 }
 
 PSYCOPG2_8_5_TASTATUS = {
@@ -500,14 +499,16 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-    LOGGER.info("Called with '%s'", args)
-    # get loglevel
-    try:
-        loglevel = int(float(args.loglevel))
-    except ValueError:
-        loglevel = args.loglevel.upper()
+
+    loglevel = None  # passed to the configuration of the root-logger
+    if args.loglevel is not None:
+        try:
+            loglevel = int(float(args.loglevel))
+        except ValueError:
+            loglevel = args.loglevel.upper()
     logging.basicConfig(level=loglevel)
     logging_cfg(filename='logging.yml', loglevel=loglevel)
+    LOGGER.info("Called with '%s'", args)
 
     problem_ = args.problemnumber
     # get twfile if supplied
