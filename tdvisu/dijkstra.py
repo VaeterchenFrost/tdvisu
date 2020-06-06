@@ -49,6 +49,7 @@ from itertools import count
 
 from tdvisu.utilities import convert_to_adj
 
+
 def bidirectional_dijkstra(edges, source, target, weight='weight'):
     r"""Dijkstra's algorithm for shortest paths using bidirectional search.
 

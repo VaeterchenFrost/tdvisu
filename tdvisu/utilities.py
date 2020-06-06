@@ -27,6 +27,7 @@ from typing import Generator, Any, Iterable, Iterator, TypeVar
 
 _T = TypeVar('_T')
 
+
 def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
     """ Flatten at first level.
 
@@ -128,4 +129,147 @@ def gen_arg(arg_or_iter: Any) -> Generator:
             yield item
     while True:
         yield item
-        
+
+
+def base_style(graph, node, color='white', penwidth='1.0') -> None:
+    """Style the node with default fillcolor and penwidth."""
+    graph.node(node, fillcolor=color, penwidth=penwidth)
+
+
+def emphasise_node(graph, node, color='yellow',
+                   penwidth='2.5') -> None:
+    """Emphasise node with a different fillcolor (default:'yellow')
+    and penwidth (default:2.5).
+    """
+    if color:
+        graph.node(node, fillcolor=color)
+    if penwidth:
+        graph.node(node, penwidth=penwidth)
+
+
+def style_hide_node(graph, node) -> None:
+    """Make the node invisible during drawing."""
+    graph.node(node, style='invis')
+
+
+def style_hide_edge(graph, source, target) -> None:
+    """Make the edge source->target invisible during drawing."""
+    graph.edge(source, target, style='invis')
+
+
+def bag_node(head, tail, anchor='anchor', headcolor='white',
+             tableborder=0, cellborder=0, cellspacing=0) -> str:
+    """HTML format with 'head' as the first label, then appending
+    further labels.
+
+    After the 'head' there is an (empty) anchor for edges with a name tag. e.g.
+    <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
+    <TR><TD BGCOLOR="white">bag 3</TD></TR><TR><TD PORT="anchor"></TD></TR>
+    <TR><TD>[1, 2, 5]</TD></TR><TR><TD>03/31/20 09:29:51</TD></TR>
+    <TR><TD>dtime=0.0051s</TD></TR></TABLE>
+    """
+    result = f"""<<TABLE BORDER=\"{tableborder}\" CELLBORDER=\"{cellborder}\"
+              CELLSPACING=\"{cellspacing}\">
+              <TR><TD BGCOLOR=\"{headcolor}\">{head}</TD></TR>
+              <TR><TD PORT=\"{anchor}\"></TD></TR>"""
+
+    if isinstance(tail, str):
+        result += f"<TR><TD>{tail}</TD></TR>"
+    else:
+        for label in tail:
+            result += f"<TR><TD>{label}</TD></TR>"
+
+    result += "</TABLE>>"
+    return result
+
+
+def solution_node(
+        solution_table,
+        toplabel: str = '',
+        bottomlabel: str = '',
+        transpose: bool = False,
+        linesmax: int = 1000,
+        columnsmax: int = 50) -> str:
+    """Fill the node from the 2D 'solution_table' (columnbased!).
+    Optionally add a line above and/or below the table.
+
+    solution_table : 2D-arraylike, entries get converted to str
+
+    toplabel : string, placed above the table
+
+    bottomlabel : string, placed below the table
+
+    transpose : bool, whether to transpose the solution_table before
+    processing
+
+    linesmax : int, if positive it indicates the
+            maximum number of lines in the table to display.
+
+    columnsmax : int, if positive it indicates the
+            maximum number of columns to display + the last.
+
+    Example structure for four columns:
+    |----------|
+    | toplabel |
+    ------------
+    |v1|v2|v3|v4|
+    |0 |1 |0 |1 |
+    |1 |1 |0 |0 |
+    ...
+    ------------
+    | botlabel |
+    |----------|
+    """
+    result = ''
+    if toplabel:
+        result += toplabel + '|'
+
+    if len(solution_table) == 0:
+        result += 'empty'
+    else:
+        if transpose:
+            solution_table = list(zip(*solution_table))
+
+        # limit lines backwards from length of column
+        vslice = (min(-1, linesmax - len(solution_table[0]))
+                  if linesmax > 0 else -1)
+        # limit columns forwards minus one
+        hslice = (min(len(solution_table), columnsmax)
+                  if columnsmax > 0 else len(solution_table)) - 1
+
+        result += '{'                                       # insert table
+        for column in solution_table[:hslice]:
+            result += '{'                                   # start column
+            for row in column[:vslice]:
+                result += str(row) + '|'
+            if vslice < -1:     # add one indicator of shortening
+                result += '...' + '|'
+            for row in column[-1:]:
+                result += str(row)
+            result += '}|'      # sep. between columns
+        # adding one column-skipping indicator
+        if hslice < len(solution_table) - 1:
+            result += '{'                                   # start column
+            for row in column[:vslice]:
+                result += '...' + '|'
+            if vslice < -1:     # add one indicator of shortening
+                result += '...' + '|'
+            for row in column[-1:]:
+                result += '...'
+            result += '}|'      # sep. between columns
+        # last column (usually a summary of the previous cols)
+        for column in solution_table[-1:]:
+            result += '{'                                   # start column
+            for row in column[:vslice]:
+                result += str(row) + '|'
+            if vslice < -1:     # add one indicator of shortening
+                result += '...' + '|'
+            for row in column[-1:]:
+                result += str(row)
+            result += '}'      # sep. between columns
+        result += '}'                                       # close table
+
+    if len(bottomlabel) > 0:
+        result += '|' + bottomlabel
+
+    return '{' + result + '}'

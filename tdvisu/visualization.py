@@ -28,18 +28,20 @@ Copyright (C) 2020  Martin Röbke
 
 import argparse
 import io
+import itertools
 import json
 import logging
 from dataclasses import asdict
 from sys import stdin
-from typing import Iterable, Iterator, TypeVar, List, Optional
+from typing import List, Optional
 
 from graphviz import Digraph, Graph
 from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
 from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten
+from tdvisu.utilities import flatten, bag_node, solution_node, base_style
+from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
 
 LOGGER = logging.getLogger('visualization.py')
@@ -87,150 +89,6 @@ class Visualization:
         LOGGER.debug("Initialized: %s", self)
         # LOGGER.debug("self.__dict__:%s", self.__dict__)
         LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
-
-    @staticmethod
-    def base_style(graph, node, color='white', penwidth='1.0') -> None:
-        """Style the node with default fillcolor and penwidth."""
-        graph.node(node, fillcolor=color, penwidth=penwidth)
-
-    @staticmethod
-    def emphasise_node(graph, node, color='yellow',
-                       penwidth='2.5') -> None:
-        """Emphasise node with a different fillcolor (default:'yellow')
-        and penwidth (default:2.5).
-        """
-        if color:
-            graph.node(node, fillcolor=color)
-        if penwidth:
-            graph.node(node, penwidth=penwidth)
-
-    @staticmethod
-    def style_hide_node(graph, node) -> None:
-        """Make the node invisible during drawing."""
-        graph.node(node, style='invis')
-
-    @staticmethod
-    def style_hide_edge(graph, source, target) -> None:
-        """Make the edge source->target invisible during drawing."""
-        graph.edge(source, target, style='invis')
-
-    @staticmethod
-    def bag_node(head, tail, anchor='anchor', headcolor='white',
-                 tableborder=0, cellborder=0, cellspacing=0) -> str:
-        """HTML format with 'head' as the first label, then appending
-        further labels.
-
-        After the 'head' there is an (empty) anchor for edges with a name tag. e.g.
-        <TABLE BORDER="0" CELLBORDER="0" CELLSPACING="0">
-        <TR><TD BGCOLOR="white">bag 3</TD></TR><TR><TD PORT="anchor"></TD></TR>
-        <TR><TD>[1, 2, 5]</TD></TR><TR><TD>03/31/20 09:29:51</TD></TR>
-        <TR><TD>dtime=0.0051s</TD></TR></TABLE>
-        """
-        result = f"""<<TABLE BORDER=\"{tableborder}\" CELLBORDER=\"{cellborder}\"
-                  CELLSPACING=\"{cellspacing}\">
-                  <TR><TD BGCOLOR=\"{headcolor}\">{head}</TD></TR>
-                  <TR><TD PORT=\"{anchor}\"></TD></TR>"""
-
-        if isinstance(tail, str):
-            result += f"<TR><TD>{tail}</TD></TR>"
-        else:
-            for label in tail:
-                result += f"<TR><TD>{label}</TD></TR>"
-
-        result += "</TABLE>>"
-        return result
-
-    @staticmethod
-    def solution_node(
-            solution_table,
-            toplabel: str = '',
-            bottomlabel: str = '',
-            transpose: bool = False,
-            linesmax: int = 1000,
-            columnsmax: int = 50) -> str:
-        """Fill the node from the 2D 'solution_table' (columnbased!).
-        Optionally add a line above and/or below the table.
-
-        solution_table : 2D-arraylike, entries get converted to str
-
-        toplabel : string, placed above the table
-
-        bottomlabel : string, placed below the table
-
-        transpose : bool, whether to transpose the solution_table before
-        processing
-
-        linesmax : int, if positive it indicates the
-                maximum number of lines in the table to display.
-
-        columnsmax : int, if positive it indicates the
-                maximum number of columns to display + the last.
-
-        Example structure for four columns:
-        |----------|
-        | toplabel |
-        ------------
-        |v1|v2|v3|v4|
-        |0 |1 |0 |1 |
-        |1 |1 |0 |0 |
-        ...
-        ------------
-        | botlabel |
-        |----------|
-        """
-        result = ''
-        if toplabel:
-            result += toplabel + '|'
-
-        if len(solution_table) == 0:
-            result += 'empty'
-        else:
-            if transpose:
-                solution_table = list(zip(*solution_table))
-
-            # limit lines backwards from length of column
-            vslice = (min(-1, linesmax - len(solution_table[0]))
-                      if linesmax > 0 else -1)
-            # limit columns forwards minus one
-            hslice = (min(len(solution_table), columnsmax)
-                      if columnsmax > 0 else len(solution_table)) - 1
-
-            result += '{'                                       # insert table
-            for column in solution_table[:hslice]:
-                result += '{'                                   # start column
-                for row in column[:vslice]:
-                    result += str(row) + '|'
-                if vslice < -1:     # add one indicator of shortening
-                    result += '...' + '|'
-                for row in column[-1:]:
-                    result += str(row)
-                result += '}|'      # sep. between columns
-            # adding one column-skipping indicator
-            if hslice < len(solution_table) - 1:
-                result += '{'                                   # start column
-                for row in column[:vslice]:
-                    result += '...' + '|'
-                if vslice < -1:     # add one indicator of shortening
-                    result += '...' + '|'
-                for row in column[-1:]:
-                    result += '...'
-                result += '}|'      # sep. between columns
-            # last column (usually a summary of the previous cols)
-            for column in solution_table[-1:]:
-                result += '{'                                   # start column
-                for row in column[:vslice]:
-                    result += str(row) + '|'
-                if vslice < -1:     # add one indicator of shortening
-                    result += '...' + '|'
-                for row in column[-1:]:
-                    result += str(row)
-                result += '}'      # sep. between columns
-            result += '}'                                       # close table
-
-        if len(bottomlabel) > 0:
-            result += '|' + bottomlabel
-
-        return '{' + result + '}'
 
     def inspect_json(self, infile) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
@@ -301,7 +159,7 @@ class Visualization:
         for item in self.tree_dec['labeldict']:
             bagname = self.bagpre % str(item['id'])
             self.tree_dec_digraph.node(bagname,
-                                       self.bag_node(bagname, item['labels']))
+                                       bag_node(bagname, item['labels']))
 
         self.tree_dec_digraph.edges([(self.bagpre % str(first), self.bagpre % str(
             second)) for (first, second) in self.tree_dec['edgearray']])
@@ -316,7 +174,7 @@ class Visualization:
                 id_inv_bags = node[0]
                 if isinstance(id_inv_bags, int):
                     last_sol = solpre % id_inv_bags
-                    tdg.node(last_sol, self.solution_node(
+                    tdg.node(last_sol, solution_node(
                         *(node[1])), shape='record')
 
                     tdg.edge(self.bagpre % id_inv_bags, last_sol)
@@ -328,7 +186,7 @@ class Visualization:
 
                     id_inv_bags = tuple(id_inv_bags)
                     last_sol = soljoinpre % id_inv_bags
-                    tdg.node(last_sol, self.solution_node(
+                    tdg.node(last_sol, solution_node(
                         *(node[1])), shape='record')
 
                     tdg.edge(joinpre % id_inv_bags, last_sol)
@@ -367,29 +225,29 @@ class Visualization:
                         prevhead,
                         int) else joinpre %
                     tuple(prevhead))
-                self.base_style(tdg, bag)
+                base_style(tdg, bag)
                 if last_sol:
-                    self.style_hide_node(tdg, last_sol)
-                    self.style_hide_edge(tdg, bag, last_sol)
+                    style_hide_node(tdg, last_sol)
+                    style_hide_edge(tdg, bag, last_sol)
                     last_sol = ""
 
             if len(node) > 1:
                 # solution to be displayed
                 if isinstance(id_inv_bags, int):
                     last_sol = solpre % id_inv_bags
-                    self.emphasise_node(tdg, last_sol)
+                    emphasise_node(tdg, last_sol)
                     tdg.edge(self.bagpre % id_inv_bags, last_sol)
                 else:  # joined node with 2 bags
                     id_inv_bags = tuple(id_inv_bags)
                     last_sol = soljoinpre % id_inv_bags
-                    self.emphasise_node(tdg, last_sol)
+                    emphasise_node(tdg, last_sol)
 
-            self.emphasise_node(tdg,
-                                self.bagpre %
-                                id_inv_bags if isinstance(
-                                    id_inv_bags,
-                                    int) else joinpre %
-                                id_inv_bags)
+            emphasise_node(tdg,
+                           self.bagpre %
+                           id_inv_bags if isinstance(
+                               id_inv_bags,
+                               int) else joinpre %
+                           id_inv_bags)
             _filename = self.outfolder + self.data.td_file + '%d'
             tdg.render(
                 view=view, format='svg', filename=_filename %
@@ -576,8 +434,8 @@ class Visualization:
             # 5: Engine uses previous positions
             graph.engine = 'neato'
 
-        for (s, t) in edges:
-            graph.edge(vartag_n % s, vartag_n % t)
+        for (src, tar) in edges:
+            graph.edge(vartag_n % src, vartag_n % tar)
         for node in extra_nodes:
             graph.node(vartag_n % node)
 
@@ -804,10 +662,10 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-    
+
     # Read logging.yml
-    
-    with open('logging.yml')
+
+    # with open('logging.yml')
     # get loglevel
     try:
         loglevel = int(float(args.loglevel))
