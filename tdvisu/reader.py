@@ -43,7 +43,7 @@ import logging
 import sys
 
 
-logger = logging.getLogger(__name__)
+logger = logging.getLogger('reader.py')
 
 
 class Reader():

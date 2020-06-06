@@ -41,7 +41,7 @@ from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
 
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
 
 PSYCOPG2_8_5_TASTATUS = {

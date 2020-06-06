@@ -42,7 +42,7 @@ from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
 
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('visualization.py')
 
 
 def read_json(json_data) -> dict:
@@ -825,10 +825,6 @@ def main(args: argparse.Namespace) -> None:
     except ValueError:
         loglevel = args.loglevel.upper()
     LOGGER.setLevel(loglevel)
-    console = logging.StreamHandler()
-    console.setLevel(loglevel)
-    LOGGER.removeHandler()
-    LOGGER.addHandler(console)
 
     infile = args.infile
     outfolder = args.outfolder

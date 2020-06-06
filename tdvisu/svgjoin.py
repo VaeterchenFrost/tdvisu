@@ -28,7 +28,7 @@ from collections.abc import Iterable as iter_type
 from benedict import benedict
 
 
-LOGGER = logging.getLogger(__name__)
+LOGGER = logging.getLogger('svg_join.py')
 
 # indices
 WIDTH = 2
