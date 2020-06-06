@@ -375,10 +375,7 @@ def svg_join(
 
 
 if __name__ == "__main__":
-    logging.basicConfig(
-        format="%(asctime)s,%(msecs)d %(levelname)s"
-        "[%(filename)s:%(lineno)d] %(message)s",
-        datefmt='%Y-%m-%d %H:%M:%S', level=logging.DEBUG)
+
     svg_join(['TDStep', 'PrimalGraphStep', 'IncidenceGraphStep'],
              'Archive/DA4',
              num_images=6,

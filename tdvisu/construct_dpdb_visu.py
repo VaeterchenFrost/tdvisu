@@ -41,12 +41,6 @@ from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
 
 
-logging.basicConfig(
-    format="%(asctime)s,%(msecs)d %(levelname)-8s"
-    "[%(filename)s:%(lineno)d] %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S',
-    level=logging.WARNING)
-
 LOGGER = logging.getLogger(__name__)
 
 

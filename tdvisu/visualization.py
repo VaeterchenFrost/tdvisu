@@ -41,10 +41,6 @@ from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
 from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
 
-logging.basicConfig(
-    format="%(asctime)s,%(msecs)d %(levelname)s"
-    "[%(filename)s:%(lineno)d] %(message)s",
-    datefmt='%Y-%m-%d %H:%M:%S')
 
 LOGGER = logging.getLogger(__name__)
 
