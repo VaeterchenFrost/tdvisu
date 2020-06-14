@@ -561,8 +561,8 @@ if __name__ == "__main__":
     PARSER.add_argument('--pretty', action='store_true',
                         help="pretty-print the JSON.")
     PARSER.add_argument('--inter-nodes', action='store_true',
-                        help="calculate path between successive nodes "
-                        "during the evaluation order.")
+                        help="calculate and animate the shortest path between "
+                        "successive bags in the order of evaluation.")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
 
