@@ -550,18 +550,18 @@ if __name__ == "__main__":
     )
 
     PARSER.add_argument('problemnumber', type=int,
-                        help="problem-id in the postgres-database.")
+                        help="selected problem-id in the postgres-database.")
     PARSER.add_argument('--twfile',
                         type=argparse.FileType('r', encoding='UTF-8'),
-                        help="tw-File containing the edges of the graph - "
+                        help="tw-file containing the edges of the graph - "
                         "obtained from dpdb with option --gr-file GR_FILE.")
     PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
     PARSER.add_argument('--outfile', default='dbjson%d.json',
                         help="default:'dbjson%%d.json'")
     PARSER.add_argument('--pretty', action='store_true',
-                        help="Pretty-print the JSON.")
+                        help="pretty-print the JSON.")
     PARSER.add_argument('--inter-nodes', action='store_true',
-                        help="Calculate path between successive nodes "
+                        help="calculate path between successive nodes "
                         "during the evaluation order.")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
