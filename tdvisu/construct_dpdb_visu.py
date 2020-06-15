@@ -207,12 +207,12 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
 
     def read_num_vars(self) -> int:
         """
-        Select the number of "vertices" in the graph.
+        Select the number of vertices in the graph.
 
         Returns
         -------
         int
-            Number of "vertices" in the graph.
+            Number of vertices in the graph.
 
         """
         with self.connection.cursor() as cur:  # create a cursor
@@ -224,7 +224,7 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
             return self.num_vars
 
     def read_clauses(self) -> list:
-        """Return the clauses used for satiyfiability.
+        """Return the clauses used for satisfiability.
         Variables are counted from 1 and negative if negated in the clause.
         For example:
 
@@ -251,8 +251,7 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
 
     def read_labeldict(self) -> list:
         """
-        Read from '_td_bag' the edges and 'td_node_status' tables the labels
-        for the bags.
+        Read edges from '_td_bag' and the labels from 'td_node_status' for the bags.
 
         Returns
         -------
@@ -464,6 +463,7 @@ def connect() -> pg.extensions.connection:
 
 def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
     """Create the JSON for the specified problem instance."""
+    
     try:
         with connect() as connection:
             # get type of problem
