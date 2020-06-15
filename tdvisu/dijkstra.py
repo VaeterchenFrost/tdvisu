@@ -47,8 +47,6 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 from heapq import heappush, heappop
 from itertools import count
 
-from tdvisu.utilities import convert_to_adj
-
 
 def bidirectional_dijkstra(edges, source, target, weight='weight'):
     r"""Dijkstra's algorithm for shortest paths using bidirectional search.
@@ -233,6 +231,10 @@ def _weight_function(weight, multigraph=False):
 
 if __name__ == "__main__":
     # Show one example and print to console
-    EDGELIST = [(2, 1), (3, 2), (4, 2), (5, 4)]
-    RESULT = bidirectional_dijkstra(convert_to_adj(EDGELIST), 3, 5)
+    EDGES = {2: {1: {}, 3: {}, 4: {}},
+             1: {2: {}},
+             3: {2: {}},
+             4: {2: {}, 5: {}},
+             5: {4: {}}}
+    RESULT = bidirectional_dijkstra(EDGES, 3, 5)
     print(RESULT)
