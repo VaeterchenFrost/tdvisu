@@ -143,7 +143,7 @@ class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
 
 
 class DpdbSharpSatVisu(IDpdbVisuConstruct):
-    """Implementation of the JSON-Construction for the SharpSat problem."""
+    """Implementation of the JSON-construction for the SharpSat problem."""
 
     def __init__(self, db: pg.extensions.connection,
                  problem: int, intermed_nodes: bool):
@@ -365,10 +365,18 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
         return "sum: " + str(sum([li[-1] for li in lines]))
 
 
-class DpdbMinVcVisu(DpdbSharpSatVisu):
-    """Implementation of the JSON-Construction for the MinVC problem.
-    Borrowing methods from DpdbSharpSatVisu.
+class DpdbSatVisu(DpdbSharpSatVisu):
+    """Implementation of the JSON-construction for the SAT problem.
+    Removing the solution sum in bottom-label.
     """
+    @staticmethod
+    def footer(lines):
+        """Returns empty footer."""
+        return ""
+
+
+class DpdbMinVcVisu(DpdbSharpSatVisu):
+    """Implementation of the JSON-construction for the MinVC problem."""
 
     def __init__(self, db, problem, intermed_nodes, tw_file=None):
         super().__init__(db, problem, intermed_nodes)
@@ -406,7 +414,6 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
 
     def construct(self):
         """
-
         Construct the Json calling several helper methods.
 
         Returns
@@ -434,7 +441,7 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
 
 
 def connect() -> pg.extensions.connection:
-    """Connect to the PostgreSQL database server using the params from config"""
+    """Connect to the PostgreSQL database server using the params from config."""
 
     conn = None
     try:
@@ -468,7 +475,10 @@ def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
             # select the valid constructor for the problem
             constructor: IDpdbVisuConstruct
 
-            if ptype == 'SharpSat':
+            if ptype == 'Sat':
+                constructor = DpdbSatVisu(
+                    connection, problem, intermed_nodes)
+            elif ptype == 'SharpSat':
                 constructor = DpdbSharpSatVisu(
                     connection, problem, intermed_nodes)
             elif ptype == 'VertexCover':
