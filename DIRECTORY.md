@@ -13,6 +13,7 @@
 
 ## Test
   * [Test Bag Creation](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_bag_creation.py)
+  * [Test Dijkstra](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_dijkstra.py)
   * [Test Svgjoin](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_svgjoin.py)
   * [Test Utilities](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_utilities.py)
   * [Test Version](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_version.py)
