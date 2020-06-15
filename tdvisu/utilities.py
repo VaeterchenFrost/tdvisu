@@ -411,7 +411,7 @@ def solution_node(
             result += '}'      # sep. between columns
         result += '}'                                       # close table
 
-    if len(bottomlabel) > 0:
+    if bottomlabel:
         result += '|' + bottomlabel
 
     return '{' + result + '}'

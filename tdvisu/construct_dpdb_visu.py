@@ -456,7 +456,7 @@ def connect() -> pg.extensions.connection:
 
 
 def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
-    """Create the JSON for the specified Problem instance."""
+    """Create the JSON for the specified problem instance."""
     try:
         with connect() as connection:
             # get type of problem
@@ -479,7 +479,6 @@ def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
                         constructor.__class__.__name__, ptype)
             LOGGER.info("Constructing Json...")
             return constructor.construct()
-
     except (Exception, pg.DatabaseError) as error:
         LOGGER.error(error)
         raise error
