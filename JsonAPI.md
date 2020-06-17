@@ -5,17 +5,17 @@
 {
     "incidenceGraph" : false or
     {
-        Optional("subgraphNameOne" : STR, default='clauses'),
-        Optional("subgraphNameTwo" : STR, default='variables'),
+        Optional("subgraph_name_one" : STR, default='clauses'),
+        Optional("subgraph_name_two" : STR, default='variables'),
 
-        Optional("varNameOne" : STR, default=''),
-        Optional("varNameTwo" : STR, default=''),
+        Optional("var_name_one" : STR, default=''),
+        Optional("var_name_two" : STR, default=''),
 
-        Optional("inferPrimal" : BOOLEAN, default=false),
-        Optional("inferDual" : BOOLEAN, default=false),
+        Optional("infer_primal" : BOOLEAN, default=false),
+        Optional("infer_dual" : BOOLEAN, default=false),
         Optional("fontsize" : INT, default=16),
-        Optional("secondshape" : STR, default='diamond'),
-        Optional("columnDistance" : FLOAT, default=0.5),
+        Optional("second_shape" : STR, default='diamond'),
+        Optional("column_distance" : FLOAT, default=0.5),
         
         "edges" : [
             {"id" : INT (subgraphOneId), 
@@ -27,16 +27,16 @@
 
     "generalGraph" : false or
     {
-        Optional("graphName" : STR, default='graph'),
-        Optional("varName" : STR, default=''),
-        Optional("sortNodes" : BOOLEAN, default=false),
-        Optional("needAdjNodes" : BOOLEAN, default=false),
-        Optional("extraNodes" : LIST, default=[]),
+        Optional("graph_name" : STR, default='graph'),
+        Optional("var_name" : STR, default=''),
+        Optional("sort_nodes" : BOOLEAN, default=false),
+        Optional("need_adj_nodes" : BOOLEAN, default=false),
+        Optional("extra_nodes" : LIST, default=[]),
         Optional("fontsize" : INT, default=20),
-        Optional("firstColor" : STR/COLOR, default ='yellow'),
-        Optional("firstStyle" : STR, default ='filled'),
-        Optional("secondColor : STR/COLOR, default='green'),
-        Optional("secondStyle : STR, default='dotted,filled'),
+        Optional("first_color" : STR/COLOR, default ='yellow'),
+        Optional("first_style" : STR, default ='filled'),
+        Optional("second_color : STR/COLOR, default='green'),
+        Optional("second_style : STR, default='dotted,filled'),
         
         "edges" : [
             [INT, INT],
@@ -64,7 +64,7 @@
     "treeDecJson" : 
     {
         "bagpre" : STR,
-        "numVars" : INT,
+        "num_vars" : INT,
         Optional("joinpre" : STR, default= 'Join %d~%d'),
         Optional("solpre" : STR, default= 'sol%d'),
         Optional("soljoinpre" : STR, default= 'solJoin%d~%d'),
@@ -106,7 +106,7 @@
             Optional("outname" : STR, default='combined'),
             Optional("suffix" : STR, default='%d.svg'),
             Optional("preserve_aspectratio" : STR, default='xMinYMin'),
-            Optional("numimages" : INT, default=1),
+            Optional("num_images" : INT, default=1),
             Optional("padding" : [INT], default=0),
             Optional("scale2" : [FLOAT], default=1),
             Optional("v_top" : [FLOAT/STR], default='top'),
