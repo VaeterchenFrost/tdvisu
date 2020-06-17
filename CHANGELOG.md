@@ -7,7 +7,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
 
-No unreleased changes yet. 
+- JsonAPI.md is now updated with snake_case names and consistent with visualization_data.py 
 
 ## [1.1.0] - 2020-06-07
 ### Added
