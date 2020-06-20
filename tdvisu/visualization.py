@@ -705,9 +705,9 @@ if __name__ == "__main__":
                         type=argparse.FileType('r', encoding='UTF-8'),
                         default=stdin,
                         help="Input file for the visualization "
-                        "must be a Json fulfilling the 'JsonAPI.md'")
+                        "must conform with the 'JsonAPI.md'")
     PARSER.add_argument('outfolder',
-                        help="Folder to output the visualization results.")
+                        help="Folder to output the visualization results")
     PARSER.add_argument('--version', action='version',
                         version='%(prog)s ' + version + ', ' + __date__)
     PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
