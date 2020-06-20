@@ -164,7 +164,7 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
             return
         except OSError:
             LOGGER.warning(read_err, file.resolve())
-        except BaseException:
+        except BaseException:   # too general - can we be more specific?
             LOGGER.warning(config_err, file.resolve())
     try:                                                    # dict
         file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
@@ -177,7 +177,7 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
         return
     except OSError:
         LOGGER.warning(read_err, file.resolve())
-    except BaseException:
+    except BaseException:   # too general - can we be more specific?
         LOGGER.warning(config_err, file.resolve())
 
 
