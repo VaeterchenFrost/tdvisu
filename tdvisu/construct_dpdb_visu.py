@@ -463,7 +463,7 @@ def connect() -> pg.extensions.connection:
 
 def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
     """Create the JSON for the specified problem instance."""
-    
+
     try:
         with connect() as connection:
             # get type of problem

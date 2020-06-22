@@ -42,7 +42,7 @@ class SvgJoinData:
 
 @dataclass
 class IncidenceGraphData:
-    """Class for holding different parameters for the incidence graph."""
+    """Class holding different parameters for the incidence graph."""
     edges: list
     subgraph_name_one: str = 'clauses'
     subgraph_name_two: str = 'variables'
@@ -61,7 +61,7 @@ class IncidenceGraphData:
 
 @dataclass
 class GeneralGraphData:
-    """Class for holding different parameters for the general graph."""
+    """Class holding different parameters for the general graph."""
     edges: list
     extra_nodes: Optional[list] = None
     graph_name: str = 'graph'
@@ -78,7 +78,7 @@ class GeneralGraphData:
 
 @dataclass
 class VisualizationData:
-    """Class for holding different parameters for Visualization."""
+    """Class holding different parameters for Visualization."""
     incidence_graph: Optional[IncidenceGraphData] = None
     general_graph: Optional[GeneralGraphData] = None
     svg_join: Optional[SvgJoinData] = None

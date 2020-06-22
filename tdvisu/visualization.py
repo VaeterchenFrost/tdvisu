@@ -51,7 +51,7 @@ LOGGER = logging.getLogger('visualization.py')
 def read_json(json_data) -> dict:
     """
     Read json data into a callable object.
-    Throws error if the parsed object has length 0.
+    Throws AssertionError if the parsed object has length 0.
 
     Parameters
     ----------
@@ -82,14 +82,14 @@ class Visualization:
     """
 
     def __init__(self, infile, outfolder) -> None:
-        """Copy needed fields from arguments and create additional constants"""
+        """Copy needed fields from arguments and create VisualizationData."""
         self.data: VisualizationData = self.inspect_json(infile)
         self.outfolder = outfolder
 
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
         # LOGGER.debug("self.__dict__:%s", self.__dict__)
-        LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
+        # LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
 
     def inspect_json(self, infile) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
@@ -257,10 +257,12 @@ class Visualization:
     def tree_dec_timeline(self, view=False) -> None:
         """Main-method for handling all construction of the timeline."""
 
-        self.setup_tree_dec_graph()
-        # Iterate labeldict
-
+        self.setup_tree_dec_graph(
+            rankdir=self.data.orientation,
+            fillcolor=self.data.bagcolor)
         self.basic_tdg()
+        
+        # Iterate labeldict
         self.forward_iterate_tdg(
             joinpre=self.joinpre,
             solpre=self.solpre,
@@ -502,17 +504,30 @@ class Visualization:
 
         Parameters
         ----------
-        TIMELINE : Iterable of: None | [int...]
+        timeline : Iterable of: None | [int...]
             None if no variables get highlighted in this step.
             Else the 'timeline' provides the set of variables that are
             in the bag(s) under consideration. This function computes all other
             variables that are involved in this timestep using the 'edgelist'.
-
         num_vars : int
             Count of variables that are used in the clauses.
         colors : Iterable of color
             Colors to use for the graph parts.
-
+        inc_file : string
+            Basis for the file created, gets appended with the step number.
+        view : bool
+            If true opens the created file after creation. Default is false.
+        basefill : color
+            Background color of all nodes. Default is 'white'.
+        sndshape : string
+            Description of the shape for nodes with the variables. Default diamond.
+        neg_tail : string
+            Description of the shape of the edge-tail indicating a 
+            negated variable. Default is 'odot'.
+        column_distance : float
+            Changes the distance between both partitions, measured in image-units.
+            Default is 0.5
+            
         Returns
         -------
         None, but outputs the files with the graph for each timestep.
@@ -529,12 +544,12 @@ class Visualization:
             graph_attr={
                 'splines': 'false',
                 'ranksep': '0.2',
-                'nodesep': str(column_distance),
+                'nodesep': str(float(column_distance)),
                 'fontsize': str(
                     int(fontsize)),
                 'compound': 'true'},
             edge_attr={
-                'penwidth': str(penwidth),
+                'penwidth': str(float(penwidth)),
                 'dir': 'back',
                 'arrowtail': 'none'})
         __incid = self.data.incidence_graph
@@ -546,8 +561,8 @@ class Visualization:
             clauses.edges([(clausetag_n % (i + 1), clausetag_n % (i + 2))
                            for i in range(len(__incid.edges) - 1)])
 
-        g_incid.attr('node', shape=sndshape, fontcolor='black',
-                     penwidth=str(penwidth),
+        g_incid.attr('node', shape=sndshape,
+                     penwidth=str(float(penwidth)),
                      style='dotted')
         with g_incid.subgraph(name='cluster_ivar',
                               edge_attr={'style': 'invis'}) as ivars:
