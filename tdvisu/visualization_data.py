@@ -67,13 +67,14 @@ class GeneralGraphData:
     graph_name: str = 'graph'
     file_basename: str = 'graph'
     var_name: str = ''
-    sort_nodes: bool = False
-    need_adj_nodes: bool = False
+    do_sort_nodes: bool = False
+    do_adj_nodes: bool = False
     fontsize: int = 20
     first_color: str = 'yellow'
     first_style: str = 'filled'
     second_color: str = 'green'
     second_style: str = 'dotted,filled'
+    third_color: str = 'red'
 
 
 @dataclass

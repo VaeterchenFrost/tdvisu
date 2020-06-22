@@ -408,7 +408,7 @@ class Visualization:
 
         graph = Graph(graph_name, strict=True,
                       engine=default_engine,
-                      graph_attr={'fontsize': fontsize, 'overlap': 'false',
+                      graph_attr={'fontsize': str(fontsize), 'overlap': 'false',
                                   'outputorder': 'edgesfirst', 'K': '2'},
                       node_attr={'fontcolor': fontcolor,
                                  'penwidth': penwidth,
@@ -434,7 +434,7 @@ class Visualization:
             for line in node_positions:
                 graph.node(line[0].decode(),
                            pos='%f,%f!' % (float(line[1]), float(line[2])))
-            # 5: Engine uses previous positions
+            # 6: Engine uses previous positions
             graph.engine = 'neato'
 
         for (src, tar) in edges:
