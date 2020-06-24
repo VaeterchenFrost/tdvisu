@@ -36,7 +36,7 @@ class SvgJoinData:
     num_images: int = 1
     padding: Union[int, Iterable[int]] = 0
     scale2: Union[float, Iterable[float]] = 1.0
-    v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = 'top'
+    v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = None
     v_bottom: Union[None, float, str, Iterable[Union[None, float, str]]] = None
 
 
