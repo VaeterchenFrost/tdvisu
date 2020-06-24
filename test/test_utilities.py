@@ -42,7 +42,7 @@ def test_cant_flatten(arg):
      ([(1, 2)], [1, 2]),
      ([""], []),
      (["String"], ['S', 't', 'r', 'i', 'n', 'g']),
-     (["String", "Zwei", "Drei"], ['S', 't', 'r', 'i', 'n', 'g', 'Z', 'w', 'e', 'i', 'D', 'r', 'e', 'i'])
+     (["Str", "Zw", "Dr"], ['S', 't', 'r', 'Z', 'w', 'D', 'r'])
      ]
 )
 def test_flatten(arg, expected):
