@@ -6,16 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
+No unreleased changes yet.
+
+## [1.1.1] - 2020-06-25
 ### Added
-- Added problem type 'Sat' to  tdvisu/construct_dpdb_visu.py 
+- Added problem type **Sat** to tdvisu/construct_dpdb_visu.py 
 - Added testcases in file test/test_dijkstra.py
 
 ### Changed
 - JsonAPI.md is now updated with snake_case names and consistent with visualization_data.py 
-- Fixed default value for svg-join's v_top to None from 'top'
+- Fixed default value for svg-join **v_top** to *None* from *'top'*
 - Improved flexibility in several function parameters
 - Improved Documentation and comments in several places
-- Fixed giving parameters to method 'setup_tree_dec_graph'
+- Fixed passing parameters to method *setup_tree_dec_graph*
 
 ### Removed
 - Removed old dependency from  tdvisu/dijkstra.py on utilities
@@ -111,7 +114,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.0...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.1...master
+[1.1.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.1
 [1.1.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.0
 [1.0.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.0.1
 [1.0.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.0.0
