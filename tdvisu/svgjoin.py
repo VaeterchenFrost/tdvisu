@@ -164,7 +164,7 @@ TRANSFORMATION_EXAMPLE = """
 
 def f_transform(h_one_, h_two_,
                 v_bottom: Union[float, str, None] = None,
-                v_top: Union[float, str, None] = 'top',
+                v_top: Union[float, str, None] = None,
                 scale2: float = 1) -> Dict[str, float]:
     """Calculate vertical position and scaling of second image.
 
@@ -184,7 +184,7 @@ def f_transform(h_one_, h_two_,
     v_bottom : float or str, optional
         Expected position of bottom of second image. The default is None.
     v_top : float or str, optional
-        Expected position of bottom of second image. The default is 'top'.
+        Expected position of bottom of second image. The default is None.
     scale2 : float, optional
         Scale the second image. Only used if NOT BOTH v_bottom or v_top are set.
 
@@ -256,7 +256,7 @@ def svg_join(
         preserve_aspectratio: str = 'xMinYMin',
         padding: Union[int, Iterable[int]] = 0,
         scale2: Union[float, Iterable[float]] = 1,
-        v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = 'top',
+        v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = None,
         v_bottom: Union[None, float, str, Iterable[Union[None, float, str]]] = None):
     """
     Joines different svg-images from tdvisu placed in 'folder' for every timestep
@@ -288,7 +288,7 @@ def svg_join(
     v_bottom : float or str, optional
         Expected position of bottom of second image. The default is None.
     v_top : float or str, optional
-        Expected position of bottom of second image. The default is 'top'.
+        Expected position of bottom of second image. The default is None.
 
 
     Returns
@@ -353,4 +353,5 @@ if __name__ == "__main__":
              'Archive/DA4',
              num_images=6,
              padding=40,
-             v_top='center', v_bottom='center')
+             scale2=.3,
+             v_bottom=1)
