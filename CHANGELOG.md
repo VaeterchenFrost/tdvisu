@@ -17,7 +17,7 @@ No unreleased changes yet.
 - JsonAPI.md is now updated with snake_case names and consistent with visualization_data.py 
 - Fixed default value for svg-join **v_top** to *None* from *'top'*
 - Improved flexibility in several function parameters
-- Improved Documentation and comments in several places
+- Improved documentation and comments in several places
 - Fixed passing parameters to method *setup_tree_dec_graph*
 
 ### Removed
