@@ -6,8 +6,19 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
+### Added
+- Added problem type 'Sat' to  tdvisu/construct_dpdb_visu.py 
+- Added testcases in file test/test_dijkstra.py
 
+### Changed
 - JsonAPI.md is now updated with snake_case names and consistent with visualization_data.py 
+- Fixed default value for svg-join's v_top to None from 'top'
+- Improved flexibility in several function parameters
+- Improved Documentation and comments in several places
+- Fixed giving parameters to method 'setup_tree_dec_graph'
+
+### Removed
+- Removed old dependency from  tdvisu/dijkstra.py on utilities
 
 ## [1.1.0] - 2020-06-07
 ### Added
@@ -25,7 +36,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
     - Graph manipulation:
         - bag_node
         - solution_node
-      
+
 - Added file logging.yml (and .ini) with logging configuration for the module [#20]
 - Added half the tests for utilities.py
 
