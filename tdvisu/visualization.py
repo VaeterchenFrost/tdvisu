@@ -261,7 +261,7 @@ class Visualization:
             rankdir=self.data.orientation,
             fillcolor=self.data.bagcolor)
         self.basic_tdg()
-        
+
         # Iterate labeldict
         self.forward_iterate_tdg(
             joinpre=self.joinpre,
@@ -406,13 +406,20 @@ class Visualization:
         # sfdp http://yifanhu.net/SOFTWARE/SFDP/index.html
         default_engine = 'sfdp'
 
-        graph = Graph(graph_name, strict=True,
-                      engine=default_engine,
-                      graph_attr={'fontsize': str(fontsize), 'overlap': 'false',
-                                  'outputorder': 'edgesfirst', 'K': '2'},
-                      node_attr={'fontcolor': fontcolor,
-                                 'penwidth': penwidth,
-                                 'style': 'filled', 'fillcolor': 'white'})
+        graph = Graph(
+            graph_name,
+            strict=True,
+            engine=default_engine,
+            graph_attr={
+                'fontsize': str(fontsize),
+                'overlap': 'false',
+                'outputorder': 'edgesfirst',
+                'K': '2'},
+            node_attr={
+                'fontcolor': fontcolor,
+                'penwidth': penwidth,
+                'style': 'filled',
+                'fillcolor': 'white'})
 
         if do_sort_nodes:
             bodybaselen = len(graph.body)
@@ -522,12 +529,12 @@ class Visualization:
         sndshape : string
             Description of the shape for nodes with the variables. Default diamond.
         neg_tail : string
-            Description of the shape of the edge-tail indicating a 
+            Description of the shape of the edge-tail indicating a
             negated variable. Default is 'odot'.
         column_distance : float
             Changes the distance between both partitions, measured in image-units.
             Default is 0.5
-            
+
         Returns
         -------
         None, but outputs the files with the graph for each timestep.
