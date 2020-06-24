@@ -34,7 +34,7 @@ from time import sleep
 import psycopg2 as pg
 
 from tdvisu.dijkstra import bidirectional_dijkstra as find_path
-from tdvisu.dijkstra import convert_to_adj
+from tdvisu.utilities import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
 from tdvisu.version import __date__, __version__ as version
