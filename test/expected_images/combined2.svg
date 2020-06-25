@@ -1,0 +1,380 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="986pt" height="610pt" viewBox="0.0 0.0 986 610" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin">
+	<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 606)">
+		<title>Tree-Decomposition</title>
+		<polygon fill="white" stroke="transparent" points="-4,4 -4,-606 315,-606 315,4 -4,4"></polygon>
+		<g id="node1" class="node">
+			<title>bag 1</title>
+			<path fill="white" stroke="black" d="M143,-451.5C143,-451.5 64,-451.5 64,-451.5 58,-451.5 52,-445.5 52,-439.5 52,-439.5 52,-400.5 52,-400.5 52,-394.5 58,-388.5 64,-388.5 64,-388.5 143,-388.5 143,-388.5 149,-388.5 155,-394.5 155,-400.5 155,-400.5 155,-439.5 155,-439.5 155,-445.5 149,-451.5 143,-451.5"></path>
+			<polygon fill="white" stroke="transparent" points="60.5,-431 60.5,-450 147.5,-450 147.5,-431 60.5,-431"></polygon>
+			<text text-anchor="start" x="88.5" y="-436.8" font-family="Times New Roman,serif" font-size="14.00">bag 1</text>
+			<text text-anchor="start" x="81.5" y="-413.8" font-family="Times New Roman,serif" font-size="14.00">[1, 2, 5]</text>
+			<text text-anchor="start" x="62.5" y="-394.8" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0007s</text>
+		</g>
+		<g id="node2" class="node">
+			<title>bag 2</title>
+			<path fill="white" stroke="black" d="M195,-321C195,-321 116,-321 116,-321 110,-321 104,-315 104,-309 104,-309 104,-270 104,-270 104,-264 110,-258 116,-258 116,-258 195,-258 195,-258 201,-258 207,-264 207,-270 207,-270 207,-309 207,-309 207,-315 201,-321 195,-321"></path>
+			<polygon fill="white" stroke="transparent" points="112.5,-300.5 112.5,-319.5 199.5,-319.5 199.5,-300.5 112.5,-300.5"></polygon>
+			<text text-anchor="start" x="140.5" y="-306.3" font-family="Times New Roman,serif" font-size="14.00">bag 2</text>
+			<text text-anchor="start" x="126.5" y="-283.3" font-family="Times New Roman,serif" font-size="14.00">[1, 2, 4, 6]</text>
+			<text text-anchor="start" x="114.5" y="-264.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0019s</text>
+		</g>
+		<g id="edge1" class="edge">
+			<title>bag 2-&gt;bag 1</title>
+			<path fill="none" stroke="black" d="M143.04,-321.28C136.03,-338.6 127.2,-360.43 119.66,-379.06"></path>
+			<polygon fill="black" stroke="black" points="116.36,-377.89 115.85,-388.47 122.85,-380.52 116.36,-377.89"></polygon>
+		</g>
+		<g id="node3" class="node">
+			<title>bag 3</title>
+			<path fill="white" stroke="black" d="M91,-182C91,-182 12,-182 12,-182 6,-182 0,-176 0,-170 0,-170 0,-131 0,-131 0,-125 6,-119 12,-119 12,-119 91,-119 91,-119 97,-119 103,-125 103,-131 103,-131 103,-170 103,-170 103,-176 97,-182 91,-182"></path>
+			<polygon fill="white" stroke="transparent" points="8.5,-161.5 8.5,-180.5 95.5,-180.5 95.5,-161.5 8.5,-161.5"></polygon>
+			<text text-anchor="start" x="36.5" y="-167.3" font-family="Times New Roman,serif" font-size="14.00">bag 3</text>
+			<text text-anchor="start" x="29.5" y="-144.3" font-family="Times New Roman,serif" font-size="14.00">[2, 4, 8]</text>
+			<text text-anchor="start" x="10.5" y="-125.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0009s</text>
+		</g>
+		<g id="edge2" class="edge">
+			<title>bag 3-&gt;bag 2</title>
+			<path fill="none" stroke="black" d="M74.84,-182.25C89.96,-202.16 109.78,-228.28 125.99,-249.63"></path>
+			<polygon fill="black" stroke="black" points="123.4,-252.01 132.24,-257.86 128.98,-247.78 123.4,-252.01"></polygon>
+		</g>
+		<g id="node4" class="node">
+			<title>bag 4</title>
+			<path fill="white" stroke="black" d="M299,-182C299,-182 220,-182 220,-182 214,-182 208,-176 208,-170 208,-170 208,-131 208,-131 208,-125 214,-119 220,-119 220,-119 299,-119 299,-119 305,-119 311,-125 311,-131 311,-131 311,-170 311,-170 311,-176 305,-182 299,-182"></path>
+			<polygon fill="white" stroke="transparent" points="216.5,-161.5 216.5,-180.5 303.5,-180.5 303.5,-161.5 216.5,-161.5"></polygon>
+			<text text-anchor="start" x="244.5" y="-167.3" font-family="Times New Roman,serif" font-size="14.00">bag 4</text>
+			<text text-anchor="start" x="237.5" y="-144.3" font-family="Times New Roman,serif" font-size="14.00">[1, 4, 7]</text>
+			<text text-anchor="start" x="218.5" y="-125.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0018s</text>
+		</g>
+		<g id="edge3" class="edge">
+			<title>bag 4-&gt;bag 2</title>
+			<path fill="none" stroke="black" d="M236.16,-182.25C221.04,-202.16 201.22,-228.28 185.01,-249.63"></path>
+			<polygon fill="black" stroke="black" points="182.02,-247.78 178.76,-257.86 187.6,-252.01 182.02,-247.78"></polygon>
+		</g>
+		<g id="node5" class="node">
+			<title>bag 5</title>
+			<path fill="yellow" stroke="black" stroke-width="2.5" d="M143,-63C143,-63 64,-63 64,-63 58,-63 52,-57 52,-51 52,-51 52,-12 52,-12 52,-6 58,0 64,0 64,0 143,0 143,0 149,0 155,-6 155,-12 155,-12 155,-51 155,-51 155,-57 149,-63 143,-63"></path>
+			<polygon fill="white" stroke="transparent" points="60.5,-42.5 60.5,-61.5 147.5,-61.5 147.5,-42.5 60.5,-42.5"></polygon>
+			<text text-anchor="start" x="88.5" y="-48.3" font-family="Times New Roman,serif" font-size="14.00">bag 5</text>
+			<text text-anchor="start" x="81.5" y="-25.3" font-family="Times New Roman,serif" font-size="14.00">[2, 3, 8]</text>
+			<text text-anchor="start" x="62.5" y="-6.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0026s</text>
+		</g>
+		<g id="edge4" class="edge">
+			<title>bag 5-&gt;bag 3</title>
+			<path fill="none" stroke="black" d="M89.84,-63.24C83.51,-77.48 75.91,-94.58 69.15,-109.79"></path>
+			<polygon fill="black" stroke="black" points="65.93,-108.41 65.07,-118.96 72.33,-111.25 65.93,-108.41"></polygon>
+		</g>
+		<g id="node6" class="node">
+			<title>sol5</title>
+			<path fill="yellow" stroke="black" stroke-width="2.5" d="M133.5,-99.5C133.5,-99.5 177.5,-99.5 177.5,-99.5 183.5,-99.5 189.5,-105.5 189.5,-111.5 189.5,-111.5 189.5,-189.5 189.5,-189.5 189.5,-195.5 183.5,-201.5 177.5,-201.5 177.5,-201.5 133.5,-201.5 133.5,-201.5 127.5,-201.5 121.5,-195.5 121.5,-189.5 121.5,-189.5 121.5,-111.5 121.5,-111.5 121.5,-105.5 127.5,-99.5 133.5,-99.5"></path>
+			<text text-anchor="middle" x="155.5" y="-189.3" font-family="Times New Roman,serif" font-size="14.00">sol bag 5</text>
+			<text text-anchor="middle" x="138.5" y="-172.3" font-family="Times New Roman,serif" font-size="14.00">v2</text>
+			<text text-anchor="middle" x="138.5" y="-155.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="138.5" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="138.5" y="-121.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="138.5" y="-104.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="172.5" y="-172.3" font-family="Times New Roman,serif" font-size="14.00">v8</text>
+			<text text-anchor="middle" x="172.5" y="-155.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="172.5" y="-138.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="172.5" y="-121.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="172.5" y="-104.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="121.5,-184.5 189.5,-184.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="121.5,-167.5 155.5,-167.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="121.5,-150.5 155.5,-150.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="121.5,-133.5 155.5,-133.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="121.5,-116.5 155.5,-116.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="155.5,-99.5 155.5,-184.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="155.5,-167.5 189.5,-167.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="155.5,-150.5 189.5,-150.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="155.5,-133.5 189.5,-133.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="155.5,-116.5 189.5,-116.5 "></polyline>
+		</g>
+		<g id="edge5" class="edge">
+			<title>bag 5-&gt;sol5</title>
+			<path fill="none" stroke="black" d="M117.16,-63.24C120.82,-71.47 124.9,-80.65 128.99,-89.86"></path>
+			<polygon fill="black" stroke="black" points="125.82,-91.34 133.08,-99.06 132.22,-88.5 125.82,-91.34"></polygon>
+		</g>
+	</g>
+	<g id="graph0" class="graph" transform="translate(359.0 195.31) scale(1.0000000000000002) scale(1 1) rotate(0) translate(118.691 109.69)">
+		<title>PrimalGraphStep</title>
+		<polygon fill="white" stroke="none" points="-118.691,109.691 -118.691,-109.69 118.69,-109.69 118.69,109.691 -118.691,109.691"></polygon>
+		<g id="edge4" class="edge">
+			<title>v_1--v_4</title>
+			<path fill="none" stroke="black" d="M-7.23461,70.2257C-19.1826,41.3804 -42.9008,-15.8812 -54.8184,-44.6533"></path>
+		</g>
+		<g id="edge2" class="edge">
+			<title>v_1--v_5</title>
+			<path fill="none" stroke="black" d="M-0.000360007,69.5826C-0.000360007,35.8879 -0.000360007,-36.0604 -0.000360007,-69.6804"></path>
+		</g>
+		<g id="edge9" class="edge">
+			<title>v_1--v_6</title>
+			<path fill="none" stroke="black" d="M7.23406,70.2257C19.1823,41.3804 42.901,-15.8812 54.8189,-44.6533"></path>
+		</g>
+		<g id="edge6" class="edge">
+			<title>v_1--v_7</title>
+			<path fill="none" stroke="black" d="M15.2742,72.4164C31.3692,56.3214 56.562,31.1285 72.5907,15.0999"></path>
+		</g>
+		<g id="edge5" class="edge">
+			<title>v_2--v_3</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-69.298,44.4039C-72.7981,35.9541 -76.9793,25.8599 -80.4702,17.4324"></path>
+		</g>
+		<g id="edge10" class="edge">
+			<title>v_2--v_5</title>
+			<path fill="none" stroke="black" d="M-54.7723,44.5415C-42.8244,15.6965 -19.1061,-41.5646 -7.18853,-70.3363"></path>
+		</g>
+		<g id="edge7" class="edge">
+			<title>v_2--v_6</title>
+			<path fill="none" stroke="black" d="M-46.8,46.8C-22.9984,22.9984 22.7984,-22.7984 46.6764,-46.6764"></path>
+		</g>
+		<g id="edge1" class="edge">
+			<title>v_3--v_8</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-64.6286,9.55294C-36.5796,21.1711 10.5004,40.672 38.6722,52.341"></path>
+		</g>
+		<g id="edge8" class="edge">
+			<title>v_4--v_8</title>
+			<path fill="none" stroke="black" d="M-46.8,-46.8007C-22.9984,-22.9992 22.7984,22.7977 46.6764,46.6756"></path>
+		</g>
+		<g id="edge3" class="edge">
+			<title>v_4--v_6</title>
+			<path fill="none" stroke="black" d="M-34.7912,-62.0073C-14.1142,-62.0073 14.1941,-62.0073 34.8554,-62.0073"></path>
+		</g>
+		<g id="edge11" class="edge">
+			<title>v_4--v_7</title>
+			<path fill="none" stroke="black" d="M-38.9445,-52.4545C-10.8957,-40.8361 36.1838,-21.3347 64.3553,-9.66546"></path>
+		</g>
+		<g id="node1" class="node">
+			<title>v_8</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="62.0073" cy="62.0066" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="62.0073" y="65.7066" font-family="Times New Roman,serif" font-size="14.00">v_8</text>
+		</g>
+		<g id="node2" class="node">
+			<title>v_1</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="-0.000360007" cy="87.6909" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-0.000360007" y="91.3909" font-family="Times New Roman,serif" font-size="14.00">v_1</text>
+		</g>
+		<g id="node3" class="node">
+			<title>v_2</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="-62.0066" cy="62.0066" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-62.0066" y="65.7066" font-family="Times New Roman,serif" font-size="14.00">v_2</text>
+		</g>
+		<g id="node4" class="node">
+			<title>v_3</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="-87.6909" cy="0.000360007" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-87.6909" y="3.70036" font-family="Times New Roman,serif" font-size="14.00">v_3</text>
+		</g>
+		<g id="node5" class="node">
+			<title>v_4</title>
+			<ellipse fill="white" stroke="green" stroke-width="2.2" stroke-dasharray="1,5" cx="-62.0066" cy="-62.0073" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-62.0066" y="-58.3073" font-family="Times New Roman,serif" font-size="14.00">v_4</text>
+		</g>
+		<g id="node6" class="node">
+			<title>v_5</title>
+			<ellipse fill="white" stroke="green" stroke-width="2.2" stroke-dasharray="1,5" cx="-0.000360007" cy="-87.6902" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-0.000360007" y="-83.9902" font-family="Times New Roman,serif" font-size="14.00">v_5</text>
+		</g>
+		<g id="node7" class="node">
+			<title>v_6</title>
+			<ellipse fill="white" stroke="green" stroke-width="2.2" stroke-dasharray="1,5" cx="62.0073" cy="-62.0073" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="62.0073" y="-58.3073" font-family="Times New Roman,serif" font-size="14.00">v_6</text>
+		</g>
+		<g id="node8" class="node">
+			<title>v_7</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="87.6902" cy="0.000360007" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="87.6902" y="3.70036" font-family="Times New Roman,serif" font-size="14.00">v_7</text>
+		</g>
+	</g>
+	<g id="graph0" class="graph" transform="translate(636.0 28.0) scale(1.0) scale(1 1) rotate(0) translate(4 550)">
+		<title>IncidenceGraphStep</title>
+		<polygon fill="white" stroke="transparent" points="-4,4 -4,-550 346,-550 346,4 -4,4"></polygon>
+		<g id="clust1" class="cluster">
+			<title>cluster_clause</title>
+			<polygon fill="none" stroke="black" points="8,-8 8,-538 82,-538 82,-8 8,-8"></polygon>
+			<text text-anchor="middle" x="45" y="-521.2" font-family="Times New Roman,serif" font-size="16.00">clauses</text>
+		</g>
+		<g id="clust2" class="cluster">
+			<title>cluster_ivar</title>
+			<polygon fill="none" stroke="black" points="248,-110 248,-538 334,-538 334,-110 248,-110"></polygon>
+			<text text-anchor="middle" x="291" y="-521.2" font-family="Times New Roman,serif" font-size="16.00">variables</text>
+		</g>
+		<g id="node1" class="node">
+			<title>c_1</title>
+			<ellipse fill="white" stroke="black" cx="45" cy="-486" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-482.3" font-family="Times New Roman,serif" font-size="14.00">c_1</text>
+		</g>
+		<g id="node2" class="node">
+			<title>c_2</title>
+			<ellipse fill="white" stroke="black" cx="45" cy="-436" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-432.3" font-family="Times New Roman,serif" font-size="14.00">c_2</text>
+		</g>
+		<g id="node11" class="node">
+			<title>v_1</title>
+			<polygon fill="none" stroke="#b14923" stroke-width="2.2" stroke-dasharray="1,5" points="291,-504 256.14,-486 291,-468 325.86,-486 291,-504"></polygon>
+			<text text-anchor="middle" x="291" y="-482.3" font-family="Times New Roman,serif" font-size="14.00">v_1</text>
+		</g>
+		<g id="edge17" class="edge">
+			<title>c_1--v_1</title>
+			<path fill="none" stroke="#b14923" stroke-width="2.2" stroke-dasharray="1,5" d="M72.39,-486C133.59,-486 194.79,-486 255.99,-486"></path>
+		</g>
+		<g id="node14" class="node">
+			<title>v_4</title>
+			<polygon fill="yellow" stroke="#a682ff" stroke-width="2.2" stroke-dasharray="1,5" points="291,-354 256.14,-336 291,-318 325.86,-336 291,-354"></polygon>
+			<text text-anchor="middle" x="291" y="-332.3" font-family="Times New Roman,serif" font-size="14.00">v_4</text>
+		</g>
+		<g id="edge18" class="edge">
+			<title>c_1--v_4</title>
+			<path fill="none" stroke="#a682ff" stroke-width="2.2" stroke-dasharray="1,5" d="M65.13,-473.72C112.75,-444.69 231.57,-372.24 274.88,-345.83"></path>
+		</g>
+		<g id="node16" class="node">
+			<title>v_6</title>
+			<polygon fill="yellow" stroke="#0d1321" stroke-width="2.2" stroke-dasharray="1,5" points="291,-254 256.14,-236 291,-218 325.86,-236 291,-254"></polygon>
+			<text text-anchor="middle" x="291" y="-232.3" font-family="Times New Roman,serif" font-size="14.00">v_6</text>
+		</g>
+		<g id="edge19" class="edge">
+			<title>c_1--v_6</title>
+			<path fill="none" stroke="#0d1321" stroke-width="2.2" stroke-dasharray="1,5" d="M60.02,-470.74C105.08,-424.94 238.54,-289.31 279.15,-248.05"></path>
+		</g>
+		<g id="node3" class="node">
+			<title>c_3</title>
+			<ellipse fill="white" stroke="black" cx="45" cy="-386" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-382.3" font-family="Times New Roman,serif" font-size="14.00">c_3</text>
+		</g>
+		<g id="edge20" class="edge">
+			<title>c_2--v_1</title>
+			<path fill="none" stroke="#b14923" stroke-width="2.2" stroke-dasharray="1,5" d="M70.6,-442C118.37,-451.32 220.42,-471.23 266.96,-480.31"></path>
+		</g>
+		<g id="node15" class="node">
+			<title>v_5</title>
+			<polygon fill="yellow" stroke="#004066" stroke-width="2.2" stroke-dasharray="1,5" points="291,-304 256.14,-286 291,-268 325.86,-286 291,-304"></polygon>
+			<text text-anchor="middle" x="291" y="-282.3" font-family="Times New Roman,serif" font-size="14.00">v_5</text>
+		</g>
+		<g id="edge21" class="edge">
+			<title>c_2--v_5</title>
+			<path fill="none" stroke="#004066" stroke-width="2.2" stroke-dasharray="1,5" d="M71.97,-419.56C123.27,-388.27 233.51,-321.05 274.88,-295.83"></path>
+			<ellipse fill="none" stroke="#004066" stroke-width="2.2" cx="68.55" cy="-421.64" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="node4" class="node">
+			<title>c_4</title>
+			<ellipse fill="yellow" stroke="black" cx="45" cy="-336" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-332.3" font-family="Times New Roman,serif" font-size="14.00">c_4</text>
+		</g>
+		<g id="edge22" class="edge">
+			<title>c_3--v_1</title>
+			<path fill="none" stroke="#b14923" stroke-width="2.2" stroke-dasharray="1,5" d="M75.85,-398.54C127.14,-419.39 228.56,-460.62 271.28,-477.99"></path>
+			<ellipse fill="none" stroke="#b14923" stroke-width="2.2" cx="72.07" cy="-397" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="node17" class="node">
+			<title>v_7</title>
+			<polygon fill="none" stroke="#da1167" stroke-width="2.2" stroke-dasharray="1,5" points="291,-204 256.14,-186 291,-168 325.86,-186 291,-204"></polygon>
+			<text text-anchor="middle" x="291" y="-182.3" font-family="Times New Roman,serif" font-size="14.00">v_7</text>
+		</g>
+		<g id="edge23" class="edge">
+			<title>c_3--v_7</title>
+			<path fill="none" stroke="#da1167" stroke-width="2.2" stroke-dasharray="1,5" d="M62.3,-371.94C108.78,-334.15 235.68,-230.98 277.46,-197.01"></path>
+		</g>
+		<g id="node5" class="node">
+			<title>c_5</title>
+			<ellipse fill="yellow" stroke="black" cx="45" cy="-286" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-282.3" font-family="Times New Roman,serif" font-size="14.00">c_5</text>
+		</g>
+		<g id="node12" class="node">
+			<title>v_2</title>
+			<polygon fill="yellow" stroke="#244320" stroke-width="2.2" points="291,-454 256.14,-436 291,-418 325.86,-436 291,-454"></polygon>
+			<text text-anchor="middle" x="291" y="-432.3" font-family="Times New Roman,serif" font-size="14.00">v_2</text>
+		</g>
+		<g id="edge24" class="edge">
+			<title>c_4--v_2</title>
+			<path fill="none" stroke="#244320" stroke-width="2.2" d="M68.36,-345.5C116.58,-365.1 226.36,-409.72 271.28,-427.99"></path>
+		</g>
+		<g id="node13" class="node">
+			<title>v_3</title>
+			<polygon fill="yellow" stroke="#b1740f" stroke-width="2.2" points="291,-404 256.14,-386 291,-368 325.86,-386 291,-404"></polygon>
+			<text text-anchor="middle" x="291" y="-382.3" font-family="Times New Roman,serif" font-size="14.00">v_3</text>
+		</g>
+		<g id="edge25" class="edge">
+			<title>c_4--v_3</title>
+			<path fill="none" stroke="#b1740f" stroke-width="2.2" d="M70.6,-342C118.37,-351.32 220.42,-371.23 266.96,-380.31"></path>
+		</g>
+		<g id="node6" class="node">
+			<title>c_6</title>
+			<ellipse fill="yellow" stroke="black" cx="45" cy="-236" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-232.3" font-family="Times New Roman,serif" font-size="14.00">c_6</text>
+		</g>
+		<g id="edge26" class="edge">
+			<title>c_5--v_2</title>
+			<path fill="none" stroke="#244320" stroke-width="2.2" d="M65.25,-298.35C112.94,-327.43 231.57,-399.76 274.86,-426.16"></path>
+		</g>
+		<g id="edge27" class="edge">
+			<title>c_5--v_5</title>
+			<path fill="none" stroke="#004066" stroke-width="2.2" d="M72.39,-286C133.59,-286 194.79,-286 255.99,-286"></path>
+		</g>
+		<g id="node7" class="node">
+			<title>c_7</title>
+			<ellipse fill="yellow" stroke="black" cx="45" cy="-186" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-182.3" font-family="Times New Roman,serif" font-size="14.00">c_7</text>
+		</g>
+		<g id="edge28" class="edge">
+			<title>c_6--v_2</title>
+			<path fill="none" stroke="#244320" stroke-width="2.2" d="M62.36,-250.12C108.89,-287.94 235.62,-390.98 277.42,-424.96"></path>
+		</g>
+		<g id="edge29" class="edge">
+			<title>c_6--v_6</title>
+			<path fill="none" stroke="#0d1321" stroke-width="2.2" d="M80.63,-236C139.09,-236 197.54,-236 255.99,-236"></path>
+			<ellipse fill="none" stroke="#0d1321" stroke-width="2.2" cx="76.39" cy="-236" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="node8" class="node">
+			<title>c_8</title>
+			<ellipse fill="yellow" stroke="black" cx="45" cy="-136" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-132.3" font-family="Times New Roman,serif" font-size="14.00">c_8</text>
+		</g>
+		<g id="edge30" class="edge">
+			<title>c_7--v_3</title>
+			<path fill="none" stroke="#b1740f" stroke-width="2.2" d="M62.36,-200.12C108.89,-237.94 235.62,-340.98 277.42,-374.96"></path>
+		</g>
+		<g id="node18" class="node">
+			<title>v_8</title>
+			<polygon fill="yellow" stroke="#604909" stroke-width="2.2" points="291,-154 256.14,-136 291,-118 325.86,-136 291,-154"></polygon>
+			<text text-anchor="middle" x="291" y="-132.3" font-family="Times New Roman,serif" font-size="14.00">v_8</text>
+		</g>
+		<g id="edge31" class="edge">
+			<title>c_7--v_8</title>
+			<path fill="none" stroke="#604909" stroke-width="2.2" d="M78.87,-178.39C129.3,-168.55 222.92,-150.28 266.94,-141.69"></path>
+			<ellipse fill="none" stroke="#604909" stroke-width="2.2" cx="74.79" cy="-179.19" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="node9" class="node">
+			<title>c_9</title>
+			<ellipse fill="white" stroke="black" cx="45" cy="-84" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-80.3" font-family="Times New Roman,serif" font-size="14.00">c_9</text>
+		</g>
+		<g id="edge32" class="edge">
+			<title>c_8--v_4</title>
+			<path fill="none" stroke="#a682ff" stroke-width="2.2" d="M62.36,-150.12C108.89,-187.94 235.62,-290.98 277.42,-324.96"></path>
+		</g>
+		<g id="edge33" class="edge">
+			<title>c_8--v_8</title>
+			<path fill="none" stroke="#604909" stroke-width="2.2" d="M80.63,-136C139.09,-136 197.54,-136 255.99,-136"></path>
+			<ellipse fill="none" stroke="#604909" stroke-width="2.2" cx="76.39" cy="-136" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="node10" class="node">
+			<title>c_10</title>
+			<ellipse fill="white" stroke="black" cx="45" cy="-34" rx="28.7" ry="18"></ellipse>
+			<text text-anchor="middle" x="45" y="-30.3" font-family="Times New Roman,serif" font-size="14.00">c_10</text>
+		</g>
+		<g id="edge34" class="edge">
+			<title>c_9--v_4</title>
+			<path fill="none" stroke="#a682ff" stroke-width="2.2" stroke-dasharray="1,5" d="M65.41,-104.91C114.89,-155.6 240.03,-283.79 279.13,-323.85"></path>
+			<ellipse fill="none" stroke="#a682ff" stroke-width="2.2" cx="62.56" cy="-101.99" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="edge35" class="edge">
+			<title>c_9--v_6</title>
+			<path fill="none" stroke="#0d1321" stroke-width="2.2" stroke-dasharray="1,5" d="M64.9,-96.29C112.35,-125.62 231.46,-199.21 274.86,-226.03"></path>
+		</g>
+		<g id="edge36" class="edge">
+			<title>c_10--v_4</title>
+			<path fill="none" stroke="#a682ff" stroke-width="2.2" stroke-dasharray="1,5" d="M63.37,-56.56C111.9,-116.13 242.35,-276.28 280.43,-323.02"></path>
+			<ellipse fill="none" stroke="#a682ff" stroke-width="2.2" cx="60.67" cy="-53.23" rx="4" ry="4"></ellipse>
+		</g>
+		<g id="edge37" class="edge">
+			<title>c_10--v_7</title>
+			<path fill="none" stroke="#da1167" stroke-width="2.2" stroke-dasharray="1,5" d="M65.6,-46.73C113.53,-76.34 231.68,-149.34 274.86,-176.03"></path>
+		</g>
+	</g>
+</svg>
