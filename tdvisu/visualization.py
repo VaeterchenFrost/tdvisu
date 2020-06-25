@@ -100,7 +100,7 @@ class Visualization:
         try:
             _incid = visudata['incidenceGraph']
             _general_graph = visudata['generalGraph']
-            _svg_join = visudata.get('svg_join', None)
+            _svg_join = visudata.get('svgjoin', None)
 
             incid_data: IncidenceGraphData = None
             if _incid:
@@ -115,8 +115,8 @@ class Visualization:
             svg_join_data: SvgJoinData = None
             if _svg_join:
                 svg_join_data = SvgJoinData(**_svg_join)
-            if 'svg_join' in visudata:
-                visudata.pop('svg_join')
+            if 'svgjoin' in visudata:
+                visudata.pop('svgjoin')
 
             self.timeline = visudata['tdTimeline']
             visudata.pop('tdTimeline')
