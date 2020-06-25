@@ -57,7 +57,7 @@ jobs:
         
     - name: Install graphviz for visualization test
       run: |
-        apt-get install graphviz
+        apt install graphviz
         
     - name: Test with coverage & pytest
       run: |
