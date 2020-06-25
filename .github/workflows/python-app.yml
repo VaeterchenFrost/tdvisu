@@ -55,9 +55,9 @@ jobs:
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
         
-    - name: Install graphviz for visualization test
+    - name: graphviz for visualization test
       run: |
-        apt install graphviz
+        sudo apt-get update && sudo apt-get install -yq graphviz
         
     - name: Test with coverage & pytest
       run: |
