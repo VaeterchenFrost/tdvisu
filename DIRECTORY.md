@@ -17,3 +17,4 @@
   * [Test Svgjoin](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_svgjoin.py)
   * [Test Utilities](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_utilities.py)
   * [Test Version](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_version.py)
+  * [Test Visualization](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_visualization.py)
