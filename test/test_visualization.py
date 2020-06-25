@@ -52,19 +52,9 @@ def test_sat_and_join(tmpdir):
     assert len([file for file in files if file.suffix == '']
                ) == 18, "dot source files"
 
-    testobjects = [
-        "combined1.svg",
-        "combined2.svg",
-        "combined6.svg",
-        "IncidenceGraphStep1.svg",
-        "IncidenceGraphStep2.svg",
-        "IncidenceGraphStep6.svg",
-        "PrimalGraphStep6.svg",
-        "PrimalGraphStep1.svg",
-        "PrimalGraphStep2.svg",
-        "TDStep1.svg",
-        "TDStep2.svg",
-        "TDStep6.svg"]
+    testobjects = [file + str(i) for file in
+                   ["IncidenceGraphStep", "PrimalGraphStep", "TDStep"]
+                   for i in range(1, 7)]
 
     expected = [Path(__file__).parent / 'expected_images' / file
                 for file in testobjects]

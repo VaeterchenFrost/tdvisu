@@ -1,0 +1,67 @@
+strict digraph "Tree-Decomposition" {
+	graph [rankdir=BT]
+	node [fillcolor=white margin="0.11,0.01" shape=box style="rounded,filled"]
+	"bag 1" [label=<<TABLE BORDER="0" CELLBORDER="0"
+              CELLSPACING="0">
+              <TR><TD BGCOLOR="white">bag 1</TD></TR>
+              <TR><TD PORT="anchor"></TD></TR><TR><TD>[1, 2, 5]</TD></TR><TR><TD>dtime=0.0007s</TD></TR></TABLE>>]
+	"bag 2" [label=<<TABLE BORDER="0" CELLBORDER="0"
+              CELLSPACING="0">
+              <TR><TD BGCOLOR="white">bag 2</TD></TR>
+              <TR><TD PORT="anchor"></TD></TR><TR><TD>[1, 2, 4, 6]</TD></TR><TR><TD>dtime=0.0019s</TD></TR></TABLE>>]
+	"bag 3" [label=<<TABLE BORDER="0" CELLBORDER="0"
+              CELLSPACING="0">
+              <TR><TD BGCOLOR="white">bag 3</TD></TR>
+              <TR><TD PORT="anchor"></TD></TR><TR><TD>[2, 4, 8]</TD></TR><TR><TD>dtime=0.0009s</TD></TR></TABLE>>]
+	"bag 4" [label=<<TABLE BORDER="0" CELLBORDER="0"
+              CELLSPACING="0">
+              <TR><TD BGCOLOR="white">bag 4</TD></TR>
+              <TR><TD PORT="anchor"></TD></TR><TR><TD>[1, 4, 7]</TD></TR><TR><TD>dtime=0.0018s</TD></TR></TABLE>>]
+	"bag 5" [label=<<TABLE BORDER="0" CELLBORDER="0"
+              CELLSPACING="0">
+              <TR><TD BGCOLOR="white">bag 5</TD></TR>
+              <TR><TD PORT="anchor"></TD></TR><TR><TD>[2, 3, 8]</TD></TR><TR><TD>dtime=0.0026s</TD></TR></TABLE>>]
+	"bag 2" -> "bag 1"
+	"bag 3" -> "bag 2"
+	"bag 4" -> "bag 2"
+	"bag 5" -> "bag 3"
+	sol5 [label="{sol bag 5|{{v2|0|1|0|1}|{v8|0|1|1|0}}}" shape=record]
+	"bag 5" -> sol5
+	sol4 [label="{sol bag 4|{{v1|0|1|0|1}|{v4|0|1|1|0}}}" shape=record]
+	"bag 4" -> sol4
+	sol3 [label="{sol bag 3|{{v2|1|0|1|0}|{v4|1|0|0|1}}}" shape=record]
+	"bag 3" -> sol3
+	sol2 [label="{sol bag 2|{{v1|1|1|0}|{v2|1|0|1}}}" shape=record]
+	"bag 2" -> sol2
+	sol1 [label="{sol bag 1|{{v1|0|1|1|1}|{v2|1|1|0|1}|{v5|0|0|1|1}}}" shape=record]
+	"bag 1" -> sol1
+	sol1 [fillcolor=yellow]
+	sol1 [penwidth=2.5]
+	"bag 1" -> sol1
+	"bag 1" [fillcolor=yellow]
+	"bag 1" [penwidth=2.5]
+	"bag 1" [fillcolor=white penwidth=1.0]
+	sol1 [style=invis]
+	"bag 1" -> sol1 [style=invis]
+	sol2 [fillcolor=yellow]
+	sol2 [penwidth=2.5]
+	"bag 2" -> sol2
+	"bag 2" [fillcolor=yellow]
+	"bag 2" [penwidth=2.5]
+	"bag 2" [fillcolor=white penwidth=1.0]
+	sol2 [style=invis]
+	"bag 2" -> sol2 [style=invis]
+	sol3 [fillcolor=yellow]
+	sol3 [penwidth=2.5]
+	"bag 3" -> sol3
+	"bag 3" [fillcolor=yellow]
+	"bag 3" [penwidth=2.5]
+	"bag 3" [fillcolor=white penwidth=1.0]
+	sol3 [style=invis]
+	"bag 3" -> sol3 [style=invis]
+	sol4 [fillcolor=yellow]
+	sol4 [penwidth=2.5]
+	"bag 4" -> sol4
+	"bag 4" [fillcolor=yellow]
+	"bag 4" [penwidth=2.5]
+}

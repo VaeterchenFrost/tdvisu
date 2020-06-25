@@ -1,0 +1,32 @@
+strict graph PrimalGraphStep {
+	graph [K=2 fontsize=20 outputorder=edgesfirst overlap=false]
+	node [fillcolor=white fontcolor=black penwidth=2.2 style=filled]
+	v_8 [pos="2.454100,0.606720!"]
+	v_1 [pos="1.592900,0.250000!"]
+	v_2 [pos="0.731720,0.606720!"]
+	v_3 [pos="0.375000,1.467900!"]
+	v_4 [pos="0.731720,2.329100!"]
+	v_5 [pos="1.592900,2.685800!"]
+	v_6 [pos="2.454100,2.329100!"]
+	v_7 [pos="2.810800,1.467900!"]
+	v_3 -- v_8
+	v_1 -- v_5
+	v_4 -- v_6
+	v_1 -- v_4
+	v_2 -- v_3
+	v_1 -- v_7
+	v_2 -- v_6
+	v_4 -- v_8
+	v_1 -- v_6
+	v_2 -- v_5
+	v_4 -- v_7
+	v_2 [fillcolor=yellow style=filled]
+	v_4 [fillcolor=yellow style=filled]
+	v_8 [fillcolor=yellow style=filled]
+	v_8 -- v_4 [color=red penwidth=2.2]
+	v_1 [color=green style="dotted,filled"]
+	v_3 [color=green style="dotted,filled"]
+	v_5 [color=green style="dotted,filled"]
+	v_6 [color=green style="dotted,filled"]
+	v_7 [color=green style="dotted,filled"]
+}

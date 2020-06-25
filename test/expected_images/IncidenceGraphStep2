@@ -1,0 +1,92 @@
+strict graph IncidenceGraphStep {
+	graph [compound=true fontsize=16 nodesep=0.5 ranksep=0.2 splines=false]
+	edge [arrowtail=none dir=back penwidth=2.2]
+	subgraph cluster_clause {
+		node [fillcolor=white style="rounded,filled"]
+		edge [style=invis]
+		label=clauses
+		c_1 -- c_2
+		c_2 -- c_3
+		c_3 -- c_4
+		c_4 -- c_5
+		c_5 -- c_6
+		c_6 -- c_7
+		c_7 -- c_8
+		c_8 -- c_9
+		c_9 -- c_10
+	}
+	node [penwidth=2.2 shape=diamond style=dotted]
+	v_1 [label=v_1 color="#b14923"]
+	v_2 [label=v_2 color="#244320"]
+	v_3 [label=v_3 color="#b1740f"]
+	v_4 [label=v_4 color="#a682ff"]
+	v_5 [label=v_5 color="#004066"]
+	v_6 [label=v_6 color="#0d1321"]
+	v_7 [label=v_7 color="#da1167"]
+	v_8 [label=v_8 color="#604909"]
+	subgraph cluster_ivar {
+		edge [style=invis]
+		label=variables
+		v_1 -- v_2
+		v_2 -- v_3
+		v_3 -- v_4
+		v_4 -- v_5
+		v_5 -- v_6
+		v_6 -- v_7
+		v_7 -- v_8
+	}
+	edge [constraint=false]
+	c_1 -- v_1 [color="#b14923"]
+	c_1 -- v_4 [color="#a682ff"]
+	c_1 -- v_6 [color="#0d1321"]
+	c_2 -- v_1 [color="#b14923"]
+	c_2 -- v_5 [arrowtail=odot color="#004066"]
+	c_3 -- v_1 [arrowtail=odot color="#b14923"]
+	c_3 -- v_7 [color="#da1167"]
+	c_4 -- v_2 [color="#244320"]
+	c_4 -- v_3 [color="#b1740f"]
+	c_5 -- v_2 [color="#244320"]
+	c_5 -- v_5 [color="#004066"]
+	c_6 -- v_2 [color="#244320"]
+	c_6 -- v_6 [arrowtail=odot color="#0d1321"]
+	c_7 -- v_3 [color="#b1740f"]
+	c_7 -- v_8 [arrowtail=odot color="#604909"]
+	c_8 -- v_4 [color="#a682ff"]
+	c_8 -- v_8 [arrowtail=odot color="#604909"]
+	c_9 -- v_4 [arrowtail=odot color="#a682ff"]
+	c_9 -- v_6 [color="#0d1321"]
+	c_10 -- v_4 [arrowtail=odot color="#a682ff"]
+	c_10 -- v_7 [color="#da1167"]
+	v_2 [label=v_2 fillcolor=yellow style="solid,filled"]
+	v_3 [label=v_3 fillcolor=yellow style="solid,filled"]
+	v_4 [label=v_4 fillcolor=yellow style="dotted,filled"]
+	v_5 [label=v_5 fillcolor=yellow style="dotted,filled"]
+	v_6 [label=v_6 fillcolor=yellow style="dotted,filled"]
+	v_8 [label=v_8 fillcolor=yellow style="solid,filled"]
+	c_4 [label=c_4 fillcolor=yellow]
+	c_5 [label=c_5 fillcolor=yellow]
+	c_6 [label=c_6 fillcolor=yellow]
+	c_7 [label=c_7 fillcolor=yellow]
+	c_8 [label=c_8 fillcolor=yellow]
+	c_1 -- v_1 [color="#b14923" style=dotted]
+	c_1 -- v_4 [color="#a682ff" style=dotted]
+	c_1 -- v_6 [color="#0d1321" style=dotted]
+	c_2 -- v_1 [color="#b14923" style=dotted]
+	c_2 -- v_5 [arrowtail=odot color="#004066" style=dotted]
+	c_3 -- v_1 [arrowtail=odot color="#b14923" style=dotted]
+	c_3 -- v_7 [color="#da1167" style=dotted]
+	c_4 -- v_2 [color="#244320" style=solid]
+	c_4 -- v_3 [color="#b1740f" style=solid]
+	c_5 -- v_2 [color="#244320" style=solid]
+	c_5 -- v_5 [color="#004066" style=solid]
+	c_6 -- v_2 [color="#244320" style=solid]
+	c_6 -- v_6 [arrowtail=odot color="#0d1321" style=solid]
+	c_7 -- v_3 [color="#b1740f" style=solid]
+	c_7 -- v_8 [arrowtail=odot color="#604909" style=solid]
+	c_8 -- v_4 [color="#a682ff" style=solid]
+	c_8 -- v_8 [arrowtail=odot color="#604909" style=solid]
+	c_9 -- v_4 [arrowtail=odot color="#a682ff" style=dotted]
+	c_9 -- v_6 [color="#0d1321" style=dotted]
+	c_10 -- v_4 [arrowtail=odot color="#a682ff" style=dotted]
+	c_10 -- v_7 [color="#da1167" style=dotted]
+}
