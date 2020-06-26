@@ -152,14 +152,14 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
     read_err = "could not read configuration from '%s'"
     config_err = "could not use logging configuration from '%s'"
     # should be in same directory
-    file = Path(__file__).parent / filename     
-    
+    file = Path(__file__).parent / filename
+
     if loglevel is not None:
         try:
             loglevel = int(float(loglevel))
         except ValueError:
             loglevel = loglevel.upper()
-            
+
     if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
         try:
             logging.config.fileConfig(file, defaults=DEFAULT_LOGGING_CFG)

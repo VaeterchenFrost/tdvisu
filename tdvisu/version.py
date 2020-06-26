@@ -4,7 +4,7 @@ Dev versions have the form "M.N.P-devN".
 """
 
 # Base version.
-__version__ = '1.1.1'
+__version__ = '1.1.2'
 
 # Year-Month-Day of last version change
-__date__ = '2020-06-25'
+__date__ = '2020-06-26'

@@ -6,7 +6,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
+-No unreleased changes yet.
 
+## [1.1.2] - 2020-06-26
 ### Added
 - Tests for visualization.py using graphviz in the Github Action too
 - Tests for reader.py
@@ -16,6 +18,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 - Fixed typo that prevented joining SVG in visualization
 - Fixed cases where logging.yml was not found in the working directory
 - Now using pathlib.Path for most file-related operations
+- Unified logging configuration in utilities and made it easier to work with [#22]
 
 ## [1.1.1] - 2020-06-25
 ### Added
@@ -116,6 +119,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [#12]: https://github.com/VaeterchenFrost/tdvisu/issues/12
 [#13]: https://github.com/VaeterchenFrost/tdvisu/issues/13
 [#20]: https://github.com/VaeterchenFrost/tdvisu/pull/20
+[#22]: https://github.com/VaeterchenFrost/tdvisu/issues/22
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 [PyPI]: https://pypi.org/project/tdvisu/
@@ -123,7 +127,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.1...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.2...master
+[1.1.2]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.2
 [1.1.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.1
 [1.1.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.0
 [1.0.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.0.1
