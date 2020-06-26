@@ -21,9 +21,7 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import argparse
 from pathlib import Path
-
 from tdvisu.reader import TwReader
 
 
