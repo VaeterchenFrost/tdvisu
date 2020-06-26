@@ -6,7 +6,16 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
-No unreleased changes yet.
+
+### Added
+- Tests for visualization.py using graphviz in the Github Action too
+- Tests for reader.py
+- Added more type hints to visualization.py
+
+### Changed
+- Fixed typo that prevented joining SVG in visualization
+- Fixed cases where logging.yml was not found in the working directory
+- Now using pathlib.Path for most file-related operations
 
 ## [1.1.1] - 2020-06-25
 ### Added
