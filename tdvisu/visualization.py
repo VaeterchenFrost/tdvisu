@@ -84,15 +84,13 @@ class Visualization:
     of dynamic programming on tree decomposition.
     """
 
-    def __init__(self, infile: StrOrIo, outfolder: Path) -> None:
+    def __init__(self, infile: StrOrIo, outfolder: Path):
         """Copy needed fields from arguments and create VisualizationData."""
         self.data: VisualizationData = self.inspect_json(infile)
         self.outfolder = Path(outfolder).resolve()
-
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
-        # LOGGER.debug("self.__dict__:%s", self.__dict__)
-        # LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
+
 
     def inspect_json(self, infile: StrOrIo) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
