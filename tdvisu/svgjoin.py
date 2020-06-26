@@ -23,7 +23,9 @@ Copyright (C) 2020  Martin Röbke
 
 import re
 import logging
+from pathlib import Path
 from typing import Union, Iterable, List, Dict
+
 from benedict import benedict
 
 from tdvisu.utilities import gen_arg
@@ -305,14 +307,11 @@ def svg_join(
     if len(base_names) == 1:
         LOGGER.warning("svg_join called with one file - nothing to join!")
         return
-    # could use path library for normalizing the path
-    if folder:
-        folder.replace('\\', '/')
-        if not folder.endswith('/'):
-            folder += '/'
+    # use path library for normalizing the path
+    folder = Path(folder if folder else '')
 
-    resultname = folder + outname + suffix
-    names = [folder + name + suffix for name in base_names]
+    resultname = str(folder / outname) + suffix
+    names = [str(folder / name) + suffix for name in base_names]
 
     gen_padding = gen_arg(padding)
     gen_scale2 = gen_arg(scale2)
