@@ -660,7 +660,6 @@ class Visualization:
                                  arrowtail='odot',
                                  style=_style)
 
-            g_incid.render(view=view, format='svg', filename=str(_filename) + str(i))
             g_incid.render(
                 view=view,
                 format='svg',
