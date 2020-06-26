@@ -214,7 +214,7 @@ class Visualization:
         """Cut the single steps back and update emphasis acordingly."""
         tdg = self.tree_dec_digraph     # shorten name
         last_sol = ""
-
+        _filename = self.outfolder / self.data.td_file
         for i, node in enumerate(reversed(self.timeline)):
             id_inv_bags = node[0]
             LOGGER.debug("%s: Reverse traversing on %s", i, id_inv_bags)
@@ -251,10 +251,11 @@ class Visualization:
                                id_inv_bags,
                                int) else joinpre %
                            id_inv_bags)
-            _filename = self.outfolder / (self.data.td_file + '%d')
+            
             tdg.render(
-                view=view, format='svg', filename=_filename %
-                (len(self.timeline) - i))
+                view=view, format='svg', 
+                filename=str(_filename) + str(len(self.timeline) - i)
+                )
 
     def tree_dec_timeline(self, view:bool=False) -> None:
         """Main-method for handling all construction of the timeline."""
@@ -402,7 +403,7 @@ class Visualization:
         None, but outputs the files with the graph for each timestep.
 
         """
-        _filename = self.outfolder / (file_basename + '%d')
+        _filename = self.outfolder / file_basename
         LOGGER.info("Generating general-graph for '%s'", file_basename)
         vartag_n = var_name + '%d'
         # sfdp http://yifanhu.net/SOFTWARE/SFDP/index.html
@@ -461,7 +462,7 @@ class Visualization:
                 graph.render(
                     view=view,
                     format='svg',
-                    filename=_filename % i)
+                    filename=str(_filename) + str(i))
                 continue
 
             for var in variables:
@@ -491,7 +492,8 @@ class Visualization:
                                color=second_color,
                                style=second_style)
 
-            graph.render(view=view, format='svg', filename=_filename % i)
+            graph.render(view=view, format='svg', 
+                         filename=str(_filename) + str(i))
 
     def incidence(
             self,
@@ -542,7 +544,7 @@ class Visualization:
         None, but outputs the files with the graph for each timestep.
 
         """
-        _filename = self.outfolder / (inc_file + '%d')
+        _filename = self.outfolder / inc_file
 
         clausetag_n = var_name_one + '%d'
         vartag_n = var_name_two + '%d'
@@ -609,7 +611,8 @@ class Visualization:
             # reset highlighting
             g_incid.body = g_incid.body[:bodybaselen]
             if variables is None:
-                g_incid.render(view=view, format='svg', filename=_filename % i)
+                g_incid.render(view=view, format='svg', 
+                               filename=str(_filename) + str(i))
                 continue
 
             emp_clause = {
@@ -652,7 +655,7 @@ class Visualization:
                                  arrowtail='odot',
                                  style=_style)
 
-            g_incid.render(view=view, format='svg', filename=_filename % i)
+            g_incid.render(view=view, format='svg', filename=str(_filename) + str(i))
 
     def call_svgjoin(self):
         """Analyzes content in data.svg_join for the call to svg_join."""
