@@ -33,7 +33,6 @@ def test_reader():
 
     twfile = Path(__file__).parent / 'grda16.tw'
 
-    reader = TwReader()
     expected_edges = {(1, 2), (2, 1), (2, 3), (3, 2), (3, 4), (3, 5),
                       (4, 3), (4, 5), (4, 6), (5, 3), (5, 4), (6, 4),
                       (6, 7), (6, 15), (7, 6), (7, 8), (7, 14), (8, 7),
@@ -47,10 +46,9 @@ def test_reader():
                     9: {8, 10, 11}, 10: {9}, 11: {9, 12, 14}, 12: {11, 13, 14},
                     13: {12}, 14: {7, 11, 12}, 15: {6, 16}, 16: {15}}
 
-    with open(twfile) as text:
-        reader.parse(text.read())
-        
-        assert reader.num_vertices == 16
-        assert reader.num_edges == 36
-        assert reader.edges == expected_edges
-        assert reader.adjacency_dict == expected_adj
+    reader = TwReader.from_filename(twfile)
+
+    assert reader.num_vertices == 16
+    assert reader.num_edges == 36
+    assert reader.edges == expected_edges
+    assert reader.adjacency_dict == expected_adj
