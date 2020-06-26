@@ -77,7 +77,7 @@ def good_db_status() -> tuple:
             pg.extensions.TRANSACTION_STATUS_INTRANS)
 
 
-def read_cfg(cfg_file, section:str, prefer_cfg:bool=False) -> dict:
+def read_cfg(cfg_file, section: str, prefer_cfg: bool = False) -> dict:
     """Read the config file and return the result of one section."""
     try:
         file_content = read_yml_or_cfg(cfg_file, prefer_cfg=prefer_cfg)
@@ -91,7 +91,8 @@ def read_cfg(cfg_file, section:str, prefer_cfg:bool=False) -> dict:
     return content
 
 
-def db_config(filename:str='database.ini', section:str='postgresql') -> dict:
+def db_config(filename: str = 'database.ini',
+              section: str = 'postgresql') -> dict:
     """Return the database config as JSON"""
     LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
     cfg = read_cfg(filename, section)
@@ -459,7 +460,10 @@ def connect() -> pg.extensions.connection:
     return conn
 
 
-def create_json(problem: int, tw_file=None, intermed_nodes:bool=False) -> dict:
+def create_json(
+        problem: int,
+        tw_file=None,
+        intermed_nodes: bool = False) -> dict:
     """Create the JSON for the specified problem instance."""
 
     try:

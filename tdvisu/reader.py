@@ -51,16 +51,16 @@ logger = logging.getLogger('reader.py')
 class Reader():
     """Base class for string-readers."""
     @classmethod
-    def from_filename(cls, fname)-> Reader:
+    def from_filename(cls, fname) -> Reader:
         with open(fname, "r") as file:
             return cls.from_string(file.read())
 
     @classmethod
-    def from_filewrapper(cls, fwrapper)-> Reader:
+    def from_filewrapper(cls, fwrapper) -> Reader:
         return cls.from_string(fwrapper.read())
 
     @classmethod
-    def from_stream(cls, stream)-> Reader:
+    def from_stream(cls, stream) -> Reader:
         return cls.from_string(stream.read().decode())
 
     @classmethod
@@ -97,13 +97,13 @@ class DimacsReader(Reader):
         pass
 
     @staticmethod
-    def is_comment(line:str) -> bool:
+    def is_comment(line: str) -> bool:
         return line.startswith("c ") or line == "c"
 
     def body(self, lines):
         pass
 
-    def preamble(self, lines:Iterable[str]) -> int:
+    def preamble(self, lines: Iterable[str]) -> int:
         """
         Searches for the preamble line in lines and saves:
             problem_solution_type, format, _problem_vars

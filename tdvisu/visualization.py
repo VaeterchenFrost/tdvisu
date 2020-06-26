@@ -91,7 +91,6 @@ class Visualization:
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
 
-
     def inspect_json(self, infile: StrOrIo) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
         LOGGER.debug("Reading from: %s", infile)
@@ -408,7 +407,7 @@ class Visualization:
         """
         _filename = self.outfolder / file_basename
         LOGGER.info("Generating general-graph for '%s'", file_basename)
-        vartag_n : str = var_name + '%d'
+        vartag_n: str = var_name + '%d'
         # sfdp http://yifanhu.net/SOFTWARE/SFDP/index.html
         default_engine = 'sfdp'
 

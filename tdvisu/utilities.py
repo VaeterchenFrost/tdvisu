@@ -188,7 +188,8 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
         LOGGER.error(config_err, file.resolve(), exc_info=True)
 
 
-def convert_to_adj(edgelist: Iterable[Tuple[int,int]], directed:bool=False) -> dict:
+def convert_to_adj(
+        edgelist: Iterable[Tuple[int, int]], directed: bool = False) -> dict:
     """
     Helper function to convert the edgelist into the adj-format from NetworkX.
 
@@ -221,7 +222,11 @@ def convert_to_adj(edgelist: Iterable[Tuple[int,int]], directed:bool=False) -> d
     return adj
 
 
-def add_edge_to(edges:set, adjacency_dict:dict, vertex1: Any, vertex2: Any) -> None:
+def add_edge_to(
+        edges: set,
+        adjacency_dict: dict,
+        vertex1: Any,
+        vertex2: Any) -> None:
     """
     Adding (undirected) edge from 'vertex1' to 'vertex2'
     to the edges and adjacency-list.
@@ -280,13 +285,17 @@ def gen_arg(arg_or_iter: Any) -> Generator:
         yield item
 
 
-def base_style(graph, node:str, color:str='white', penwidth:float=1.0) -> None:
+def base_style(
+        graph,
+        node: str,
+        color: str = 'white',
+        penwidth: float = 1.0) -> None:
     """Style the node with default fillcolor and penwidth."""
     graph.node(node, fillcolor=color, penwidth=str(penwidth))
 
 
-def emphasise_node(graph, node:str, color:str='yellow',
-                   penwidth:float=2.5) -> None:
+def emphasise_node(graph, node: str, color: str = 'yellow',
+                   penwidth: float = 2.5) -> None:
     """Emphasise node with a different fillcolor (default:'yellow')
     and penwidth (default:2.5).
     """
@@ -296,18 +305,24 @@ def emphasise_node(graph, node:str, color:str='yellow',
         graph.node(node, penwidth=str(penwidth))
 
 
-def style_hide_node(graph, node:str) -> None:
+def style_hide_node(graph, node: str) -> None:
     """Make the node invisible during drawing."""
     graph.node(node, style='invis')
 
 
-def style_hide_edge(graph, source:str, target:str) -> None:
+def style_hide_edge(graph, source: str, target: str) -> None:
     """Make the edge source->target invisible during drawing."""
     graph.edge(source, target, style='invis')
 
 
-def bag_node(head, tail, anchor:str='anchor', headcolor:str='white',
-             tableborder:int=0, cellborder:int=0, cellspacing:int=0) -> str:
+def bag_node(
+        head,
+        tail,
+        anchor: str = 'anchor',
+        headcolor: str = 'white',
+        tableborder: int = 0,
+        cellborder: int = 0,
+        cellspacing: int = 0) -> str:
     """HTML format with 'head' as the first label, then appending
     further labels.
 
@@ -333,7 +348,7 @@ def bag_node(head, tail, anchor:str='anchor', headcolor:str='white',
 
 
 def solution_node(
-        solution_table:Iterable[List[str]],
+        solution_table: Iterable[List[str]],
         toplabel: str = '',
         bottomlabel: str = '',
         transpose: bool = False,
