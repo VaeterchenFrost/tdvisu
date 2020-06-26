@@ -50,7 +50,8 @@ LOGGER = logging.getLogger('visualization.py')
 
 StrOrIo = NewType('StrOrIo', Union[str, io.TextIOWrapper])
 
-def read_json(json_data:StrOrIo) -> dict:
+
+def read_json(json_data: StrOrIo) -> dict:
     """
     Read json data into a callable object.
     Throws AssertionError if the parsed object has length 0.
@@ -83,7 +84,7 @@ class Visualization:
     of dynamic programming on tree decomposition.
     """
 
-    def __init__(self, infile:StrOrIo, outfolder:Path) -> None:
+    def __init__(self, infile: StrOrIo, outfolder: Path) -> None:
         """Copy needed fields from arguments and create VisualizationData."""
         self.data: VisualizationData = self.inspect_json(infile)
         self.outfolder = Path(outfolder).resolve()
@@ -93,7 +94,7 @@ class Visualization:
         # LOGGER.debug("self.__dict__:%s", self.__dict__)
         # LOGGER.debug("self.data.svg_join:%s", self.data.svg_join)
 
-    def inspect_json(self, infile:StrOrIo) -> VisualizationData:
+    def inspect_json(self, infile: StrOrIo) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
         LOGGER.debug("Reading from: %s", infile)
         visudata = read_json(infile)
@@ -137,11 +138,11 @@ class Visualization:
 
     def setup_tree_dec_graph(
             self,
-            rankdir:str='BT',
-            shape:str='box',
-            fillcolor:str='white',
-            style:str='rounded,filled',
-            margin:str='0.11,0.01') -> None:
+            rankdir: str = 'BT',
+            shape: str = 'box',
+            fillcolor: str = 'white',
+            style: str = 'rounded,filled',
+            margin: str = '0.11,0.01') -> None:
         """Create self.tree_dec_digraph
         strict means not a multigraph - equal edges get merged.
 
@@ -167,7 +168,11 @@ class Visualization:
         self.tree_dec_digraph.edges([(self.bagpre % str(first), self.bagpre % str(
             second)) for (first, second) in self.tree_dec['edgearray']])
 
-    def forward_iterate_tdg(self, joinpre:str, solpre:str, soljoinpre:str) -> None:
+    def forward_iterate_tdg(
+            self,
+            joinpre: str,
+            solpre: str,
+            soljoinpre: str) -> None:
         """Create the final positions of all nodes with solutions."""
         tdg = self.tree_dec_digraph                 # shorten name
 
@@ -209,8 +214,8 @@ class Visualization:
                     tdg.edge(joinpre % id_inv_bags, self.bagpre % suc
                              if isinstance(suc, int) else joinpre % suc)
 
-    def backwards_iterate_tdg(self, joinpre:str, solpre:str, soljoinpre:str,
-                              view:bool=False) -> None:
+    def backwards_iterate_tdg(self, joinpre: str, solpre: str, soljoinpre: str,
+                              view: bool = False) -> None:
         """Cut the single steps back and update emphasis acordingly."""
         tdg = self.tree_dec_digraph     # shorten name
         last_sol = ""
@@ -251,13 +256,13 @@ class Visualization:
                                id_inv_bags,
                                int) else joinpre %
                            id_inv_bags)
-            
-            tdg.render(
-                view=view, format='svg', 
-                filename=str(_filename) + str(len(self.timeline) - i)
-                )
 
-    def tree_dec_timeline(self, view:bool=False) -> None:
+            tdg.render(
+                view=view, format='svg',
+                filename=str(_filename) + str(len(self.timeline) - i)
+            )
+
+    def tree_dec_timeline(self, view: bool = False) -> None:
         """Main-method for handling all construction of the timeline."""
 
         self.setup_tree_dec_graph(
@@ -359,23 +364,23 @@ class Visualization:
 
     def general_graph(
             self,
-            timeline:Iterable[Optional[List[int]]],
-            edges:Iterable[Iterable[int]],
-            extra_nodes:Iterable[int]=tuple(),
-            view:bool=False,
-            fontsize:Union[str, int]='20',
-            fontcolor:str='black',
-            penwidth:float='2.2',
-            first_color:str='yellow',
-            first_style:str='filled',
-            second_color:str='green',
-            second_style:str='dotted,filled',
-            third_color:str='red',
-            graph_name:str='graph',
-            file_basename:str='graph',
-            do_sort_nodes:bool=True,
-            do_adj_nodes:bool=True,
-            var_name:str='') -> None:
+            timeline: Iterable[Optional[List[int]]],
+            edges: Iterable[Iterable[int]],
+            extra_nodes: Iterable[int] = tuple(),
+            view: bool = False,
+            fontsize: Union[str, int] = '20',
+            fontcolor: str = 'black',
+            penwidth: float = '2.2',
+            first_color: str = 'yellow',
+            first_style: str = 'filled',
+            second_color: str = 'green',
+            second_style: str = 'dotted,filled',
+            third_color: str = 'red',
+            graph_name: str = 'graph',
+            file_basename: str = 'graph',
+            do_sort_nodes: bool = True,
+            do_adj_nodes: bool = True,
+            var_name: str = '') -> None:
         """
         Creates one graph emphasized for the given timeline.
 
@@ -492,24 +497,24 @@ class Visualization:
                                color=second_color,
                                style=second_style)
 
-            graph.render(view=view, format='svg', 
+            graph.render(view=view, format='svg',
                          filename=str(_filename) + str(i))
 
     def incidence(
             self,
-            timeline:Iterable[Optional[List[int]]],
-            num_vars:int,
-            colors:Iterable,
-            inc_file:str='IncidenceGraphStep',
-            view:bool=False,
-            fontsize:Union[str, int]=16,
-            penwidth:float=2.2,
-            basefill:str='white',
-            sndshape:str='diamond',
-            neg_tail:str='odot',
-            var_name_one:str='',
-            var_name_two:str='',
-            column_distance:float=0.5) -> None:
+            timeline: Iterable[Optional[List[int]]],
+            num_vars: int,
+            colors: Iterable,
+            inc_file: str = 'IncidenceGraphStep',
+            view: bool = False,
+            fontsize: Union[str, int] = 16,
+            penwidth: float = 2.2,
+            basefill: str = 'white',
+            sndshape: str = 'diamond',
+            neg_tail: str = 'odot',
+            var_name_one: str = '',
+            var_name_two: str = '',
+            column_distance: float = 0.5) -> None:
         """
         Creates the incidence graph emphasized for the given timeline.
 
@@ -611,7 +616,7 @@ class Visualization:
             # reset highlighting
             g_incid.body = g_incid.body[:bodybaselen]
             if variables is None:
-                g_incid.render(view=view, format='svg', 
+                g_incid.render(view=view, format='svg',
                                filename=str(_filename) + str(i))
                 continue
 
@@ -656,6 +661,10 @@ class Visualization:
                                  style=_style)
 
             g_incid.render(view=view, format='svg', filename=str(_filename) + str(i))
+            g_incid.render(
+                view=view,
+                format='svg',
+                filename=str(_filename) + str(i))
 
     def call_svgjoin(self):
         """Analyzes content in data.svg_join for the call to svg_join."""
@@ -697,7 +706,8 @@ def main(args: argparse.Namespace) -> None:
         except ValueError:
             loglevel = args.loglevel.upper()
     logging.basicConfig(level=loglevel)  # Output logging for setup
-    logging_cfg(filename='logging.yml', loglevel=loglevel)
+    logging_file = Path(__file__).parent / 'logging.yml'
+    logging_cfg(filename=str(logging_file), loglevel=loglevel)
     LOGGER.info("Called with '%s'", args)
 
     infile = args.infile
