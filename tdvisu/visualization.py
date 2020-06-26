@@ -103,17 +103,17 @@ class Visualization:
             _general_graph = visudata['generalGraph']
             _svg_join = visudata.get('svgjoin', None)
 
-            incid_data: IncidenceGraphData = None
+            incid_data: Optional[IncidenceGraphData] = None
             if _incid:
                 _incid['edges'] = [[x['id'], x['list']]
                                    for x in _incid['edges']]
                 incid_data = IncidenceGraphData(**_incid)
             visudata.pop('incidenceGraph')
-            general_graph_data: GeneralGraphData = None
+            general_graph_data: Optional[GeneralGraphData] = None
             if _general_graph:
                 general_graph_data = GeneralGraphData(**_general_graph)
             visudata.pop('generalGraph')
-            svg_join_data: SvgJoinData = None
+            svg_join_data: Optional[SvgJoinData] = None
             if _svg_join:
                 svg_join_data = SvgJoinData(**_svg_join)
             if 'svgjoin' in visudata:
@@ -281,7 +281,7 @@ class Visualization:
 
         # Prepare supporting graph timeline
 
-        _timeline: List[Optional[object]] = []
+        _timeline: List[Optional[List[int]]] = []
         for step in self.timeline:
             if len(step) < 2:
                 _timeline.append(None)
@@ -366,9 +366,9 @@ class Visualization:
             edges: Iterable[Iterable[int]],
             extra_nodes: Iterable[int] = tuple(),
             view: bool = False,
-            fontsize: Union[str, int] = '20',
+            fontsize: int = 20,
             fontcolor: str = 'black',
-            penwidth: float = '2.2',
+            penwidth: float = 2.2,
             first_color: str = 'yellow',
             first_style: str = 'filled',
             second_color: str = 'green',
@@ -408,7 +408,7 @@ class Visualization:
         """
         _filename = self.outfolder / file_basename
         LOGGER.info("Generating general-graph for '%s'", file_basename)
-        vartag_n = var_name + '%d'
+        vartag_n : str = var_name + '%d'
         # sfdp http://yifanhu.net/SOFTWARE/SFDP/index.html
         default_engine = 'sfdp'
 
@@ -452,8 +452,8 @@ class Visualization:
 
         for (src, tar) in edges:
             graph.edge(vartag_n % src, vartag_n % tar)
-        for node in extra_nodes:
-            graph.node(vartag_n % node)
+        for nodeid in extra_nodes:
+            graph.node(vartag_n % nodeid)
 
         bodybaselen = len(graph.body)
 
@@ -502,7 +502,7 @@ class Visualization:
             self,
             timeline: Iterable[Optional[List[int]]],
             num_vars: int,
-            colors: Iterable,
+            colors: List,
             inc_file: str = 'IncidenceGraphStep',
             view: bool = False,
             fontsize: Union[str, int] = 16,
@@ -663,7 +663,7 @@ class Visualization:
                 format='svg',
                 filename=str(_filename) + str(i))
 
-    def call_svgjoin(self):
+    def call_svgjoin(self) -> None:
         """Analyzes content in data.svg_join for the call to svg_join."""
         sj_data = self.data.svg_join
         if not sj_data.base_names:

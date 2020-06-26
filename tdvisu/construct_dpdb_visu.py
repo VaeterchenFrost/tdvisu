@@ -77,7 +77,7 @@ def good_db_status() -> tuple:
             pg.extensions.TRANSACTION_STATUS_INTRANS)
 
 
-def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
+def read_cfg(cfg_file, section:str, prefer_cfg:bool=False) -> dict:
     """Read the config file and return the result of one section."""
     try:
         file_content = read_yml_or_cfg(cfg_file, prefer_cfg=prefer_cfg)
@@ -91,7 +91,7 @@ def read_cfg(cfg_file, section, prefer_cfg=False) -> dict:
     return content
 
 
-def db_config(filename='database.ini', section='postgresql') -> dict:
+def db_config(filename:str='database.ini', section:str='postgresql') -> dict:
     """Return the database config as JSON"""
     LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
     cfg = read_cfg(filename, section)
@@ -357,7 +357,7 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
             return result
 
     @staticmethod
-    def footer(lines):
+    def footer(lines) -> str:
         """Returns the footer for solution bags."""
         return "sum: " + str(sum([li[-1] for li in lines]))
 
@@ -367,7 +367,7 @@ class DpdbSatVisu(DpdbSharpSatVisu):
     Removing the solution sum in bottom-label.
     """
     @staticmethod
-    def footer(lines):
+    def footer(lines) -> str:
         """Returns empty footer."""
         return ""
 
@@ -385,11 +385,11 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
             " can not read_clauses!")
 
     @staticmethod
-    def footer(lines):
+    def footer(lines) -> str:
         """Returns the footer for solution bags."""
         return "min-size: " + str(min([li[-1] for li in lines]))
 
-    def read_twfile(self):
+    def read_twfile(self) -> list:
         """
         Use TwReader.from_file to read the edges for the generalGraph.
 
@@ -409,7 +409,7 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
         # create list so that it is JSON serializable
         return list(reader.edges)
 
-    def construct(self):
+    def construct(self) -> dict:
         """
         Construct the Json calling several helper methods.
 
@@ -459,7 +459,7 @@ def connect() -> pg.extensions.connection:
     return conn
 
 
-def create_json(problem: int, tw_file=None, intermed_nodes=False) -> dict:
+def create_json(problem: int, tw_file=None, intermed_nodes:bool=False) -> dict:
     """Create the JSON for the specified problem instance."""
 
     try:

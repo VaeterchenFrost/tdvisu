@@ -187,7 +187,7 @@ class DijkstraNoPath(RuntimeError):
     """Raised when there was no path found during Dijkstra algorithm"""
 
 
-def _weight_function(weight, multigraph=False):
+def _weight_function(weight, multigraph:bool=False):
     """Returns a function that returns the weight of an edge.
 
     The returned function is specifically suitable for input to

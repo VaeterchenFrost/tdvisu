@@ -38,9 +38,10 @@ Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien,
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-
+from __future__ import annotations
 import logging
 import sys
+from typing import Iterable
 
 from tdvisu.utilities import add_edge_to
 
@@ -50,20 +51,20 @@ logger = logging.getLogger('reader.py')
 class Reader():
     """Base class for string-readers."""
     @classmethod
-    def from_filename(cls, fname):
+    def from_filename(cls, fname)-> Reader:
         with open(fname, "r") as file:
             return cls.from_string(file.read())
 
     @classmethod
-    def from_filewrapper(cls, fwrapper):
+    def from_filewrapper(cls, fwrapper)-> Reader:
         return cls.from_string(fwrapper.read())
 
     @classmethod
-    def from_stream(cls, stream):
+    def from_stream(cls, stream)-> Reader:
         return cls.from_string(stream.read().decode())
 
     @classmethod
-    def from_string(cls, string):
+    def from_string(cls, string) -> Reader:
         instance = cls()
         instance.parse(string)
         return instance
@@ -96,13 +97,13 @@ class DimacsReader(Reader):
         pass
 
     @staticmethod
-    def is_comment(line) -> bool:
+    def is_comment(line:str) -> bool:
         return line.startswith("c ") or line == "c"
 
     def body(self, lines):
         pass
 
-    def preamble(self, lines) -> int:
+    def preamble(self, lines:Iterable[str]) -> int:
         """
         Searches for the preamble line in lines and saves:
             problem_solution_type, format, _problem_vars
