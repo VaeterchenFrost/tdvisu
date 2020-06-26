@@ -698,15 +698,8 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-    loglevel = None  # passed the configuration of the root-logger
-    if args.loglevel is not None:
-        try:
-            loglevel = int(float(args.loglevel))
-        except ValueError:
-            loglevel = args.loglevel.upper()
-    logging.basicConfig(level=loglevel)  # Output logging for setup
-    logging_file = Path(__file__).parent / 'logging.yml'
-    logging_cfg(filename=str(logging_file), loglevel=loglevel)
+
+    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
     LOGGER.info("Called with '%s'", args)
 
     infile = args.infile

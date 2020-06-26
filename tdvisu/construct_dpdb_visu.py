@@ -27,8 +27,6 @@ import abc
 import argparse
 import json
 import logging
-
-
 from time import sleep
 
 import psycopg2 as pg
@@ -509,14 +507,7 @@ def main(args: argparse.Namespace) -> None:
     None
     """
 
-    loglevel = None  # passed to the configuration of the root-logger
-    if args.loglevel is not None:
-        try:
-            loglevel = int(float(args.loglevel))
-        except ValueError:
-            loglevel = args.loglevel.upper()
-    logging.basicConfig(level=loglevel)  # Output logging for setup
-    logging_cfg(filename='logging.yml', loglevel=loglevel)
+    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
     LOGGER.info("Called with '%s'", args)
 
     problem_ = args.problemnumber

@@ -146,13 +146,20 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
 
 
 def logging_cfg(filename: str, prefer_cfg: bool = False,
-                loglevel: Optional[int] = None) -> None:
+                loglevel: Union[None, int, str] = None) -> None:
     """Configure logging for this module"""
-    LOGGER.info("Read logging configuration from %s", filename)
+    logging.basicConfig()
     read_err = "could not read configuration from '%s'"
     config_err = "could not use logging configuration from '%s'"
-
-    file = Path(filename)
+    # should be in same directory
+    file = Path(__file__).parent / filename     
+    
+    if loglevel is not None:
+        try:
+            loglevel = int(float(loglevel))
+        except ValueError:
+            loglevel = loglevel.upper()
+            
     if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
         try:
             logging.config.fileConfig(file, defaults=DEFAULT_LOGGING_CFG)
@@ -163,11 +170,11 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
                     handler.setLevel(loglevel)
             return
         except OSError:
-            LOGGER.warning(read_err, file.resolve())
-        except BaseException:   # too general - can we be more specific?
-            LOGGER.warning(config_err, file.resolve())
+            LOGGER.error(read_err, file.resolve(), exc_info=True)
+        except ValueError:
+            LOGGER.error(config_err, file.resolve(), exc_info=True)
     try:                                                    # dict
-        file_content = read_yml_or_cfg(filename, prefer_cfg=prefer_cfg)
+        file_content = read_yml_or_cfg(file, prefer_cfg=prefer_cfg)
         logging.config.dictConfig(file_content)
         if loglevel is not None:
             root = logging.getLogger()
@@ -176,9 +183,9 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
                 handler.setLevel(loglevel)
         return
     except OSError:
-        LOGGER.warning(read_err, file.resolve())
-    except BaseException:   # too general - can we be more specific?
-        LOGGER.warning(config_err, file.resolve())
+        LOGGER.error(read_err, file.resolve(), exc_info=True)
+    except ValueError:
+        LOGGER.error(config_err, file.resolve(), exc_info=True)
 
 
 def convert_to_adj(edgelist, directed=False) -> dict:
