@@ -86,7 +86,7 @@ class Visualization:
     def __init__(self, infile:StrOrIo, outfolder:Path) -> None:
         """Copy needed fields from arguments and create VisualizationData."""
         self.data: VisualizationData = self.inspect_json(infile)
-        self.outfolder = outfolder
+        self.outfolder = Path(outfolder).resolve()
 
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
@@ -251,7 +251,7 @@ class Visualization:
                                id_inv_bags,
                                int) else joinpre %
                            id_inv_bags)
-            _filename = self.outfolder + self.data.td_file + '%d'
+            _filename = self.outfolder / (self.data.td_file + '%d')
             tdg.render(
                 view=view, format='svg', filename=_filename %
                 (len(self.timeline) - i))
@@ -402,7 +402,7 @@ class Visualization:
         None, but outputs the files with the graph for each timestep.
 
         """
-        _filename = self.outfolder + file_basename + '%d'
+        _filename = self.outfolder / (file_basename + '%d')
         LOGGER.info("Generating general-graph for '%s'", file_basename)
         vartag_n = var_name + '%d'
         # sfdp http://yifanhu.net/SOFTWARE/SFDP/index.html
@@ -542,7 +542,7 @@ class Visualization:
         None, but outputs the files with the graph for each timestep.
 
         """
-        _filename = self.outfolder + inc_file + '%d'
+        _filename = self.outfolder / (inc_file + '%d')
 
         clausetag_n = var_name_one + '%d'
         vartag_n = var_name_two + '%d'
