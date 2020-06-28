@@ -27,6 +27,7 @@ import abc
 import argparse
 import json
 import logging
+from pathlib import Path
 from time import sleep
 
 import psycopg2 as pg
@@ -94,8 +95,9 @@ def read_cfg(cfg_file, section: str, prefer_cfg: bool = False) -> dict:
 def db_config(filename: str = 'database.ini',
               section: str = 'postgresql') -> dict:
     """Return the database config as JSON"""
-    LOGGER.info("Read db_config['%s'] from '%s'", section, filename)
-    cfg = read_cfg(filename, section)
+    file = Path(__file__).parent / filename
+    LOGGER.info("Read db_config['%s'] from '%s'", section, file.resolve())
+    cfg = read_cfg(file, section)
     return {**DEFAULT_DBCONFIG, **cfg}
 
 
