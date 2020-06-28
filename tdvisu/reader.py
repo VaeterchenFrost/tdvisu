@@ -149,7 +149,7 @@ class TwReader(DimacsReader):
 
     def body(self, lines) -> None:
         """Store the content from the given lines in the edges and adjacency_dict."""
-        if self.format != "tw":
+        if not self.format in ('col','tw'):
             logger.error("Not a tw file!")
             sys.exit(1)
 
