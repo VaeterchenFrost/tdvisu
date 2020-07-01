@@ -32,6 +32,7 @@ from tdvisu.utilities import gen_arg
 
 LOGGER = logging.getLogger('svg_join.py')
 
+
 # indices
 WIDTH = 2
 HEIGHT = 3
@@ -347,10 +348,10 @@ def svg_join(
 
 
 if __name__ == "__main__":
-
-    svg_join(['TDStep', 'PrimalGraphStep', 'IncidenceGraphStep'],
-             'Archive/DA4',
-             num_images=6,
-             padding=40,
-             scale2=.3,
-             v_bottom=1)
+    logging.basicConfig(level=logging.DEBUG)
+    svg_join(['TDStep', 'graph'],
+             'Archive/WheelGraph7',
+             outname="default_06sc15_rise",
+             v_bottom=[1,.85,.7,.55,.4],
+             scale2=1.5,
+             num_images=5)
