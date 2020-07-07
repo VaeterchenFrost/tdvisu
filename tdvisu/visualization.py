@@ -98,8 +98,8 @@ class Visualization:
         LOGGER.debug("Found keys: %s", visudata.keys())
 
         try:
-            _incid = visudata['incidenceGraph']
-            _general_graph = visudata['generalGraph']
+            _incid = visudata.get('incidenceGraph', None)
+            _general_graph = visudata.get('generalGraph', None)
             _svg_join = visudata.get('svgjoin', None)
 
             incid_data: Optional[IncidenceGraphData] = None

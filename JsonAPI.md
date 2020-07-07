@@ -3,7 +3,7 @@
 
 ```perl
 {
-    "incidenceGraph" : false or
+    "incidenceGraph"
     {
         Optional("subgraph_name_one" : STR, default='clauses'),
         Optional("subgraph_name_two" : STR, default='variables'),
@@ -25,7 +25,7 @@
         ]
     },
 
-    "generalGraph" : false or
+    "generalGraph"
     {
         Optional("graph_name" : STR, default='graph'),
         Optional("var_name" : STR, default=''),
