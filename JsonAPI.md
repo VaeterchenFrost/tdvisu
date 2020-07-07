@@ -35,8 +35,8 @@
         Optional("fontsize" : INT, default=20),
         Optional("first_color" : STR/COLOR, default ='yellow'),
         Optional("first_style" : STR, default ='filled'),
-        Optional("second_color : STR/COLOR, default='green'),
-        Optional("second_style : STR, default='dotted,filled'),
+        Optional("second_color" : STR/COLOR, default='green'),
+        Optional("second_style" : STR, default='dotted,filled'),
         
         "edges" : [
             [INT, INT],
