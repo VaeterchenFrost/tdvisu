@@ -1,0 +1,116 @@
+{
+    "incidenceGraph": {
+        "subgraph_name_one": "clauses",
+        "subgraph_name_two": "variables",
+
+        "var_name_one": "",
+        "var_name_two": "",
+
+        "infer_primal": false,
+        "infer_dual": false,
+        "fontsize": 16,
+        "second_shape": "diamond",
+        "column_distance": 0.5,
+
+        "edges": [{
+            "id": 1,
+            "list": [1]
+        }]
+    },
+
+    "generalGraph": {
+        "graph_name": "graph",
+        "var_name": "",
+        "sort_nodes": false,
+        "need_adj_nodes": false,
+        "extra_nodes": [],
+        "fontsize": 20,
+        "first_color": "yellow",
+        "first_style": "filled",
+        "second_color": "green",
+        "second_style": "dotted,filled",
+
+        "edges": [
+            [1, 1]
+
+        ]
+    },
+
+    "tdTimeline": [
+        [1],
+        [
+            [1, 1],
+            [
+                [
+                    ["head"],
+                    [1]
+
+                ],
+                "header",
+                "footer",
+                "transpose"
+            ]
+        ],
+        [1,
+            [
+                [
+                    ["firstrow"],
+                    [1]
+
+                ],
+                "header",
+                "footer",
+                "transpose"
+            ]
+        ]
+
+    ],
+
+    "treeDecJson": {
+        "bagpre": "REQ",
+        "num_vars": 1,
+        "joinpre": "Join %d~%d",
+        "solpre": "sol%d",
+        "soljoinpre": "solJoin%d~%d",
+
+        "edgearray": [
+            [1, 1]
+        ],
+        "labeldict": [{
+                "id": 1,
+                "items": [1],
+                "labels": ["STR"]
+            }
+
+        ]
+    },
+
+    "orientation": "BT",
+    "linesmax": 100,
+    "columnsmax": 20,
+    "bagcolor": "white",
+    "fontsize": 20,
+    "penwidth": 2.2,
+    "fontcolor": "black",
+
+    "emphasis": {
+        "firstcolor": "yellow",
+        "secondcolor": "green",
+        "firststyle": "filled",
+        "secondstyle": "dotted,filled"
+    },
+
+
+    "svgjoin": {
+        "base_names": ["NAME"],
+        "folder": null,
+        "outname": "combined",
+        "suffix": "%d.svg",
+        "preserve_aspectratio": "xMinYMin",
+        "num_images": 1,
+        "padding": 0,
+        "scale2": 1.0,
+        "v_top": "top",
+        "v_bottom": null
+    }
+}
