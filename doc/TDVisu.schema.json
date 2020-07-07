@@ -225,19 +225,13 @@
                 "column_distance": {
                     "$id": "#/properties/incidenceGraph/properties/column_distance",
                     "type": "number",
-                    "title": "The column_distance schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0.0,
-                    "examples": [
-                        0.5
-                    ]
+                    "description": "The distance between the partitions in units.",
+                    "default": 0.5
                 },
                 "edges": {
                     "$id": "#/properties/incidenceGraph/properties/edges",
                     "type": "array",
-                    "title": "The edges schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": [],
+                    "description": "The edges from the 1st partition to the 2nd partition.",
                     "examples": [
                         [
                             {
@@ -254,17 +248,6 @@
                             {
                                 "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0",
                                 "type": "object",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": {},
-                                "examples": [
-                                    {
-                                        "id": 1,
-                                        "list": [
-                                            1
-                                        ]
-                                    }
-                                ],
                                 "required": [
                                     "id",
                                     "list"
@@ -274,39 +257,15 @@
                                     "id": {
                                         "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/id",
                                         "type": "integer",
-                                        "title": "The id schema",
-                                        "description": "An explanation about the purpose of this instance.",
-                                        "default": 0,
-                                        "examples": [
-                                            1
-                                        ]
+                                        "description": "An integer id from the first partition.",
                                     },
                                     "list": {
                                         "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list",
                                         "type": "array",
-                                        "title": "The list schema",
-                                        "description": "An explanation about the purpose of this instance.",
-                                        "default": [],
-                                        "examples": [
-                                            [
-                                                1
-                                            ]
-                                        ],
+                                        "description": "Ids from the second partition connected to 'id'.",
                                         "additionalItems": true,
                                         "items": {
-                                            "anyOf": [
-                                                {
-                                                    "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items/anyOf/0",
-                                                    "type": "integer",
-                                                    "title": "The first anyOf schema",
-                                                    "description": "An explanation about the purpose of this instance.",
-                                                    "default": 0,
-                                                    "examples": [
-                                                        1
-                                                    ]
-                                                }
-                                            ],
-                                            "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items"
+                                            "type": "integer"
                                         }
                                     }
                                 }
