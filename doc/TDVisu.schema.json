@@ -183,68 +183,44 @@
                 "subgraph_name_two": {
                     "$id": "#/properties/incidenceGraph/properties/subgraph_name_two",
                     "type": "string",
-                    "description": "The name of the 1st partition subgraph.",
+                    "description": "The name of the 2nd partition subgraph.",
                     "default": "variables"
                 },
                 "var_name_one": {
                     "$id": "#/properties/incidenceGraph/properties/var_name_one",
                     "type": "string",
-                    "title": "The var_name_one schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        ""
-                    ]
+                    "description": "The label for nodes in the 1st partition.",
+                    "default": ""
                 },
                 "var_name_two": {
                     "$id": "#/properties/incidenceGraph/properties/var_name_two",
                     "type": "string",
-                    "title": "The var_name_two schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        ""
-                    ]
+                    "description": "The label for nodes in the 2nd partition.",
+                    "default": ""
                 },
                 "infer_primal": {
                     "$id": "#/properties/incidenceGraph/properties/infer_primal",
                     "type": "boolean",
-                    "title": "The infer_primal schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to calculate the primal graph from the incidence edges.",
+                    "default": false
                 },
                 "infer_dual": {
                     "$id": "#/properties/incidenceGraph/properties/infer_dual",
                     "type": "boolean",
-                    "title": "The infer_dual schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to calculate the dual graph from the incidence edges.",
+                    "default": false
                 },
                 "fontsize": {
                     "$id": "#/properties/incidenceGraph/properties/fontsize",
                     "type": "integer",
-                    "title": "The fontsize schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                        16
-                    ]
+                    "description": "The fontsize in pixels.",
+                    "default": 16
                 },
                 "second_shape": {
                     "$id": "#/properties/incidenceGraph/properties/second_shape",
                     "type": "string",
-                    "title": "The second_shape schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "diamond"
-                    ]
+                    "description": "A description of the shape for the nodes in the 2nd partition.",
+                    "default": "diamond"
                 },
                 "column_distance": {
                     "$id": "#/properties/incidenceGraph/properties/column_distance",
