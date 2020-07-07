@@ -1,0 +1,1238 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema",
+    "$id": "http://example.com/example.json",
+    "type": "object",
+    "title": "The root schema",
+    "description": "The root schema comprises the entire JSON document.",
+    "default": {},
+    "required": [
+        "svg_join",
+        "generalGraph",
+        "incidenceGraph",
+        "tdTimeline",
+        "treeDecJson"
+    ],
+    "additionalProperties": true,
+    "properties": {
+        "svg_join": {
+            "$id": "#/properties/svg_join",
+            "type": "object",
+            "title": "The svg_join schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "required": [
+                "base_names",
+                "padding",
+                "scale2",
+                "v_top",
+                "v_bottom"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "base_names": {
+                    "$id": "#/properties/svg_join/properties/base_names",
+                    "type": "array",
+                    "title": "The base_names schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/svg_join/properties/base_names/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": ""
+                            }
+                        ],
+                        "$id": "#/properties/svg_join/properties/base_names/items"
+                    }
+                },
+                "padding": {
+                    "$id": "#/properties/svg_join/properties/padding",
+                    "type": "array",
+                    "title": "The padding schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/svg_join/properties/padding/items/anyOf/0",
+                                "type": "integer",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": 0
+                            }
+                        ],
+                        "$id": "#/properties/svg_join/properties/padding/items"
+                    }
+                },
+                "scale2": {
+                    "$id": "#/properties/svg_join/properties/scale2",
+                    "type": "array",
+                    "title": "The scale2 schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/svg_join/properties/scale2/items/anyOf/0",
+                                "type": "integer",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": 0
+                            },
+                            {
+                                "$id": "#/properties/svg_join/properties/scale2/items/anyOf/1",
+                                "type": "number",
+                                "title": "The second anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": 0.0
+                            }
+                        ],
+                        "$id": "#/properties/svg_join/properties/scale2/items"
+                    }
+                },
+                "v_top": {
+                    "$id": "#/properties/svg_join/properties/v_top",
+                    "type": "array",
+                    "title": "The v_top schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/svg_join/properties/v_top/items/anyOf/0",
+                                "type": "string",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": ""
+                            }
+                        ],
+                        "$id": "#/properties/svg_join/properties/v_top/items"
+                    }
+                },
+                "v_bottom": {
+                    "$id": "#/properties/svg_join/properties/v_bottom",
+                    "type": "null",
+                    "title": "The v_bottom schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": null
+                }
+            }
+        },
+        "generalGraph": {
+            "$id": "#/properties/generalGraph",
+            "type": "boolean",
+            "title": "The generalGraph schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": false
+        },
+        "incidenceGraph": {
+            "$id": "#/properties/incidenceGraph",
+            "type": "object",
+            "title": "The incidenceGraph schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "required": [
+                "edges",
+                "infer_primal",
+                "var_name_one",
+                "var_name_two"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "edges": {
+                    "$id": "#/properties/incidenceGraph/properties/edges",
+                    "type": "array",
+                    "title": "The edges schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "required": [
+                                    "id",
+                                    "list"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "id": {
+                                        "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/id",
+                                        "type": "integer",
+                                        "title": "The id schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0
+                                    },
+                                    "list": {
+                                        "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list",
+                                        "type": "array",
+                                        "title": "The list schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items/anyOf/0",
+                                                    "type": "integer",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": 0
+                                                }
+                                            ],
+                                            "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "$id": "#/properties/incidenceGraph/properties/edges/items"
+                    }
+                },
+                "infer_primal": {
+                    "$id": "#/properties/incidenceGraph/properties/infer_primal",
+                    "type": "boolean",
+                    "title": "The infer_primal schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": false
+                },
+                "var_name_one": {
+                    "$id": "#/properties/incidenceGraph/properties/var_name_one",
+                    "type": "string",
+                    "title": "The var_name_one schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": ""
+                },
+                "var_name_two": {
+                    "$id": "#/properties/incidenceGraph/properties/var_name_two",
+                    "type": "string",
+                    "title": "The var_name_two schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": ""
+                }
+            }
+        },
+        "tdTimeline": {
+            "$id": "#/properties/tdTimeline",
+            "type": "array",
+            "title": "The tdTimeline schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": [],
+            "additionalItems": true,
+            "items": {
+                "anyOf": [
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/0",
+                        "type": "array",
+                        "title": "The first anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/0/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/0/items"
+                        }
+                    },
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/1",
+                        "type": "array",
+                        "title": "The second anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                },
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1",
+                                    "type": "array",
+                                    "title": "The second anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0",
+                                                "type": "array",
+                                                "title": "The first anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/0",
+                                                            "type": "array",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/0/items/anyOf/0",
+                                                                        "type": "string",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": ""
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/0/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/1",
+                                                            "type": "array",
+                                                            "title": "The second anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/1/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/1/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/2",
+                                                            "type": "array",
+                                                            "title": "The third anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/2/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/2/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/3",
+                                                            "type": "array",
+                                                            "title": "The fourth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/3/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/3/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/4",
+                                                            "type": "array",
+                                                            "title": "The fifth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/4/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items/anyOf/4/items"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/0/items"
+                                                }
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/1",
+                                                "type": "string",
+                                                "title": "The second anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": ""
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items/anyOf/2",
+                                                "type": "boolean",
+                                                "title": "The third anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": false
+                                            }
+                                        ],
+                                        "$id": "#/properties/tdTimeline/items/anyOf/1/items/anyOf/1/items"
+                                    }
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/1/items"
+                        }
+                    },
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/2",
+                        "type": "array",
+                        "title": "The third anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                },
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1",
+                                    "type": "array",
+                                    "title": "The second anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0",
+                                                "type": "array",
+                                                "title": "The first anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/0",
+                                                            "type": "array",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/0/items/anyOf/0",
+                                                                        "type": "string",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": ""
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/0/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/1",
+                                                            "type": "array",
+                                                            "title": "The second anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/1/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/1/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/2",
+                                                            "type": "array",
+                                                            "title": "The third anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/2/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/2/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/3",
+                                                            "type": "array",
+                                                            "title": "The fourth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/3/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/3/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/4",
+                                                            "type": "array",
+                                                            "title": "The fifth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/4/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items/anyOf/4/items"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/0/items"
+                                                }
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/1",
+                                                "type": "string",
+                                                "title": "The second anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": ""
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items/anyOf/2",
+                                                "type": "boolean",
+                                                "title": "The third anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": false
+                                            }
+                                        ],
+                                        "$id": "#/properties/tdTimeline/items/anyOf/2/items/anyOf/1/items"
+                                    }
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/2/items"
+                        }
+                    },
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/3",
+                        "type": "array",
+                        "title": "The fourth anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                },
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1",
+                                    "type": "array",
+                                    "title": "The second anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0",
+                                                "type": "array",
+                                                "title": "The first anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/0",
+                                                            "type": "array",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/0/items/anyOf/0",
+                                                                        "type": "string",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": ""
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/0/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/1",
+                                                            "type": "array",
+                                                            "title": "The second anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/1/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/1/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/2",
+                                                            "type": "array",
+                                                            "title": "The third anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/2/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/2/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/3",
+                                                            "type": "array",
+                                                            "title": "The fourth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/3/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/3/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/4",
+                                                            "type": "array",
+                                                            "title": "The fifth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/4/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items/anyOf/4/items"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/0/items"
+                                                }
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/1",
+                                                "type": "string",
+                                                "title": "The second anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": ""
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items/anyOf/2",
+                                                "type": "boolean",
+                                                "title": "The third anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": false
+                                            }
+                                        ],
+                                        "$id": "#/properties/tdTimeline/items/anyOf/3/items/anyOf/1/items"
+                                    }
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/3/items"
+                        }
+                    },
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/4",
+                        "type": "array",
+                        "title": "The fifth anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                },
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1",
+                                    "type": "array",
+                                    "title": "The second anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0",
+                                                "type": "array",
+                                                "title": "The first anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/0",
+                                                            "type": "array",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/0/items/anyOf/0",
+                                                                        "type": "string",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": ""
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/0/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/1",
+                                                            "type": "array",
+                                                            "title": "The second anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/1/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/1/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/2",
+                                                            "type": "array",
+                                                            "title": "The third anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/2/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/2/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/3",
+                                                            "type": "array",
+                                                            "title": "The fourth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/3/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items/anyOf/3/items"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/0/items"
+                                                }
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/1",
+                                                "type": "string",
+                                                "title": "The second anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": ""
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items/anyOf/2",
+                                                "type": "boolean",
+                                                "title": "The third anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": false
+                                            }
+                                        ],
+                                        "$id": "#/properties/tdTimeline/items/anyOf/4/items/anyOf/1/items"
+                                    }
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/4/items"
+                        }
+                    },
+                    {
+                        "$id": "#/properties/tdTimeline/items/anyOf/5",
+                        "type": "array",
+                        "title": "The sixth anyOf schema",
+                        "description": "An explanation about the purpose of this instance.",
+                        "default": [],
+                        "additionalItems": true,
+                        "items": {
+                            "anyOf": [
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/0",
+                                    "type": "integer",
+                                    "title": "The first anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": 0
+                                },
+                                {
+                                    "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1",
+                                    "type": "array",
+                                    "title": "The second anyOf schema",
+                                    "description": "An explanation about the purpose of this instance.",
+                                    "default": [],
+                                    "additionalItems": true,
+                                    "items": {
+                                        "anyOf": [
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0",
+                                                "type": "array",
+                                                "title": "The first anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": [],
+                                                "additionalItems": true,
+                                                "items": {
+                                                    "anyOf": [
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/0",
+                                                            "type": "array",
+                                                            "title": "The first anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/0/items/anyOf/0",
+                                                                        "type": "string",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": ""
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/0/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/1",
+                                                            "type": "array",
+                                                            "title": "The second anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/1/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/1/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/2",
+                                                            "type": "array",
+                                                            "title": "The third anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/2/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/2/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/3",
+                                                            "type": "array",
+                                                            "title": "The fourth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/3/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/3/items"
+                                                            }
+                                                        },
+                                                        {
+                                                            "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/4",
+                                                            "type": "array",
+                                                            "title": "The fifth anyOf schema",
+                                                            "description": "An explanation about the purpose of this instance.",
+                                                            "default": [],
+                                                            "additionalItems": true,
+                                                            "items": {
+                                                                "anyOf": [
+                                                                    {
+                                                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/4/items/anyOf/0",
+                                                                        "type": "integer",
+                                                                        "title": "The first anyOf schema",
+                                                                        "description": "An explanation about the purpose of this instance.",
+                                                                        "default": 0
+                                                                    }
+                                                                ],
+                                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items/anyOf/4/items"
+                                                            }
+                                                        }
+                                                    ],
+                                                    "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/0/items"
+                                                }
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/1",
+                                                "type": "string",
+                                                "title": "The second anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": ""
+                                            },
+                                            {
+                                                "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items/anyOf/2",
+                                                "type": "boolean",
+                                                "title": "The third anyOf schema",
+                                                "description": "An explanation about the purpose of this instance.",
+                                                "default": false
+                                            }
+                                        ],
+                                        "$id": "#/properties/tdTimeline/items/anyOf/5/items/anyOf/1/items"
+                                    }
+                                }
+                            ],
+                            "$id": "#/properties/tdTimeline/items/anyOf/5/items"
+                        }
+                    }
+                ],
+                "$id": "#/properties/tdTimeline/items"
+            }
+        },
+        "treeDecJson": {
+            "$id": "#/properties/treeDecJson",
+            "type": "object",
+            "title": "The treeDecJson schema",
+            "description": "An explanation about the purpose of this instance.",
+            "default": {},
+            "required": [
+                "bagpre",
+                "edgearray",
+                "labeldict",
+                "num_vars"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "bagpre": {
+                    "$id": "#/properties/treeDecJson/properties/bagpre",
+                    "type": "string",
+                    "title": "The bagpre schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": ""
+                },
+                "edgearray": {
+                    "$id": "#/properties/treeDecJson/properties/edgearray",
+                    "type": "array",
+                    "title": "The edgearray schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0",
+                                "type": "array",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0/items/anyOf/0",
+                                            "type": "integer",
+                                            "title": "The first anyOf schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": 0
+                                        }
+                                    ],
+                                    "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0/items"
+                                }
+                            },
+                            {
+                                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1",
+                                "type": "array",
+                                "title": "The second anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1/items/anyOf/0",
+                                            "type": "integer",
+                                            "title": "The first anyOf schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": 0
+                                        }
+                                    ],
+                                    "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1/items"
+                                }
+                            },
+                            {
+                                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2",
+                                "type": "array",
+                                "title": "The third anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2/items/anyOf/0",
+                                            "type": "integer",
+                                            "title": "The first anyOf schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": 0
+                                        }
+                                    ],
+                                    "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2/items"
+                                }
+                            },
+                            {
+                                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3",
+                                "type": "array",
+                                "title": "The fourth anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": [],
+                                "additionalItems": true,
+                                "items": {
+                                    "anyOf": [
+                                        {
+                                            "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3/items/anyOf/0",
+                                            "type": "integer",
+                                            "title": "The first anyOf schema",
+                                            "description": "An explanation about the purpose of this instance.",
+                                            "default": 0
+                                        }
+                                    ],
+                                    "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3/items"
+                                }
+                            }
+                        ],
+                        "$id": "#/properties/treeDecJson/properties/edgearray/items"
+                    }
+                },
+                "labeldict": {
+                    "$id": "#/properties/treeDecJson/properties/labeldict",
+                    "type": "array",
+                    "title": "The labeldict schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": [],
+                    "additionalItems": true,
+                    "items": {
+                        "anyOf": [
+                            {
+                                "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0",
+                                "type": "object",
+                                "title": "The first anyOf schema",
+                                "description": "An explanation about the purpose of this instance.",
+                                "default": {},
+                                "required": [
+                                    "id",
+                                    "items",
+                                    "labels"
+                                ],
+                                "additionalProperties": true,
+                                "properties": {
+                                    "id": {
+                                        "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/id",
+                                        "type": "integer",
+                                        "title": "The id schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": 0
+                                    },
+                                    "items": {
+                                        "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items",
+                                        "type": "array",
+                                        "title": "The items schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items/items/anyOf/0",
+                                                    "type": "integer",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": 0
+                                                }
+                                            ],
+                                            "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items/items"
+                                        }
+                                    },
+                                    "labels": {
+                                        "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels",
+                                        "type": "array",
+                                        "title": "The labels schema",
+                                        "description": "An explanation about the purpose of this instance.",
+                                        "default": [],
+                                        "additionalItems": true,
+                                        "items": {
+                                            "anyOf": [
+                                                {
+                                                    "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels/items/anyOf/0",
+                                                    "type": "string",
+                                                    "title": "The first anyOf schema",
+                                                    "description": "An explanation about the purpose of this instance.",
+                                                    "default": ""
+                                                }
+                                            ],
+                                            "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels/items"
+                                        }
+                                    }
+                                }
+                            }
+                        ],
+                        "$id": "#/properties/treeDecJson/properties/labeldict/items"
+                    }
+                },
+                "num_vars": {
+                    "$id": "#/properties/treeDecJson/properties/num_vars",
+                    "type": "integer",
+                    "title": "The num_vars schema",
+                    "description": "An explanation about the purpose of this instance.",
+                    "default": 0
+                }
+            }
+        }
+    }
+}
