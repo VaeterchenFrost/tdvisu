@@ -373,13 +373,13 @@
                 "edges": {
                     "$id": "#/properties/generalGraph/properties/edges",
                     "type": "array",
-                    "description": "An explanation about the purpose of this instance.",
+                    "description": "Every (undirected) edge as tuple of two node ids.",
                     "default": [],
                     "examples": [
                         [
                             [
                                 1,
-                                1
+                                2
                             ]
                         ]
                     ],
@@ -389,30 +389,9 @@
                             {
                                 "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0",
                                 "type": "array",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        1,
-                                        1
-                                    ]
-                                ],
                                 "additionalItems": true,
                                 "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                1
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0/items"
+                                    "type": "integer"
                                 }
                             }
                         ],
