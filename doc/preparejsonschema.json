@@ -1,4 +1,72 @@
 {
+    "treeDecJson": {
+        "bagpre": "REQ",
+        "num_vars": 1,
+        "joinpre": "Join %d~%d",
+        "solpre": "sol%d",
+        "soljoinpre": "solJoin%d~%d",
+
+        "edgearray": [
+            [2, 1],
+            [3, 2],
+            [4, 2],
+            [5, 3]
+        ],
+        "labeldict": [{
+            "id": 1,
+            "items": [1, 2, 5],
+            "labels": ["[1, 2, 5]", "dtime=0.0007s"]
+        }, {
+            "id": 2,
+            "items": [1, 2, 4, 6],
+            "labels": ["[1, 2, 4, 6]", "dtime=0.0019s"]
+        }, {
+            "id": 3,
+            "items": [2, 4, 8],
+            "labels": ["[2, 4, 8]", "dtime=0.0009s"]
+        }, {
+            "id": 4,
+            "items": [1, 4, 7],
+            "labels": ["[1, 4, 7]", "dtime=0.0018s"]
+        }, {
+            "id": 5,
+            "items": [2, 3, 8],
+            "labels": ["[2, 3, 8]", "dtime=0.0026s"]
+        }]
+    },
+
+    "tdTimeline": [
+        [5],
+        [5, [
+            [
+                ["v2", "v8"],
+                [0, 0],
+                [1, 1],
+                [0, 1],
+                [1, 0]
+            ], "sol bag 5", "", true
+        ]],
+        [
+            [3, 4],
+            [
+                [
+                    ["id", "v1", "v5", "v10", "n Sol"],
+                    [0, 0, 0, 0, 2],
+                    [1, 1, 0, 0, 0],
+                    [2, 0, 1, 0, 2],
+                    [3, 1, 1, 0, 2],
+                    [4, 0, 0, 1, 4],
+                    [5, 1, 0, 1, 2],
+                    [6, 0, 1, 1, 4],
+                    [7, 1, 1, 1, 4]
+                ],
+                "sol Join 3~4",
+                "sum: 20",
+                true
+            ]
+        ]
+    ],
+
     "incidenceGraph": {
         "subgraph_name_one": "clauses",
         "subgraph_name_two": "variables",
@@ -14,7 +82,13 @@
 
         "edges": [{
             "id": 1,
-            "list": [1]
+            "list": [1, 4, 6]
+        }, {
+            "id": 2,
+            "list": [1, -5]
+        }, {
+            "id": 3,
+            "list": [-1, 7]
         }]
     },
 
@@ -23,7 +97,7 @@
         "var_name": "",
         "sort_nodes": false,
         "need_adj_nodes": false,
-        "extra_nodes": [],
+        "extra_nodes": [100],
         "fontsize": 20,
         "first_color": "yellow",
         "first_style": "filled",
@@ -31,57 +105,11 @@
         "second_style": "dotted,filled",
 
         "edges": [
-            [1, 1]
-
-        ]
-    },
-
-    "tdTimeline": [
-        [1],
-        [
-            [1, 1],
-            [
-                [
-                    ["head"],
-                    [1]
-
-                ],
-                "header",
-                "footer",
-                "transpose"
-            ]
-        ],
-        [1,
-            [
-                [
-                    ["firstrow"],
-                    [1]
-
-                ],
-                "header",
-                "footer",
-                "transpose"
-            ]
-        ]
-
-    ],
-
-    "treeDecJson": {
-        "bagpre": "REQ",
-        "num_vars": 1,
-        "joinpre": "Join %d~%d",
-        "solpre": "sol%d",
-        "soljoinpre": "solJoin%d~%d",
-
-        "edgearray": [
-            [1, 1]
-        ],
-        "labeldict": [{
-                "id": 1,
-                "items": [1],
-                "labels": ["STR"]
-            }
-
+            [6, 15],
+            [3, 4],
+            [4, 3],
+            [14, 7],
+            [5, 4]
         ]
     },
 
@@ -100,9 +128,8 @@
         "secondstyle": "dotted,filled"
     },
 
-
     "svgjoin": {
-        "base_names": ["NAME"],
+        "base_names": ["TDStep", "PrimalGraphStep", "IncidenceGraphStep"],
         "folder": null,
         "outname": "combined",
         "suffix": "%d.svg",
