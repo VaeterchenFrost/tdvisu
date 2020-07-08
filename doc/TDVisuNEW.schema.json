@@ -1970,79 +1970,50 @@
         "orientation": {
             "$id": "#/properties/orientation",
             "type": "string",
-            "title": "The orientation schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "BT"
-            ]
+            "description": "'TB', 'LR', 'BT', 'RL', corresponding to directed graphs drawn from top to bottom, from left to right, from bottom to top, and from right to left, respectively.",
+            "default": "BT",
+            "anyOf" : ["TB", "LR", "BT", "RL"]
         },
         "linesmax": {
             "$id": "#/properties/linesmax",
             "type": "integer",
-            "title": "The linesmax schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0,
-            "examples": [
-                100
-            ]
+            "description": "Maximum of rows to visualize.",
+            "default": 100
         },
         "columnsmax": {
             "$id": "#/properties/columnsmax",
             "type": "integer",
-            "title": "The columnsmax schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": 0,
-            "examples": [
-                20
-            ]
+            "description": "Maximum of columns to visualize.",
+            "default": 20
         },
         "bagcolor": {
             "$id": "#/properties/bagcolor",
             "type": "string",
-            "title": "The bagcolor schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "white"
-            ]
+            "description": "The fillcolor for bags.",
+            "default": "white"
         },
         "fontsize": {
             "$id": "#/properties/fontsize",
             "type": "integer",
-            "title": "The fontsize schema",
             "description": "An explanation about the purpose of this instance.",
-            "default": 0,
-            "examples": [
-                20
-            ]
+            "default": 20
         },
         "penwidth": {
             "$id": "#/properties/penwidth",
             "type": "number",
-            "title": "The penwidth schema",
             "description": "An explanation about the purpose of this instance.",
-            "default": 0.0,
-            "examples": [
-                2.2
-            ]
+            "default": 2.2
         },
         "fontcolor": {
             "$id": "#/properties/fontcolor",
             "type": "string",
-            "title": "The fontcolor schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": "",
-            "examples": [
-                "black"
-            ]
+            "description": "The default fontcolor.",
+            "default": "black"
         },
         "emphasis": {
             "$id": "#/properties/emphasis",
             "type": "object",
-            "title": "The emphasis schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": {},
+            "description": "Changes defaults for the additional emphasis.",
             "examples": [
                 {
                     "firstcolor": "yellow",
@@ -2051,53 +2022,27 @@
                     "secondstyle": "dotted,filled"
                 }
             ],
-            "required": [
-                "firstcolor",
-                "secondcolor",
-                "firststyle",
-                "secondstyle"
-            ],
             "additionalProperties": true,
             "properties": {
                 "firstcolor": {
                     "$id": "#/properties/emphasis/properties/firstcolor",
                     "type": "string",
-                    "title": "The firstcolor schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "yellow"
-                    ]
+                    "default": "yellow"
                 },
                 "secondcolor": {
                     "$id": "#/properties/emphasis/properties/secondcolor",
                     "type": "string",
-                    "title": "The secondcolor schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "green"
-                    ]
+                    "default": "green"
                 },
                 "firststyle": {
                     "$id": "#/properties/emphasis/properties/firststyle",
                     "type": "string",
-                    "title": "The firststyle schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "filled"
-                    ]
+                    "default": "filled"
                 },
                 "secondstyle": {
                     "$id": "#/properties/emphasis/properties/secondstyle",
                     "type": "string",
-                    "title": "The secondstyle schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "dotted,filled"
-                    ]
+                    "default": "dotted,filled"
                 }
             }
         },
