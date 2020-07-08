@@ -309,19 +309,8 @@
         }
     ],
     "required": [
-        "treeDecJson",
         "tdTimeline",
-        "incidenceGraph",
-        "generalGraph",
-        "orientation",
-        "linesmax",
-        "columnsmax",
-        "bagcolor",
-        "fontsize",
-        "penwidth",
-        "fontcolor",
-        "emphasis",
-        "svgjoin"
+        "treeDecJson"
     ],
     "additionalProperties": true,
     "properties": {
@@ -1667,7 +1656,7 @@
             "$id": "#/properties/incidenceGraph",
             "type": "object",
             "title": "The incidenceGraph schema",
-            "description": "An explanation about the purpose of this instance.",
+            "description": "A bipartite graph called incidence graph.",
             "default": {},
             "examples": [
                 {
@@ -1707,15 +1696,6 @@
                 }
             ],
             "required": [
-                "subgraph_name_one",
-                "subgraph_name_two",
-                "var_name_one",
-                "var_name_two",
-                "infer_primal",
-                "infer_dual",
-                "fontsize",
-                "second_shape",
-                "column_distance",
                 "edges"
             ],
             "additionalProperties": true,
@@ -1723,99 +1703,61 @@
                 "subgraph_name_one": {
                     "$id": "#/properties/incidenceGraph/properties/subgraph_name_one",
                     "type": "string",
-                    "title": "The subgraph_name_one schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "clauses"
-                    ]
+                    "description": "The name of the 1st partition subgraph.",
+                    "default": "clauses"
                 },
                 "subgraph_name_two": {
                     "$id": "#/properties/incidenceGraph/properties/subgraph_name_two",
                     "type": "string",
-                    "title": "The subgraph_name_two schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "variables"
-                    ]
+                    "description": "The name of the 2nd partition subgraph.",
+                    "default": "variables"
                 },
                 "var_name_one": {
                     "$id": "#/properties/incidenceGraph/properties/var_name_one",
                     "type": "string",
-                    "title": "The var_name_one schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        ""
-                    ]
+                    "description": "The label for nodes in the 1st partition.",
+                    "default": ""
                 },
                 "var_name_two": {
                     "$id": "#/properties/incidenceGraph/properties/var_name_two",
                     "type": "string",
-                    "title": "The var_name_two schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        ""
-                    ]
+                    "description": "The label for nodes in the 2nd partition.",
+                    "default": ""
                 },
                 "infer_primal": {
                     "$id": "#/properties/incidenceGraph/properties/infer_primal",
                     "type": "boolean",
-                    "title": "The infer_primal schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to calculate the primal graph from the incidence edges.",
+                    "default": false
                 },
                 "infer_dual": {
                     "$id": "#/properties/incidenceGraph/properties/infer_dual",
                     "type": "boolean",
-                    "title": "The infer_dual schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to calculate the dual graph from the incidence edges.",
+                    "default": false
                 },
                 "fontsize": {
                     "$id": "#/properties/incidenceGraph/properties/fontsize",
                     "type": "integer",
-                    "title": "The fontsize schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                        16
-                    ]
+                    "description": "The fontsize in pixels.",
+                    "default": 16
                 },
                 "second_shape": {
                     "$id": "#/properties/incidenceGraph/properties/second_shape",
                     "type": "string",
-                    "title": "The second_shape schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "diamond"
-                    ]
+                    "description": "A description of the shape for the nodes in the 2nd partition.",
+                    "default": "diamond"
                 },
                 "column_distance": {
                     "$id": "#/properties/incidenceGraph/properties/column_distance",
                     "type": "number",
-                    "title": "The column_distance schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0.0,
-                    "examples": [
-                        0.5
-                    ]
+                    "description": "The distance between the partitions in units.",
+                    "default": 0.5
                 },
                 "edges": {
                     "$id": "#/properties/incidenceGraph/properties/edges",
                     "type": "array",
-                    "title": "The edges schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": [],
+                    "description": "The edges from the 1st partition to the 2nd partition.",
                     "examples": [
                         [
                             {
@@ -1841,9 +1783,6 @@
                             {
                                 "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0",
                                 "type": "object",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": {},
                                 "examples": [
                                     {
                                         "id": 1,
@@ -1864,40 +1803,15 @@
                                         "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/id",
                                         "type": "integer",
                                         "title": "The id schema",
-                                        "description": "An explanation about the purpose of this instance.",
-                                        "default": 0,
-                                        "examples": [
-                                            1
-                                        ]
+                                        "description": "An integer id from the first partition."
                                     },
                                     "list": {
                                         "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list",
                                         "type": "array",
-                                        "title": "The list schema",
-                                        "description": "An explanation about the purpose of this instance.",
-                                        "default": [],
-                                        "examples": [
-                                            [
-                                                1,
-                                                4
-                                            ]
-                                        ],
+                                        "description": "Ids from the second partition connected to 'id'.",
                                         "additionalItems": true,
                                         "items": {
-                                            "anyOf": [
-                                                {
-                                                    "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items/anyOf/0",
-                                                    "type": "integer",
-                                                    "title": "The first anyOf schema",
-                                                    "description": "An explanation about the purpose of this instance.",
-                                                    "default": 0,
-                                                    "examples": [
-                                                        1,
-                                                        4
-                                                    ]
-                                                }
-                                            ],
-                                            "$id": "#/properties/incidenceGraph/properties/edges/items/anyOf/0/properties/list/items"
+                                            "type": "integer"
                                         }
                                     }
                                 }
@@ -1911,9 +1825,7 @@
         "generalGraph": {
             "$id": "#/properties/generalGraph",
             "type": "object",
-            "title": "The generalGraph schema",
-            "description": "An explanation about the purpose of this instance.",
-            "default": {},
+            "description": "A graph with various layout parameters.",
             "examples": [
                 {
                     "graph_name": "graph",
@@ -1953,16 +1865,6 @@
                 }
             ],
             "required": [
-                "graph_name",
-                "var_name",
-                "sort_nodes",
-                "need_adj_nodes",
-                "extra_nodes",
-                "fontsize",
-                "first_color",
-                "first_style",
-                "second_color",
-                "second_style",
                 "edges"
             ],
             "additionalProperties": true,
@@ -1970,126 +1872,71 @@
                 "graph_name": {
                     "$id": "#/properties/generalGraph/properties/graph_name",
                     "type": "string",
-                    "title": "The graph_name schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "graph"
-                    ]
+                    "description": "The name for this graph.",
+                    "default": "graph"
                 },
                 "var_name": {
                     "$id": "#/properties/generalGraph/properties/var_name",
                     "type": "string",
-                    "title": "The var_name schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        ""
-                    ]
+                    "description": "The label for nodes in the graph.",
+                    "default": ""
                 },
                 "sort_nodes": {
                     "$id": "#/properties/generalGraph/properties/sort_nodes",
                     "type": "boolean",
-                    "title": "The sort_nodes schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to sort nodes for the layout based on their id.",
+                    "default": false
                 },
                 "need_adj_nodes": {
                     "$id": "#/properties/generalGraph/properties/need_adj_nodes",
                     "type": "boolean",
-                    "title": "The need_adj_nodes schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": false,
-                    "examples": [
-                        false
-                    ]
+                    "description": "Whether to consider adjacent nodes of the current bag for the emphasis.",
+                    "default": false
                 },
                 "extra_nodes": {
                     "$id": "#/properties/generalGraph/properties/extra_nodes",
                     "type": "array",
-                    "title": "The extra_nodes schema",
-                    "description": "An explanation about the purpose of this instance.",
+                    "description": "Can contain nodes (with no edges connected).",
                     "default": [],
-                    "examples": [
-                        [
-                            100
-                        ]
-                    ],
                     "additionalItems": true,
                     "items": {
-                        "anyOf": [
-                            {
-                                "$id": "#/properties/generalGraph/properties/extra_nodes/items/anyOf/0",
-                                "type": "integer",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": 0,
-                                "examples": [
-                                    100
-                                ]
-                            }
-                        ],
-                        "$id": "#/properties/generalGraph/properties/extra_nodes/items"
+                        "type": "integer"
                     }
                 },
                 "fontsize": {
                     "$id": "#/properties/generalGraph/properties/fontsize",
                     "type": "integer",
-                    "title": "The fontsize schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                        20
-                    ]
+                    "description": "The fontsize in pixels.",
+                    "default": 20
                 },
                 "first_color": {
                     "$id": "#/properties/generalGraph/properties/first_color",
                     "type": "string",
-                    "title": "The first_color schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "yellow"
-                    ]
+                    "description": "The color for primary highlighting.",
+                    "default": "yellow"
                 },
                 "first_style": {
                     "$id": "#/properties/generalGraph/properties/first_style",
                     "type": "string",
-                    "title": "The first_style schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "filled"
-                    ]
+                    "description": "The style for primary highlighting.",
+                    "default": "filled"
                 },
                 "second_color": {
                     "$id": "#/properties/generalGraph/properties/second_color",
                     "type": "string",
-                    "title": "The second_color schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "green"
-                    ]
+                    "description": "The color for secondary highlighting.",
+                    "default": "green"
                 },
                 "second_style": {
                     "$id": "#/properties/generalGraph/properties/second_style",
                     "type": "string",
-                    "title": "The second_style schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "dotted,filled"
-                    ]
+                    "description": "The style for secondary highlighting.",
+                    "default": "dotted,filled"
                 },
                 "edges": {
                     "$id": "#/properties/generalGraph/properties/edges",
                     "type": "array",
-                    "title": "The edges schema",
-                    "description": "An explanation about the purpose of this instance.",
+                    "description": "Every (undirected) edge as tuple of two node ids.",
                     "default": [],
                     "examples": [
                         [
@@ -2109,151 +1956,9 @@
                             {
                                 "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0",
                                 "type": "array",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        6,
-                                        15
-                                    ]
-                                ],
                                 "additionalItems": true,
                                 "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                6,
-                                                15
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/0/items"
-                                }
-                            },
-                            {
-                                "$id": "#/properties/generalGraph/properties/edges/items/anyOf/1",
-                                "type": "array",
-                                "title": "The second anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        3,
-                                        4
-                                    ]
-                                ],
-                                "additionalItems": true,
-                                "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/1/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                3,
-                                                4
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/1/items"
-                                }
-                            },
-                            {
-                                "$id": "#/properties/generalGraph/properties/edges/items/anyOf/2",
-                                "type": "array",
-                                "title": "The third anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        4,
-                                        3
-                                    ]
-                                ],
-                                "additionalItems": true,
-                                "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/2/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                4,
-                                                3
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/2/items"
-                                }
-                            },
-                            {
-                                "$id": "#/properties/generalGraph/properties/edges/items/anyOf/3",
-                                "type": "array",
-                                "title": "The fourth anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        14,
-                                        7
-                                    ]
-                                ],
-                                "additionalItems": true,
-                                "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/3/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                14,
-                                                7
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/3/items"
-                                }
-                            },
-                            {
-                                "$id": "#/properties/generalGraph/properties/edges/items/anyOf/4",
-                                "type": "array",
-                                "title": "The fifth anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": [],
-                                "examples": [
-                                    [
-                                        5,
-                                        4
-                                    ]
-                                ],
-                                "additionalItems": true,
-                                "items": {
-                                    "anyOf": [
-                                        {
-                                            "$id": "#/properties/generalGraph/properties/edges/items/anyOf/4/items/anyOf/0",
-                                            "type": "integer",
-                                            "title": "The first anyOf schema",
-                                            "description": "An explanation about the purpose of this instance.",
-                                            "default": 0,
-                                            "examples": [
-                                                5,
-                                                4
-                                            ]
-                                        }
-                                    ],
-                                    "$id": "#/properties/generalGraph/properties/edges/items/anyOf/4/items"
+                                    "type": "integer"
                                 }
                             }
                         ],
