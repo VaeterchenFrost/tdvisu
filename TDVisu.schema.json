@@ -315,7 +315,6 @@
   "definitions": {
     "generalGraph": {
       "type": "object",
-      "description": "A graph with various layout parameters.",
       "examples": [
         {
           "graph_name": "graph",
@@ -458,9 +457,6 @@
     },
     "incidenceGraph": {
       "type": "object",
-      "title": "The incidenceGraph schema",
-      "description": "A bipartite graph called incidence graph.",
-      "default": {},
       "examples": [
         {
           "subgraph_name_one": "clauses",
@@ -631,8 +627,7 @@
       "$id": "#/properties/treeDecJson",
       "type": "object",
       "title": "The treeDecJson schema",
-      "description": "An explanation about the purpose of this instance.",
-      "default": {},
+      "description": "Describes the tree decomposition.",
       "examples": [
         {
           "bagpre": "bag %s",
@@ -734,9 +729,7 @@
         "bagpre": {
           "$id": "#/properties/treeDecJson/properties/bagpre",
           "type": "string",
-          "title": "The bagpre schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
+          "description": "The string prefix for every bag label.",
           "examples": [
             "bag %s"
           ]
@@ -744,49 +737,30 @@
         "num_vars": {
           "$id": "#/properties/treeDecJson/properties/num_vars",
           "type": "integer",
-          "title": "The num_vars schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": 0,
-          "examples": [
-            1
-          ]
+          "description": "The number of variables in the 2nd partition."
         },
         "joinpre": {
           "$id": "#/properties/treeDecJson/properties/joinpre",
           "type": "string",
-          "title": "The joinpre schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "Join %d~%d"
-          ]
+          "description": "The string prefix for every label for joined bags.",
+          "default": "Join %d~%d"
         },
         "solpre": {
           "$id": "#/properties/treeDecJson/properties/solpre",
           "type": "string",
-          "title": "The solpre schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "sol%d"
-          ]
+          "description": "The string prefix for every label of solution nodes.",
+          "default": "sol%d"
         },
         "soljoinpre": {
           "$id": "#/properties/treeDecJson/properties/soljoinpre",
           "type": "string",
-          "title": "The soljoinpre schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": "",
-          "examples": [
-            "solJoin%d~%d"
-          ]
+          "description": "The string prefix for every label of solution nodes for joined bags.",
+          "default": "solJoin%d~%d"
         },
         "edgearray": {
           "$id": "#/properties/treeDecJson/properties/edgearray",
           "type": "array",
-          "title": "The edgearray schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": [],
+          "description": "The edges of the tree decomposition as tuples of bag ids.",
           "examples": [
             [
               [
@@ -805,9 +779,8 @@
               {
                 "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0",
                 "type": "array",
-                "title": "The first anyOf schema",
-                "description": "An explanation about the purpose of this instance.",
-                "default": [],
+                "description": "Tuples of edge endpoints. Each at least two items.",
+                "minItems": 2,
                 "examples": [
                   [
                     2,
@@ -816,110 +789,7 @@
                 ],
                 "additionalItems": true,
                 "items": {
-                  "anyOf": [
-                    {
-                      "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0/items/anyOf/0",
-                      "type": "integer",
-                      "title": "The first anyOf schema",
-                      "description": "An explanation about the purpose of this instance.",
-                      "default": 0,
-                      "examples": [
-                        2,
-                        1
-                      ]
-                    }
-                  ],
-                  "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0/items"
-                }
-              },
-              {
-                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1",
-                "type": "array",
-                "title": "The second anyOf schema",
-                "description": "An explanation about the purpose of this instance.",
-                "default": [],
-                "examples": [
-                  [
-                    3,
-                    2
-                  ]
-                ],
-                "additionalItems": true,
-                "items": {
-                  "anyOf": [
-                    {
-                      "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1/items/anyOf/0",
-                      "type": "integer",
-                      "title": "The first anyOf schema",
-                      "description": "An explanation about the purpose of this instance.",
-                      "default": 0,
-                      "examples": [
-                        3,
-                        2
-                      ]
-                    }
-                  ],
-                  "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/1/items"
-                }
-              },
-              {
-                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2",
-                "type": "array",
-                "title": "The third anyOf schema",
-                "description": "An explanation about the purpose of this instance.",
-                "default": [],
-                "examples": [
-                  [
-                    4,
-                    2
-                  ]
-                ],
-                "additionalItems": true,
-                "items": {
-                  "anyOf": [
-                    {
-                      "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2/items/anyOf/0",
-                      "type": "integer",
-                      "title": "The first anyOf schema",
-                      "description": "An explanation about the purpose of this instance.",
-                      "default": 0,
-                      "examples": [
-                        4,
-                        2
-                      ]
-                    }
-                  ],
-                  "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/2/items"
-                }
-              },
-              {
-                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3",
-                "type": "array",
-                "title": "The fourth anyOf schema",
-                "description": "An explanation about the purpose of this instance.",
-                "default": [],
-                "examples": [
-                  [
-                    5,
-                    3
-                  ]
-                ],
-                "additionalItems": true,
-                "items": {
-                  "anyOf": [
-                    {
-                      "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3/items/anyOf/0",
-                      "type": "integer",
-                      "title": "The first anyOf schema",
-                      "description": "An explanation about the purpose of this instance.",
-                      "default": 0,
-                      "examples": [
-                        5,
-                        3
-                      ]
-                    }
-                  ],
-                  "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/3/items"
+                  "type": "integer"
                 }
               }
             ],
@@ -930,8 +800,7 @@
           "$id": "#/properties/treeDecJson/properties/labeldict",
           "type": "array",
           "title": "The labeldict schema",
-          "description": "An explanation about the purpose of this instance.",
-          "default": [],
+          "description": "Labels and items for each bag.",
           "examples": [
             [
               {
@@ -967,9 +836,7 @@
               {
                 "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0",
                 "type": "object",
-                "title": "The first anyOf schema",
                 "description": "An explanation about the purpose of this instance.",
-                "default": {},
                 "examples": [
                   {
                     "id": 1,
@@ -993,20 +860,12 @@
                 "properties": {
                   "id": {
                     "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/id",
-                    "type": "integer",
-                    "title": "The id schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                      1
-                    ]
+                    "type": "integer"
                   },
                   "items": {
                     "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items",
                     "type": "array",
-                    "title": "The items schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": [],
+                    "description": "Variables included in the bag.",
                     "examples": [
                       [
                         1,
@@ -1015,28 +874,13 @@
                     ],
                     "additionalItems": true,
                     "items": {
-                      "anyOf": [
-                        {
-                          "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items/items/anyOf/0",
-                          "type": "integer",
-                          "title": "The first anyOf schema",
-                          "description": "An explanation about the purpose of this instance.",
-                          "default": 0,
-                          "examples": [
-                            1,
-                            2
-                          ]
-                        }
-                      ],
-                      "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items/items"
+                      "type": "integer"
                     }
                   },
                   "labels": {
                     "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels",
                     "type": "array",
-                    "title": "The labels schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": [],
+                    "description": "List of labels to add to the bag.",
                     "examples": [
                       [
                         "[1, 2, 5]",
@@ -1045,20 +889,7 @@
                     ],
                     "additionalItems": true,
                     "items": {
-                      "anyOf": [
-                        {
-                          "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels/items/anyOf/0",
-                          "type": "string",
-                          "title": "The first anyOf schema",
-                          "description": "An explanation about the purpose of this instance.",
-                          "default": "",
-                          "examples": [
-                            "[1, 2, 5]",
-                            "dtime=0.0007s"
-                          ]
-                        }
-                      ],
-                      "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels/items"
+                      "type": "string"
                     }
                   }
                 }
@@ -1074,7 +905,6 @@
       "type": "array",
       "title": "The tdTimeline schema",
       "description": "An explanation about the purpose of this instance.",
-      "default": [],
       "examples": [
         [
           [
@@ -1963,6 +1793,7 @@
       }
     },
     "incidenceGraph": {
+      "description": "A bipartite graph called incidence graph.",
       "anyOf": [
         {
           "$ref": "#/definitions/incidenceGraph"
@@ -1977,6 +1808,7 @@
       ]
     },
     "generalGraph": {
+      "description": "One or list of (simple) graphs with various layout parameters.",
       "anyOf": [
         {
           "$ref": "#/definitions/generalGraph"
