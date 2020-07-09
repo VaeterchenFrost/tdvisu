@@ -6,12 +6,17 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
-- Fixed error where database configuration was not found in the directory.
+### Added
 - Added 'col' to allowed formats in tw reader (default string in Mathematica)
-- Removed *generalGraph* and *incidenceGraph* from required arguments in API
+- Added *TDVisu.schema.json* to validate the Json-API for TDVisu
+
+### Changed
+- Fixed error where database configuration was not found in the directory
 - Fixed missing double quotation marks in JsonAPI.md
-- Added *TDVisu.schema.json* 
 - Moved JsonAPI.md → *doc/JsonAPI.md*
+
+### Removed
+- Removed *generalGraph* and *incidenceGraph* from required arguments in API
 
 ## [1.1.2] - 2020-06-26
 ### Added
