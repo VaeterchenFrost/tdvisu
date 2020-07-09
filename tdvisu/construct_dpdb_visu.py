@@ -202,7 +202,6 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
         timeline = self.read_timeline(edgearray)
 
         return {'incidenceGraph': incidence_graph,
-                'generalGraph': False,
                 'tdTimeline': timeline,
                 'treeDecJson': tree_dec_json}
 
@@ -434,8 +433,7 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
         general_gr = {'edges': self.read_twfile()} if self.tw_file else False
 
         timeline = self.read_timeline(edgearray)
-        return {'incidenceGraph': False,
-                'generalGraph': general_gr,
+        return {'generalGraph': general_gr,
                 'tdTimeline': timeline,
                 'treeDecJson': tree_dec_json}
 
