@@ -75,6 +75,7 @@ class GeneralGraphData:
     second_color: str = 'green'
     second_style: str = 'dotted,filled'
     third_color: str = 'red'
+
     def __post_init__(self):
         if self.extra_nodes is None:
             self.extra_nodes = list()

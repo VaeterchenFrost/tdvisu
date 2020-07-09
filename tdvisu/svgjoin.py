@@ -352,6 +352,6 @@ if __name__ == "__main__":
     svg_join(['TDStep', 'graph'],
              'Archive/WheelGraph7',
              outname="default_06sc15_rise",
-             v_bottom=[1,.85,.7,.55,.4],
+             v_bottom=[1, .85, .7, .55, .4],
              scale2=1.5,
              num_images=5)
