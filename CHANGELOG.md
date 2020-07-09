@@ -8,6 +8,10 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 ## [Unreleased]
 - Fixed error where database configuration was not found in the directory.
 - Added 'col' to allowed formats in tw reader (default string in Mathematica)
+- Removed *generalGraph* and *incidenceGraph* from required arguments in API
+- Fixed missing double quotation marks in JsonAPI.md
+- Added *TDVisu.schema.json* 
+- Moved JsonAPI.md → *doc/JsonAPI.md*
 
 ## [1.1.2] - 2020-06-26
 ### Added
