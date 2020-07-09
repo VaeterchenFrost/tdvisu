@@ -6,9 +6,10 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
+## [1.1.3] - 2020-07-09
 ### Added
 - Added 'col' to allowed formats in tw reader (default string in Mathematica)
-- Added *TDVisu.schema.json* to validate the Json-API for TDVisu
+- Added *TDVisu.schema.json* to validate the Json-API for TDVisu [#24]
 
 ### Changed
 - Fixed error where database configuration was not found in the directory
@@ -130,6 +131,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [#13]: https://github.com/VaeterchenFrost/tdvisu/issues/13
 [#20]: https://github.com/VaeterchenFrost/tdvisu/pull/20
 [#22]: https://github.com/VaeterchenFrost/tdvisu/issues/22
+[#24]: https://github.com/VaeterchenFrost/tdvisu/issues/24
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 [PyPI]: https://pypi.org/project/tdvisu/
@@ -137,7 +139,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.2...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.3...master
+[1.1.3]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.3
 [1.1.2]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.2
 [1.1.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.1
 [1.1.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.0
