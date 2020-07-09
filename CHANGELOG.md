@@ -6,10 +6,12 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/ )
 project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 
 ## [Unreleased]
+- No unreleased changes yet.
+
 ## [1.1.3] - 2020-07-09
 ### Added
-- Added 'col' to allowed formats in tw reader (default string in Mathematica)
 - Added *TDVisu.schema.json* to validate the Json-API for TDVisu [#24]
+- Added 'col' to allowed formats in tw reader (default string in Mathematica)
 
 ### Changed
 - Fixed error where database configuration was not found in the directory
