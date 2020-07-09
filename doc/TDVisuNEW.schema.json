@@ -2050,7 +2050,7 @@
             "$id": "#/properties/svgjoin",
             "type": "object",
             "title": "The svgjoin schema",
-            "description": "An explanation about the purpose of this instance.",
+            "description": "Parameters to join SVG graphs.",
             "default": {},
             "examples": [
                 {
@@ -2071,24 +2071,14 @@
                 }
             ],
             "required": [
-                "base_names",
-                "folder",
-                "outname",
-                "suffix",
-                "preserve_aspectratio",
-                "num_images",
-                "padding",
-                "scale2",
-                "v_top",
-                "v_bottom"
+                "base_names"
             ],
             "additionalProperties": true,
             "properties": {
                 "base_names": {
                     "$id": "#/properties/svgjoin/properties/base_names",
                     "type": "array",
-                    "title": "The base_names schema",
-                    "description": "An explanation about the purpose of this instance.",
+                    "description": "The base for file names without index and extension to be joined.",
                     "default": [],
                     "examples": [
                         [
@@ -2098,111 +2088,65 @@
                     ],
                     "additionalItems": true,
                     "items": {
-                        "anyOf": [
-                            {
-                                "$id": "#/properties/svgjoin/properties/base_names/items/anyOf/0",
-                                "type": "string",
-                                "title": "The first anyOf schema",
-                                "description": "An explanation about the purpose of this instance.",
-                                "default": "",
-                                "examples": [
-                                    "TDStep",
-                                    "PrimalGraphStep"
-                                ]
-                            }
-                        ],
-                        "$id": "#/properties/svgjoin/properties/base_names/items"
+                        "type": "string"
                     }
                 },
                 "folder": {
                     "$id": "#/properties/svgjoin/properties/folder",
-                    "type": "null",
-                    "title": "The folder schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": null,
-                    "examples": [
-                        null
-                    ]
+                    "type": ["string","null"],
+                    "description": "The working directory also for the input files. Default is not set.",
+                    "default": null
                 },
                 "outname": {
                     "$id": "#/properties/svgjoin/properties/outname",
                     "type": "string",
-                    "title": "The outname schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "combined"
-                    ]
+                    "description": "The base name for the result files.",
+                    "default": "combined"
                 },
                 "suffix": {
                     "$id": "#/properties/svgjoin/properties/suffix",
                     "type": "string",
-                    "title": "The suffix schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "%d.svg"
-                    ]
+                    "description": "The suffix for result files.",
+                    "default": "%d.svg"
                 },
                 "preserve_aspectratio": {
                     "$id": "#/properties/svgjoin/properties/preserve_aspectratio",
                     "type": "string",
-                    "title": "The preserve_aspectratio schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
+                    "description": "From <https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/preserveAspectRatio> The preserveAspectRatio attribute indicates how an element with a viewBox providing a given aspect ratio must fit into a viewport with a different aspect ratio. Defined by the 'viewBox' attribute, if this attribute isn't set, the preserveAspectRatio attribute has no effect.",
+                    "default": "xMinYMin",
                     "examples": [
-                        "xMinYMin"
+                        "none","xMinYMin","xMidYMin","xMaxYMin","xMinYMid","xMidYMid slice","xMaxYMid slice"
                     ]
                 },
                 "num_images": {
                     "$id": "#/properties/svgjoin/properties/num_images",
                     "type": "integer",
-                    "title": "The num_images schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                        1
-                    ]
+                    "description": "The number of time steps to join.",
+                    "default": 1
                 },
                 "padding": {
                     "$id": "#/properties/svgjoin/properties/padding",
-                    "type": "integer",
-                    "title": "The padding schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0,
-                    "examples": [
-                        0
-                    ]
+                    "type": ["list","integer"],
+                    "description": "Horizontal padding between the images.",
+                    "default": 0
                 },
                 "scale2": {
                     "$id": "#/properties/svgjoin/properties/scale2",
-                    "type": "number",
-                    "title": "The scale2 schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": 0.0,
-                    "examples": [
-                        1.0
-                    ]
+                    "type": ["list","number"],
+                    "description": "The uniform scaling of the next image.",
+                    "default": 1.0
                 },
                 "v_top": {
                     "$id": "#/properties/svgjoin/properties/v_top",
-                    "type": "string",
-                    "title": "The v_top schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": "",
-                    "examples": [
-                        "top"
-                    ]
+                    "type": ["list","string","number","null"],
+                    "description": "The vertical position of the top of the next image in units of the previous size.",
+                    "default": "top"
                 },
                 "v_bottom": {
                     "$id": "#/properties/svgjoin/properties/v_bottom",
-                    "type": "null",
-                    "title": "The v_bottom schema",
-                    "description": "An explanation about the purpose of this instance.",
-                    "default": null,
-                    "examples": [
-                        null
-                    ]
+                    "type": ["list","string","number","null"],
+                    "description": "The vertical position of the bottom of the next image in units of the previous size.",
+                    "default": null
                 }
             }
         }
