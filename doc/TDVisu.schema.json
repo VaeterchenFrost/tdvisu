@@ -412,9 +412,6 @@
       "required": [
         "bagpre",
         "num_vars",
-        "joinpre",
-        "solpre",
-        "soljoinpre",
         "edgearray",
         "labeldict"
       ],
