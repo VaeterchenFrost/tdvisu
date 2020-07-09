@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema",
-  "$id": "https://raw.githubusercontent.com/VaeterchenFrost/tdvisu/master/doc/TDVisu.schema.json",
+  "$id": "https://raw.githubusercontent.com/VaeterchenFrost/tdvisu/master/TDVisu.schema.json",
   "type": "object",
   "title": "The root schema for TDVisu",
   "description": "The schema describes the valid JSON input for visualizing dynamic programming on tree-decompositions in TDVisu.",
