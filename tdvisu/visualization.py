@@ -302,18 +302,18 @@ class Visualization:
             else:
                 # Join operation - no clauses involved in computation
                 _timeline.append(None)
-        __incid = self.data.incidence_graphs
-        if __incid:
-            for incidence_data in __incid:
+        
+        if self.data.incidence_graphs:
+            for incidence_data in self.data.incidence_graphs:
                 self.prepare_incidence(incidence_data, _timeline)
 
         if self.data.general_graphs:
-            #TODO
-            self.general_graph(timeline=_timeline, view=view,
-                               **asdict(self.data.general_graphs))
-            LOGGER.info(
-                "Created general-graph for file='%s'",
-                self.data.general_graphs.file_basename)
+            for graph_data in self.data.general_graphs:
+                self.general_graph(timeline=_timeline, view=view,
+                                   **asdict(graph_data))
+                LOGGER.info(
+                    "Created general-graph for file='%s'",
+                    graph_data.file_basename)
         if self.data.svg_join:
             self.call_svgjoin()
 
