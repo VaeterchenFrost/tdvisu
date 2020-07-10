@@ -130,5 +130,5 @@ if __name__ == "__main__":
     # Just Testing:
     incid = [IncidenceGraphData([])]
     gen = [GeneralGraphData([])]
-    data = VisualizationData(incidence_graph=incid, general_graph=gen)
+    data = VisualizationData(incidence_graphs=incid, general_graphs=gen)
     print(data)

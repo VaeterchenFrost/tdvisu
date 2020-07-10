@@ -110,7 +110,7 @@ class Visualization:
                 for data in _incid:
                     # add object to incid_data
                     data['edges'] = [[x['id'], x['list']]
-                                       for x in data['edges']]
+                                     for x in data['edges']]
                     incid_data += [IncidenceGraphData(**data)]
             visudata.pop('incidenceGraph')
 
@@ -302,11 +302,12 @@ class Visualization:
             else:
                 # Join operation - no clauses involved in computation
                 _timeline.append(None)
-        
+
         if self.data.incidence_graphs:
             for incidence_data in self.data.incidence_graphs:
-                self.prepare_incidence(incidence_data, _timeline)
-
+                self.prepare_incidence(incidence_data, _timeline, view)
+                LOGGER.info("Created incidence-graph for file='%s'",
+                            incidence_data.inc_file)
         if self.data.general_graphs:
             for graph_data in self.data.general_graphs:
                 self.general_graph(timeline=_timeline, view=view,
@@ -317,7 +318,7 @@ class Visualization:
         if self.data.svg_join:
             self.call_svgjoin()
 
-    def prepare_incidence(self, incid, _timeline):
+    def prepare_incidence(self, incid, _timeline, view):
         """Prepare incidence construction."""
         if incid.infer_primal or incid.infer_dual:
             # prepare incid edges with abs:
@@ -361,8 +362,9 @@ class Visualization:
                 file_basename=incid.dual_file,
                 var_name=incid.var_name_one)
             LOGGER.info("Created infered dual-graph")
-        
+
         self.incidence(
+            edges=incid.edges,
             timeline=_timeline,
             inc_file=incid.inc_file,
             num_vars=self.tree_dec['num_vars'],
@@ -373,8 +375,7 @@ class Visualization:
             var_name_one=incid.var_name_one,
             var_name_two=incid.var_name_two,
             column_distance=incid.column_distance)
-        LOGGER.info("Created incidence-graph for file='%s'", incid.inc_file)
-   
+
     def general_graph(
             self,
             timeline: Iterable[Optional[List[int]]],
@@ -518,6 +519,7 @@ class Visualization:
             timeline: Iterable[Optional[List[int]]],
             num_vars: int,
             colors: List,
+            edges: List,
             inc_file: str = 'IncidenceGraphStep',
             view: bool = False,
             fontsize: Union[str, int] = 16,
@@ -581,14 +583,13 @@ class Visualization:
                 'penwidth': str(float(penwidth)),
                 'dir': 'back',
                 'arrowtail': 'none'})
-        __incid = self.data.incidence_graphs
         with g_incid.subgraph(name='cluster_clause',
                               edge_attr={'style': 'invis'},
                               node_attr={'style': 'rounded,filled',
                                          'fillcolor': basefill}) as clauses:
             clauses.attr(label='clauses')
             clauses.edges([(clausetag_n % (i + 1), clausetag_n % (i + 2))
-                           for i in range(len(__incid.edges) - 1)])
+                           for i in range(len(edges) - 1)])
 
         g_incid.attr('node', shape=sndshape,
                      penwidth=str(float(penwidth)),
@@ -606,7 +607,7 @@ class Visualization:
 
         g_incid.attr('edge', constraint='false')
 
-        for clause in __incid.edges:
+        for clause in edges:
             for var in clause[1]:
                 if var >= 0:
                     g_incid.edge(clausetag_n % clause[0],
@@ -621,7 +622,7 @@ class Visualization:
         # make edgelist variable-based (varX, clauseY), ...
         #  var_cl_iter [(1, 1), (4, 1), ...
         var_cl_iter = tuple(flatten([[(x, y[0]) for x in y[1]]
-                                     for y in __incid.edges]))
+                                     for y in edges]))
 
         bodybaselen = len(g_incid.body)
         for i, variables in enumerate(timeline, start=1):    # all timesteps
