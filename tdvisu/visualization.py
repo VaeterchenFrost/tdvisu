@@ -113,7 +113,7 @@ class Visualization:
                                        for x in data['edges']]
                     incid_data += [IncidenceGraphData(**data)]
             visudata.pop('incidenceGraph')
-            
+
             general_graph_data: List[GeneralGraphData] = list()
             if _general_graph:
                 if not isinstance(_general_graph, list):
@@ -121,7 +121,7 @@ class Visualization:
                 for data in _general_graph:
                     general_graph_data += [GeneralGraphData(**_general_graph)]
             visudata.pop('generalGraph')
-            
+
             svg_join_data: Optional[SvgJoinData] = None
             if _svg_join:
                 svg_join_data = SvgJoinData(**_svg_join)
@@ -138,8 +138,8 @@ class Visualization:
             visudata.pop('treeDecJson')
         except KeyError as err:
             raise KeyError(f"Key {err} not found in the input Json.")
-        return VisualizationData(incidence_graph=incid_data,
-                                 general_graph=general_graph_data,
+        return VisualizationData(incidence_graphs=incid_data,
+                                 general_graphs=general_graph_data,
                                  svg_join=svg_join_data,
                                  **visudata)
 
@@ -302,73 +302,79 @@ class Visualization:
             else:
                 # Join operation - no clauses involved in computation
                 _timeline.append(None)
-        __incid = self.data.incidence_graph
+        __incid = self.data.incidence_graphs
         if __incid:
-            if __incid.infer_primal or __incid.infer_dual:
-                # prepare incid edges with abs:
-                abs_clauses = [[cl[0], list(map(abs, cl[1]))]
-                               for cl in __incid.edges]
-            if __incid.infer_primal:
-                # vertex for each variable + edge if the variables
-                # occur in the same clause:
-                primal_edges = set(flatten(             # remove duplicates
-                    [itertools.combinations(cl[1], 2)
-                     for cl in abs_clauses]))
-                # check if any node is really isolated:
-                isolated = [cl[1][0] for cl in abs_clauses
-                            if len(cl[1]) == 1 and
-                            not any(cl[1][0] in sl for sl in primal_edges)]
+            for incidence_data in __incid:
+                self.prepare_incidence(incidence_data, _timeline)
 
-                self.general_graph(
-                    timeline=_timeline,
-                    edges=primal_edges,
-                    extra_nodes=set(isolated),
-                    graph_name=__incid.primal_file,
-                    file_basename=__incid.primal_file,
-                    var_name=__incid.var_name_two)
-                LOGGER.info("Created infered primal-graph")
-
-            if __incid.infer_dual:
-                # Edge, if clauses share the same variable
-                dual_edges = [(cl[0], other[0])
-                              for i, cl in enumerate(abs_clauses)
-                              for other in abs_clauses[i + 1:]  # no multiples
-                              if any(var in cl[1] for var in other[1])]
-                # check if any clause is isolated:
-                isolated = [cl[0] for cl in abs_clauses
-                            if not any(cl[0] in sl for sl in dual_edges)]
-
-                self.general_graph(
-                    timeline=_timeline,
-                    edges=dual_edges,
-                    extra_nodes=set(isolated),
-                    graph_name=__incid.dual_file,
-                    file_basename=__incid.dual_file,
-                    var_name=__incid.var_name_one)
-                LOGGER.info("Created infered dual-graph")
-            self.incidence(
-                timeline=_timeline,
-                inc_file=__incid.inc_file,
-                num_vars=self.tree_dec['num_vars'],
-                colors=self.data.colors, view=view,
-                fontsize=__incid.fontsize,
-                penwidth=__incid.penwidth,
-                basefill=self.data.bagcolor,
-                var_name_one=__incid.var_name_one,
-                var_name_two=__incid.var_name_two,
-                column_distance=__incid.column_distance)
-            LOGGER.info(
-                "Created incidence-graph for file='%s'",
-                self.data.incidence_graph.inc_file)
-        if self.data.general_graph:
+        if self.data.general_graphs:
+            #TODO
             self.general_graph(timeline=_timeline, view=view,
-                               **asdict(self.data.general_graph))
+                               **asdict(self.data.general_graphs))
             LOGGER.info(
                 "Created general-graph for file='%s'",
-                self.data.general_graph.file_basename)
+                self.data.general_graphs.file_basename)
         if self.data.svg_join:
             self.call_svgjoin()
 
+    def prepare_incidence(self, incid, _timeline):
+        """Prepare incidence construction."""
+        if incid.infer_primal or incid.infer_dual:
+            # prepare incid edges with abs:
+            abs_clauses = [[cl[0], list(map(abs, cl[1]))]
+                           for cl in incid.edges]
+        if incid.infer_primal:
+            # vertex for each variable + edge if the variables
+            # occur in the same clause:
+            primal_edges = set(flatten(             # remove duplicates
+                [itertools.combinations(cl[1], 2)
+                 for cl in abs_clauses]))
+            # check if any node is really isolated:
+            isolated = [cl[1][0] for cl in abs_clauses
+                        if len(cl[1]) == 1 and
+                        not any(cl[1][0] in sl for sl in primal_edges)]
+
+            self.general_graph(
+                timeline=_timeline,
+                edges=primal_edges,
+                extra_nodes=set(isolated),
+                graph_name=incid.primal_file,
+                file_basename=incid.primal_file,
+                var_name=incid.var_name_two)
+            LOGGER.info("Created infered primal-graph")
+
+        if incid.infer_dual:
+            # Edge, if clauses share the same variable
+            dual_edges = [(cl[0], other[0])
+                          for i, cl in enumerate(abs_clauses)
+                          for other in abs_clauses[i + 1:]  # no multiples
+                          if any(var in cl[1] for var in other[1])]
+            # check if any clause is isolated:
+            isolated = [cl[0] for cl in abs_clauses
+                        if not any(cl[0] in sl for sl in dual_edges)]
+
+            self.general_graph(
+                timeline=_timeline,
+                edges=dual_edges,
+                extra_nodes=set(isolated),
+                graph_name=incid.dual_file,
+                file_basename=incid.dual_file,
+                var_name=incid.var_name_one)
+            LOGGER.info("Created infered dual-graph")
+        
+        self.incidence(
+            timeline=_timeline,
+            inc_file=incid.inc_file,
+            num_vars=self.tree_dec['num_vars'],
+            colors=self.data.colors, view=view,
+            fontsize=incid.fontsize,
+            penwidth=incid.penwidth,
+            basefill=self.data.bagcolor,
+            var_name_one=incid.var_name_one,
+            var_name_two=incid.var_name_two,
+            column_distance=incid.column_distance)
+        LOGGER.info("Created incidence-graph for file='%s'", incid.inc_file)
+   
     def general_graph(
             self,
             timeline: Iterable[Optional[List[int]]],
@@ -575,7 +581,7 @@ class Visualization:
                 'penwidth': str(float(penwidth)),
                 'dir': 'back',
                 'arrowtail': 'none'})
-        __incid = self.data.incidence_graph
+        __incid = self.data.incidence_graphs
         with g_incid.subgraph(name='cluster_clause',
                               edge_attr={'style': 'invis'},
                               node_attr={'style': 'rounded,filled',
