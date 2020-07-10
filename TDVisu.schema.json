@@ -904,7 +904,7 @@
       "$id": "#/properties/tdTimeline",
       "type": "array",
       "title": "The tdTimeline schema",
-      "description": "The timesteps solving on the tree decomposition.",
+      "description": "The timesteps for visualizing a solution on the tree decomposition.",
       "examples": [
         [
           [
