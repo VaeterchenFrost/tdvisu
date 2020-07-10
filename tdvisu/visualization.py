@@ -102,16 +102,26 @@ class Visualization:
             _general_graph = visudata.get('generalGraph', None)
             _svg_join = visudata.get('svgjoin', None)
 
-            incid_data: Optional[IncidenceGraphData] = None
+            incid_data: List[IncidenceGraphData] = list()
             if _incid:
-                _incid['edges'] = [[x['id'], x['list']]
-                                   for x in _incid['edges']]
-                incid_data = IncidenceGraphData(**_incid)
+                if not isinstance(_incid, list):
+                    _incid = [_incid]
+                # unwrap as list:
+                for data in _incid:
+                    # add object to incid_data
+                    data['edges'] = [[x['id'], x['list']]
+                                       for x in data['edges']]
+                    incid_data += IncidenceGraphData(**data)
             visudata.pop('incidenceGraph')
-            general_graph_data: Optional[GeneralGraphData] = None
+            
+            general_graph_data: Optional[GeneralGraphData] = list()
             if _general_graph:
-                general_graph_data = GeneralGraphData(**_general_graph)
+                if not isinstance(_general_graph, list):
+                    _general_graph = [_general_graph]
+                for data in _general_graph:
+                    general_graph_data += GeneralGraphData(**_general_graph)
             visudata.pop('generalGraph')
+            
             svg_join_data: Optional[SvgJoinData] = None
             if _svg_join:
                 svg_join_data = SvgJoinData(**_svg_join)
