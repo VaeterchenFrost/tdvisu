@@ -31,16 +31,18 @@
 
     "generalGraph"
     {
+        Optional("extra_nodes" : Optional[list] = null),
         Optional("graph_name" : STR, default="graph"),
+        Optional("file_basename" : STR, default="graph"),
         Optional("var_name" : STR, default=""),
-        Optional("sort_nodes" : BOOLEAN, default=false),
-        Optional("need_adj_nodes" : BOOLEAN, default=false),
-        Optional("extra_nodes" : LIST, default=[]),
+        Optional("do_sort_nodes" : BOOLEAN, default=false),
+        Optional("do_adj_nodes" : LIST, default=[]),
         Optional("fontsize" : INT, default=20),
         Optional("first_color" : STR/COLOR, default ="yellow"),
         Optional("first_style" : STR, default ="filled"),
         Optional("second_color" : STR/COLOR, default="green"),
         Optional("second_style" : STR, default="dotted,filled"),
+        Optional("third_color" : STR, default="red"),
         
         "edges" : [
             [INT, INT],
