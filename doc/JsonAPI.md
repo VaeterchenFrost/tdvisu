@@ -3,7 +3,7 @@
 
 ```perl
 {
-    "incidenceGraph"
+    "incidenceGraph" : Dict or List of
     {
         Optional("subgraph_name_one" : STR, default="clauses"),
         Optional("subgraph_name_two" : STR, default="variables"),
@@ -29,7 +29,7 @@
         ]
     },
 
-    "generalGraph"
+    "generalGraph" : Dict or List of
     {
         Optional("extra_nodes" : Optional[list] = null),
         Optional("graph_name" : STR, default="graph"),
@@ -88,6 +88,22 @@
             ],
     },
     
+    Optional("td_file": STR, default="TDStep"),
+    Optional("colors": List, default=[
+                "#0073a1",
+                "#b14923",
+                "#244320",
+                "#b1740f",
+                "#a682ff",
+                "#004066",
+                "#0d1321",
+                "#da1167",
+                "#604909",
+                "#0073a1",
+                "#b14923",
+                "#244320",
+                "#b1740f",
+                "#a682ff"]),
     Optional("orientation" : Any["BT", "TB", "LR", "RL"] , default="BT"),
     Optional("linesmax" : INT, default=100),
     Optional("columnsmax" : INT, default=20),
