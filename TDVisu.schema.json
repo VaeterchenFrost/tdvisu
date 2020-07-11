@@ -577,11 +577,35 @@
           "description": "Whether to calculate the dual graph from the incidence edges.",
           "default": false
         },
+        "primal_file": {
+          "$id": "#/definitions/incidenceGraph/properties/primal_file",
+          "type": "string",
+          "description": "The name for created primal graph files.",
+          "default": "PrimalGraphStep"
+        },
+        "inc_file": {
+          "$id": "#/definitions/incidenceGraph/properties/inc_file",
+          "type": "string",
+          "description": "The name for created incidence graph files.",
+          "default": "IncidenceGraphStep"
+        },
+        "dual_file": {
+          "$id": "#/definitions/incidenceGraph/properties/dual_file",
+          "type": "string",
+          "description": "The name for created dual graph files.",
+          "default": "DualGraphStep"
+        },
         "fontsize": {
           "$id": "#/definitions/incidenceGraph/properties/fontsize",
           "type": "integer",
           "description": "The fontsize in pixels.",
           "default": 16
+        },
+        "penwidth": {
+          "$id": "#/definitions/incidenceGraph/properties/penwidth",
+          "type": "number",
+          "description": "The width of lines drawn.",
+          "default": 2.2
         },
         "second_shape": {
           "$id": "#/definitions/incidenceGraph/properties/second_shape",
@@ -1146,6 +1170,40 @@
           },
           "minItems": 1
         }
+      ]
+    },
+    "td_file": {
+      "$id": "#/properties/td_file",
+      "description": "The name for tree-decomposition graphics.",
+      "default": "TDStep",
+      "type": "string"
+    },
+    "colors": {
+      "$id": "#/properties/colors",
+      "description": "The color cycle to use for larger collections.",
+      "type": "array",
+      "items": {
+        "type": [
+          "number",
+          "string"
+        ]
+      },
+      "minItems": 1,
+      "default": [
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff",
+        "#004066",
+        "#0d1321",
+        "#da1167",
+        "#604909",
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff"
       ]
     },
     "orientation": {
