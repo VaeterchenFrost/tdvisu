@@ -7,7 +7,7 @@
   "examples": [
     {
       "treeDecJson": {
-        "bagpre": "bag %s",
+        "bagpre": "REQ",
         "num_vars": 1,
         "joinpre": "Join %d~%d",
         "solpre": "sol%d",
@@ -212,7 +212,11 @@
         "var_name_two": "",
         "infer_primal": false,
         "infer_dual": false,
+        "primal_file": "PrimalGraphStep",
+        "inc_file": "IncidenceGraphStep",
+        "dual_file": "DualGraphStep",
         "fontsize": 16,
+        "penwidth": 2.2,
         "second_shape": "diamond",
         "column_distance": 0.5,
         "edges": [
@@ -241,18 +245,20 @@
         ]
       },
       "generalGraph": {
-        "graph_name": "graph",
-        "var_name": "",
-        "sort_nodes": false,
-        "need_adj_nodes": false,
         "extra_nodes": [
           100
         ],
+        "graph_name": "graph",
+        "file_basename": "graph",
+        "var_name": "",
+        "do_sort_nodes": false,
+        "do_adj_nodes": false,
         "fontsize": 20,
         "first_color": "yellow",
         "first_style": "filled",
         "second_color": "green",
         "second_style": "dotted,filled",
+        "third_color": "red",
         "edges": [
           [
             6,
@@ -276,6 +282,23 @@
           ]
         ]
       },
+      "td_file": "TDStep",
+      "colors": [
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff",
+        "#004066",
+        "#0d1321",
+        "#da1167",
+        "#604909",
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff"
+      ],
       "orientation": "BT",
       "linesmax": 100,
       "columnsmax": 20,
@@ -291,9 +314,7 @@
       },
       "svgjoin": {
         "base_names": [
-          "TDStep",
-          "PrimalGraphStep",
-          "IncidenceGraphStep"
+          "REQUIRED"
         ],
         "folder": null,
         "outname": "combined",
@@ -313,6 +334,20 @@
   ],
   "additionalProperties": false,
   "definitions": {
+    "list_integer": {
+      "type": "array",
+      "additionalItems": true,
+      "items": {
+        "type": "integer"
+      }
+    },
+    "list_string": {
+      "type": "array",
+      "additionalItems": true,
+      "items": {
+        "type": "string"
+      }
+    },
     "generalGraph": {
       "type": "object",
       "examples": [
@@ -366,20 +401,26 @@
           "description": "The name for this graph.",
           "default": "graph"
         },
+        "file_basename": {
+          "$id": "#/definitions/generalGraph/properties/file_basename",
+          "type": "string",
+          "description": "The name for the file the graph will be saved in.",
+          "default": "graph"
+        },
         "var_name": {
           "$id": "#/definitions/generalGraph/properties/var_name",
           "type": "string",
           "description": "The label for nodes in the graph.",
           "default": ""
         },
-        "sort_nodes": {
-          "$id": "#/definitions/generalGraph/properties/sort_nodes",
+        "do_sort_nodes": {
+          "$id": "#/definitions/generalGraph/properties/do_sort_nodes",
           "type": "boolean",
           "description": "Whether to sort nodes for the layout based on their id.",
           "default": false
         },
-        "need_adj_nodes": {
-          "$id": "#/definitions/generalGraph/properties/need_adj_nodes",
+        "do_adj_nodes": {
+          "$id": "#/definitions/generalGraph/properties/do_adj_nodes",
           "type": "boolean",
           "description": "Whether to consider adjacent nodes of the current bag for the emphasis.",
           "default": false
@@ -423,11 +464,16 @@
           "description": "The style for secondary highlighting.",
           "default": "dotted,filled"
         },
+        "third_color": {
+          "$id": "#/definitions/generalGraph/properties/third_color",
+          "type": "string",
+          "description": "The color for secondary highlighting.",
+          "default": "green"
+        },
         "edges": {
           "$id": "#/definitions/generalGraph/properties/edges",
           "type": "array",
           "description": "Every (undirected) edge as tuple of two node ids.",
-          "default": [],
           "examples": [
             [
               [
@@ -442,17 +488,7 @@
           ],
           "additionalItems": true,
           "items": {
-            "anyOf": [
-              {
-                "$id": "#/definitions/generalGraph/properties/edges/items/anyOf/0",
-                "type": "array",
-                "additionalItems": true,
-                "items": {
-                  "type": "integer"
-                }
-              }
-            ],
-            "$id": "#/definitions/generalGraph/properties/edges/items"
+            "$ref": "#/definitions/list_integer"
           }
         }
       }
@@ -611,13 +647,8 @@
                     "description": "An integer id from the first partition."
                   },
                   "list": {
-                    "$id": "#/definitions/incidenceGraph/properties/edges/items/anyOf/0/properties/list",
-                    "type": "array",
                     "description": "Ids from the second partition connected to 'id'.",
-                    "additionalItems": true,
-                    "items": {
-                      "type": "integer"
-                    }
+                    "$ref": "#/definitions/list_integer"
                   }
                 }
               }
@@ -783,8 +814,7 @@
           "items": {
             "anyOf": [
               {
-                "$id": "#/properties/treeDecJson/properties/edgearray/items/anyOf/0",
-                "type": "array",
+                "$ref": "#/definitions/list_integer",
                 "description": "Tuples of edge endpoints. Each at least two items.",
                 "minItems": 2,
                 "examples": [
@@ -792,11 +822,7 @@
                     2,
                     1
                   ]
-                ],
-                "additionalItems": true,
-                "items": {
-                  "type": "integer"
-                }
+                ]
               }
             ],
             "$id": "#/properties/treeDecJson/properties/edgearray/items"
@@ -869,34 +895,24 @@
                     "type": "integer"
                   },
                   "items": {
-                    "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/items",
-                    "type": "array",
+                    "$ref": "#/definitions/list_integer",
                     "description": "Variables included in the bag.",
                     "examples": [
                       [
                         1,
                         2
                       ]
-                    ],
-                    "additionalItems": true,
-                    "items": {
-                      "type": "integer"
-                    }
+                    ]
                   },
                   "labels": {
-                    "$id": "#/properties/treeDecJson/properties/labeldict/items/anyOf/0/properties/labels",
-                    "type": "array",
+                    "$ref": "#/definitions/list_string",
                     "description": "List of labels to add to the bag.",
                     "examples": [
                       [
                         "[1, 2, 5]",
                         "dtime=0.0007s"
                       ]
-                    ],
-                    "additionalItems": true,
-                    "items": {
-                      "type": "string"
-                    }
+                    ]
                   }
                 }
               }
@@ -952,18 +968,13 @@
       "items": {
         "anyOf": [
           {
-            "$id": "#/properties/tdTimeline/items/anyOf/0",
-            "type": "array",
+            "$ref": "#/definitions/list_integer",
             "description": "Just a higlighting.",
             "examples": [
               [
                 5
               ]
-            ],
-            "additionalItems": true,
-            "items": {
-              "type": "integer"
-            }
+            ]
           },
           {
             "$id": "#/properties/tdTimeline/items/anyOf/1",
@@ -1251,7 +1262,7 @@
       "properties": {
         "base_names": {
           "$id": "#/properties/svgjoin/properties/base_names",
-          "type": "array",
+          "$ref": "#/definitions/list_string",
           "description": "The base for file names without index and extension to be joined.",
           "minItems": 1,
           "examples": [
@@ -1259,11 +1270,7 @@
               "TDStep",
               "PrimalGraphStep"
             ]
-          ],
-          "additionalItems": true,
-          "items": {
-            "type": "string"
-          }
+          ]
         },
         "folder": {
           "$id": "#/properties/svgjoin/properties/folder",
