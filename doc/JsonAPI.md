@@ -1,5 +1,6 @@
 # The JSON format used to describe MSOL visualization on tree decompositions
 
+Short version. For the full schema see the *TDVisu.schema.json*!
 
 ```perl
 {
