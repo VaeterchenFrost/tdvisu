@@ -119,6 +119,22 @@
         ]
     },
 
+    "td_file": "TDStep",
+    "colors":[
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff",
+        "#004066",
+        "#0d1321",
+        "#da1167",
+        "#604909",
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff"],
     "orientation": "BT",
     "linesmax": 100,
     "columnsmax": 20,
@@ -135,7 +151,7 @@
     },
 
     "svgjoin": {
-        "base_names": ["TDStep", "PrimalGraphStep", "IncidenceGraphStep"],
+        "base_names": ["REQUIRED"],
         "folder": null,
         "outname": "combined",
         "suffix": "%d.svg",
