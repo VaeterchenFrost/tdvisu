@@ -22,16 +22,45 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pathlib import Path
-from tdvisu.construct_dpdb_visu import read_cfg, db_config
+from tdvisu.construct_dpdb_visu import read_cfg, db_config, DEFAULT_DBCONFIG
 
 DIR = Path(__file__).parent
+SECTION = 'postgresql'
 
 
 def test_db_config():
-    result = read_cfg(DIR / 'database.ini', 'postgresql', True)
+    """Test reading the database configuration from the test file."""
+    result = read_cfg(DIR / 'database.ini', SECTION, True)
     assert result == {'application_name': 'dpdb-admin',
-                      'database': 'logicsem',
                       'host': 'localhost',
                       'password': 'XXX',
-                      'port': '5432',
-                      'user': 'postgres'}
+                      'port': '123',
+                      'user': 'postgres'
+                      }, "should be able to read from ini file"
+
+    result = db_config(DIR / 'database.ini', SECTION)
+    assert result == {'application_name': 'dpdb-admin',
+                      'database': DEFAULT_DBCONFIG['database'],
+                      'host': 'localhost',
+                      'password': 'XXX',
+                      'port': '123',
+                      'user': 'postgres'
+                      }, "should complete 'database' with default."
+
+
+def test_db2_config():
+    """Test should use defaults when file not found."""
+    fixed_defaults = db_config(DIR / 'database2.ini', SECTION)
+    assert fixed_defaults == DEFAULT_DBCONFIG
+
+
+def test_db_passwd_config():
+    """Test should add password from file to defaults."""
+    insert_passwd = db_config(DIR / 'db_password.ini', SECTION)
+    assert insert_passwd == {'application_name': 'dpdb-admin',
+                             'database': 'logicsem',
+                             'host': 'localhost',
+                             'password': 'XXX',
+                             'port': 5432,
+                             'user': 'postgres'
+                             }
