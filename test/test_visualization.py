@@ -26,6 +26,8 @@ from pathlib import Path
 
 from tdvisu.visualization import main
 
+EXPECT_DIR = Path(__file__).parent / 'expected_images'
+
 
 def test_sat_and_join(tmpdir):
     """Complete visualization run with svgjoin."""
@@ -56,14 +58,12 @@ def test_sat_and_join(tmpdir):
                    ["IncidenceGraphStep", "PrimalGraphStep", "TDStep"]
                    for i in range(1, 7)]
 
-    expected = [Path(__file__).parent / 'expected_images' / file
-                for file in testobjects]
-
     for file in testobjects:
-        with open(Path(__file__).parent / 'expected_images' / file) as expected:
+        with open(EXPECT_DIR / 'test_sat_and_join' / file) as expected:
             with open(outfolder / file) as result:
                 assert result.read() == expected.read(
                 ), f"{file} should be the same"
+
 
 def test_vc_multiple_and_join(tmpdir):
     """Complete visualization run with svgjoin for MinVC and sorted graph."""
@@ -78,27 +78,24 @@ def test_vc_multiple_and_join(tmpdir):
 
     # get cmd-arguments
     infile = Path(__file__).parent / 'visualization_wheelgraph_2graphs.json'
-    outfolder = Path(__file__).parent / 'temp-test_vc_multiple_and_join'
+    outfolder = Path(tmpdir) / 'temp-test_vc_multiple_and_join'
     _args = parser.parse_args([str(infile), str(outfolder)])
     # call main()
     main(_args)
     files = [file for file in outfolder.iterdir() if file.is_file()]
     assert len(files
-               ) == 42, "total files"
+               ) == 35, "total files"
     assert len([file for file in files if file.suffix == '.svg']
-               ) == 24, "svg files"
+               ) == 20, "svg files"
     assert len([file for file in files if file.suffix == '']
-               ) == 18, "dot source files"
+               ) == 15, "dot source files"
 
     testobjects = [file + str(i) for file in
-                   ["IncidenceGraphStep", "PrimalGraphStep", "TDStep"]
-                   for i in range(1, 7)]
-
-    expected = [Path(__file__).parent / 'expected_images' / file
-                for file in testobjects]
+                   ["TDStep", "graph", "graph_sorted"]
+                   for i in range(1, 5)]
 
     for file in testobjects:
-        with open(Path(__file__).parent / 'expected_images' / file) as expected:
+        with open(EXPECT_DIR / 'test_vc_multiple_and_join' / file) as expected:
             with open(outfolder / file) as result:
                 assert result.read() == expected.read(
                 ), f"{file} should be the same"
