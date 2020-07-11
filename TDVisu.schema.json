@@ -311,7 +311,7 @@
     "tdTimeline",
     "treeDecJson"
   ],
-  "additionalProperties": true,
+  "additionalProperties": false,
   "definitions": {
     "generalGraph": {
       "type": "object",
@@ -356,7 +356,7 @@
       "required": [
         "edges"
       ],
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "graph_name": {
           "$id": "#/definitions/generalGraph/properties/graph_name",
@@ -497,7 +497,7 @@
       "required": [
         "edges"
       ],
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "subgraph_name_one": {
           "$id": "#/definitions/incidenceGraph/properties/subgraph_name_one",
@@ -724,7 +724,7 @@
         "edgearray",
         "labeldict"
       ],
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "bagpre": {
           "$id": "#/properties/treeDecJson/properties/bagpre",
@@ -1190,7 +1190,7 @@
           "secondstyle": "dotted,filled"
         }
       ],
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "firstcolor": {
           "$id": "#/properties/emphasis/properties/firstcolor",
@@ -1241,7 +1241,7 @@
       "required": [
         "base_names"
       ],
-      "additionalProperties": true,
+      "additionalProperties": false,
       "properties": {
         "base_names": {
           "$id": "#/properties/svgjoin/properties/base_names",
