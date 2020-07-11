@@ -112,15 +112,15 @@ class Visualization:
                     data['edges'] = [[x['id'], x['list']]
                                      for x in data['edges']]
                     incid_data += [IncidenceGraphData(**data)]
-            visudata.pop('incidenceGraph')
+            visudata.pop('incidenceGraph', None)
 
             general_graph_data: List[GeneralGraphData] = list()
             if _general_graph:
                 if not isinstance(_general_graph, list):
                     _general_graph = [_general_graph]
                 for data in _general_graph:
-                    general_graph_data += [GeneralGraphData(**_general_graph)]
-            visudata.pop('generalGraph')
+                    general_graph_data += [GeneralGraphData(**data)]
+            visudata.pop('generalGraph', None)
 
             svg_join_data: Optional[SvgJoinData] = None
             if _svg_join:
