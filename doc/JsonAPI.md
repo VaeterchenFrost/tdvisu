@@ -5,16 +5,16 @@
 {
     "incidenceGraph"
     {
-        Optional("subgraph_name_one" : STR, default='clauses'),
-        Optional("subgraph_name_two" : STR, default='variables'),
+        Optional("subgraph_name_one" : STR, default="clauses"),
+        Optional("subgraph_name_two" : STR, default="variables"),
 
-        Optional("var_name_one" : STR, default=''),
-        Optional("var_name_two" : STR, default=''),
+        Optional("var_name_one" : STR, default=""),
+        Optional("var_name_two" : STR, default=""),
 
         Optional("infer_primal" : BOOLEAN, default=false),
         Optional("infer_dual" : BOOLEAN, default=false),
         Optional("fontsize" : INT, default=16),
-        Optional("second_shape" : STR, default='diamond'),
+        Optional("second_shape" : STR, default="diamond"),
         Optional("column_distance" : FLOAT, default=0.5),
         
         "edges" : [
@@ -27,16 +27,16 @@
 
     "generalGraph"
     {
-        Optional("graph_name" : STR, default='graph'),
-        Optional("var_name" : STR, default=''),
+        Optional("graph_name" : STR, default="graph"),
+        Optional("var_name" : STR, default=""),
         Optional("sort_nodes" : BOOLEAN, default=false),
         Optional("need_adj_nodes" : BOOLEAN, default=false),
         Optional("extra_nodes" : LIST, default=[]),
         Optional("fontsize" : INT, default=20),
-        Optional("first_color" : STR/COLOR, default ='yellow'),
-        Optional("first_style" : STR, default ='filled'),
-        Optional("second_color" : STR/COLOR, default='green'),
-        Optional("second_style" : STR, default='dotted,filled'),
+        Optional("first_color" : STR/COLOR, default ="yellow"),
+        Optional("first_style" : STR, default ="filled"),
+        Optional("second_color" : STR/COLOR, default="green"),
+        Optional("second_style" : STR, default="dotted,filled"),
         
         "edges" : [
             [INT, INT],
@@ -65,9 +65,9 @@
     {
         "bagpre" : STR,
         "num_vars" : INT,
-        Optional("joinpre" : STR, default= 'Join %d~%d'),
-        Optional("solpre" : STR, default= 'sol%d'),
-        Optional("soljoinpre" : STR, default= 'solJoin%d~%d'),
+        Optional("joinpre" : STR, default= "Join %d~%d"),
+        Optional("solpre" : STR, default= "sol%d"),
+        Optional("soljoinpre" : STR, default= "solJoin%d~%d"),
         
         "edgearray" : 
             [[INT, INT]...],
@@ -82,20 +82,20 @@
             ],
     },
     
-    Optional("orientation" : Any['BT', 'TB', 'LR', 'RL'] , default='BT'),
+    Optional("orientation" : Any["BT", "TB", "LR", "RL"] , default="BT"),
     Optional("linesmax" : INT, default=100),
     Optional("columnsmax" : INT, default=20),
-    Optional("bagcolor" : STR, default='white'),
+    Optional("bagcolor" : STR, default="white"),
     Optional("fontsize" : INT, default=20),
     Optional("penwidth" : FLOAT, default=2.2),
-    Optional("fontcolor" : STR, default='black'),
+    Optional("fontcolor" : STR, default="black"),
     
     Optional("emphasis" : DICT, default=
         {
-            "firstcolor" : STR/COLOR, default='yellow',
-            "secondcolor" : STR/COLOR, default='green',
-            "firststyle" : STR, default='filled',
-            "secondstyle" : STR, default='dotted,filled'
+            "firstcolor" : STR/COLOR, default="yellow",
+            "secondcolor" : STR/COLOR, default="green",
+            "firststyle" : STR, default="filled",
+            "secondstyle" : STR, default="dotted,filled"
         }
     )
     
@@ -103,13 +103,13 @@
         {
             "base_names" : [STR],
             Optional("folder" : STR/NULL, default=null),
-            Optional("outname" : STR, default='combined'),
-            Optional("suffix" : STR, default='%d.svg'),
-            Optional("preserve_aspectratio" : STR, default='xMinYMin'),
+            Optional("outname" : STR, default="combined"),
+            Optional("suffix" : STR, default="%d.svg"),
+            Optional("preserve_aspectratio" : STR, default="xMinYMin"),
             Optional("num_images" : INT, default=1),
             Optional("padding" : [INT], default=0),
             Optional("scale2" : [FLOAT], default=1),
-            Optional("v_top" : [FLOAT/STR], default='top'),
+            Optional("v_top" : [FLOAT/STR], default="top"),
             Optional("v_bottom" : [FLOAT/STR]/NULL, default=null),
         }
     )
