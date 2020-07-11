@@ -4,7 +4,45 @@ Short version. For the full schema see the *TDVisu.schema.json*!
 
 ```perl
 {
-    "incidenceGraph" : Dict or List of
+    "treeDecJson" : 
+    {
+        "bagpre" : STR,
+        "num_vars" : INT,
+        Optional("joinpre" : STR, default= "Join %d~%d"),
+        Optional("solpre" : STR, default= "sol%d"),
+        Optional("soljoinpre" : STR, default= "solJoin%d~%d"),
+        
+        "edgearray" : 
+            [[INT, INT]...],
+        "labeldict" : 
+            [
+                {
+                    "id" : INT (bagId),
+                    "items" : [ INT... ],
+                    "labels" : [ STR... ]
+                }
+                ...
+            ],
+    },
+
+    "tdTimeline" : 
+    [
+        [INT (bagId)] or 
+        [INT (bagId) or [INT(bagId), INT(bagId)], 
+            [[
+                [(firstrow)...],
+                [(secondrow)...],
+                ...
+            ]
+            ,STR (header)
+            ,STR (footer)
+            ,BOOL (transpose)
+            ]
+        ]
+        ...
+    ],
+
+    Optional("incidenceGraph" : Dict or List of
     {
         Optional("subgraph_name_one" : STR, default="clauses"),
         Optional("subgraph_name_two" : STR, default="variables"),
@@ -28,9 +66,9 @@ Short version. For the full schema see the *TDVisu.schema.json*!
             }
             ...
         ]
-    },
+    }),
 
-    "generalGraph" : Dict or List of
+    Optional("generalGraph" : Dict or List of
     {
         Optional("extra_nodes" : Optional[list] = null),
         Optional("graph_name" : STR, default="graph"),
@@ -49,46 +87,8 @@ Short version. For the full schema see the *TDVisu.schema.json*!
             [INT, INT],
             ...
         ]
-    },
+    }),
 
-    "tdTimeline" : 
-    [
-        [INT (bagId)] or 
-        [INT (bagId) or [INT(bagId), INT(bagId)], 
-            [[
-                [(firstrow)...],
-                [(secondrow)...],
-                ...
-            ]
-            ,STR (header)
-            ,STR (footer)
-            ,BOOL (transpose)
-            ]
-        ]
-        ...
-    ],
-
-    "treeDecJson" : 
-    {
-        "bagpre" : STR,
-        "num_vars" : INT,
-        Optional("joinpre" : STR, default= "Join %d~%d"),
-        Optional("solpre" : STR, default= "sol%d"),
-        Optional("soljoinpre" : STR, default= "solJoin%d~%d"),
-        
-        "edgearray" : 
-            [[INT, INT]...],
-        "labeldict" : 
-            [
-                {
-                    "id" : INT (bagId),
-                    "items" : [ INT... ],
-                    "labels" : [ STR... ]
-                }
-                ...
-            ],
-    },
-    
     Optional("td_file": STR, default="TDStep"),
     Optional("colors": List, default=[
                 "#0073a1",
