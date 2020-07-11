@@ -317,18 +317,20 @@
       "type": "object",
       "examples": [
         {
-          "graph_name": "graph",
-          "var_name": "",
-          "sort_nodes": false,
-          "need_adj_nodes": false,
           "extra_nodes": [
             100
           ],
+          "graph_name": "graph",
+          "file_basename": "graph",
+          "var_name": "",
+          "do_sort_nodes": false,
+          "do_adj_nodes": false,
           "fontsize": 20,
           "first_color": "yellow",
           "first_style": "filled",
           "second_color": "green",
           "second_style": "dotted,filled",
+          "third_color": "red",
           "edges": [
             [
               6,
@@ -465,7 +467,11 @@
           "var_name_two": "",
           "infer_primal": false,
           "infer_dual": false,
+          "primal_file": "PrimalGraphStep",
+          "inc_file": "IncidenceGraphStep",
+          "dual_file": "DualGraphStep",
           "fontsize": 16,
+          "penwidth": 2.2,
           "second_shape": "diamond",
           "column_distance": 0.5,
           "edges": [
