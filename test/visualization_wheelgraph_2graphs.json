@@ -1,0 +1,130 @@
+{
+    "svgjoin": {
+        "base_names": [
+            "TDStep",
+            "graph",
+            "graph_sorted"
+        ],
+        "num_images": 5,
+        "padding": 40,
+        "v_top": "center",
+        "v_bottom": "center"
+    },
+    "generalGraph": [
+        {
+            "edges": [
+                [1, 2],
+                [3, 4],
+                [2, 7],
+                [1, 5],
+                [1, 4],
+                [2, 3],
+                [6, 7],
+                [4, 5],
+                [1, 7],
+                [5, 6],
+                [1, 6],
+                [1, 3]
+            ]
+        },
+        {
+            "edges": [
+                [1, 2],
+                [3, 4],
+                [2, 7],
+                [1, 5],
+                [1, 4],
+                [2, 3],
+                [6, 7],
+                [4, 5],
+                [1, 7],
+                [5, 6],
+                [1, 6],
+                [1, 3]
+            ],
+            "graph_name": "graph_sorted",
+            "file_basename": "graph_sorted",
+            "do_sort_nodes": true,
+            "fontsize": 18,
+            "first_color": "blue",
+            "first_style": "dashed,filled",
+            "second_color": "orange",
+            "second_style": "bold,filled"
+        }
+    ],
+    "tdTimeline": [
+        [2],
+        [2, [
+            [
+                ["v1", "v3", "v5", "size"],
+                [1, 1, 0, 3],
+                [1, 0, 1, 3],
+                [1, 0, 0, 2],
+                [1, 1, 1, 3],
+                [0, 1, 1, 3]
+            ], "sol bag 2", "min-size: 2", true
+        ]],
+        [4, [
+            [
+                ["v1", "v2", "v6", "size"],
+                [1, 1, 0, 3],
+                [1, 0, 1, 3],
+                [1, 0, 0, 2],
+                [1, 1, 1, 3],
+                [0, 1, 1, 3]
+            ], "sol bag 4", "min-size: 2", true
+        ]],
+        [3, [
+            [
+                ["v1", "v3", "v6", "size"],
+                [1, 1, 0, 3],
+                [1, 0, 1, 3],
+                [1, 1, 1, 4],
+                [1, 0, 0, 3],
+                [0, 1, 1, 4]
+            ], "sol bag 3", "min-size: 3", true
+        ]],
+        [1, [
+            [
+                ["v1", "v3", "v5", "v6", "size"],
+                [1, 0, 1, 1, 5],
+                [1, 1, 0, 1, 5],
+                [1, 0, 0, 1, 4],
+                [0, 1, 1, 1, 6],
+                [1, 0, 1, 0, 5],
+                [1, 1, 1, 1, 5],
+                [1, 1, 1, 0, 4]
+            ], "sol bag 1", "min-size: 4", true
+        ]]
+    ],
+    "treeDecJson": {
+        "bagpre": "bag %s",
+        "edgearray": [
+            [2, 1],
+            [3, 1],
+            [4, 3]
+        ],
+        "labeldict": [{
+                "id": 1,
+                "items": [1, 3, 5, 6],
+                "labels": ["[1, 3, 5, 6]", "dtime=0.0009s"]
+            },
+            {
+                "id": 2,
+                "items": [1, 3, 4, 5],
+                "labels": ["[1, 3, 4, 5]", "dtime=0.0026s"]
+            },
+            {
+                "id": 3,
+                "items": [1, 2, 3, 6],
+                "labels": ["[1, 2, 3, 6]", "dtime=0.0020s"]
+            },
+            {
+                "id": 4,
+                "items": [1, 2, 6, 7],
+                "labels": ["[1, 2, 6, 7]", "dtime=0.0017s"]
+            }
+        ],
+        "num_vars": 7
+    }
+}

@@ -26,6 +26,8 @@ from pathlib import Path
 
 from tdvisu.visualization import main
 
+EXPECT_DIR = Path(__file__).parent / 'expected_images'
+
 
 def test_sat_and_join(tmpdir):
     """Complete visualization run with svgjoin."""
@@ -56,11 +58,44 @@ def test_sat_and_join(tmpdir):
                    ["IncidenceGraphStep", "PrimalGraphStep", "TDStep"]
                    for i in range(1, 7)]
 
-    expected = [Path(__file__).parent / 'expected_images' / file
-                for file in testobjects]
+    for file in testobjects:
+        with open(EXPECT_DIR / 'test_sat_and_join' / file) as expected:
+            with open(outfolder / file) as result:
+                assert result.read() == expected.read(
+                ), f"{file} should be the same"
+
+
+def test_vc_multiple_and_join(tmpdir):
+    """Complete visualization run with svgjoin for MinVC and sorted graph."""
+    parser = argparse.ArgumentParser()
+    parser.add_argument('infile',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        help="Input file for the visualization "
+                        "must conform with the 'JsonAPI.md'")
+    parser.add_argument('outfolder',
+                        help="Folder to output the visualization results")
+    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
+
+    # get cmd-arguments
+    infile = Path(__file__).parent / 'visualization_wheelgraph_2graphs.json'
+    outfolder = Path(tmpdir) / 'temp-test_vc_multiple_and_join'
+    _args = parser.parse_args([str(infile), str(outfolder)])
+    # call main()
+    main(_args)
+    files = [file for file in outfolder.iterdir() if file.is_file()]
+    assert len(files
+               ) == 35, "total files"
+    assert len([file for file in files if file.suffix == '.svg']
+               ) == 20, "svg files"
+    assert len([file for file in files if file.suffix == '']
+               ) == 15, "dot source files"
+
+    testobjects = [file + str(i) for file in
+                   ["TDStep", "graph", "graph_sorted"]
+                   for i in range(1, 5)]
 
     for file in testobjects:
-        with open(Path(__file__).parent / 'expected_images' / file) as expected:
+        with open(EXPECT_DIR / 'test_vc_multiple_and_join' / file) as expected:
             with open(outfolder / file) as result:
                 assert result.read() == expected.read(
                 ), f"{file} should be the same"

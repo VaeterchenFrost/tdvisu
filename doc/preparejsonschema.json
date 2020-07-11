@@ -76,7 +76,11 @@
 
         "infer_primal": false,
         "infer_dual": false,
+        "primal_file": "PrimalGraphStep",
+        "inc_file": "IncidenceGraphStep",
+        "dual_file": "DualGraphStep",
         "fontsize": 16,
+        "penwidth": 2.2,
         "second_shape": "diamond",
         "column_distance": 0.5,
 
@@ -93,16 +97,18 @@
     },
 
     "generalGraph": {
-        "graph_name": "graph",
-        "var_name": "",
-        "sort_nodes": false,
-        "need_adj_nodes": false,
         "extra_nodes": [100],
+        "graph_name": "graph",
+        "file_basename": "graph",
+        "var_name": "",
+        "do_sort_nodes": false,
+        "do_adj_nodes": false,
         "fontsize": 20,
         "first_color": "yellow",
         "first_style": "filled",
         "second_color": "green",
         "second_style": "dotted,filled",
+        "third_color": "red",
 
         "edges": [
             [6, 15],
@@ -113,6 +119,22 @@
         ]
     },
 
+    "td_file": "TDStep",
+    "colors":[
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff",
+        "#004066",
+        "#0d1321",
+        "#da1167",
+        "#604909",
+        "#0073a1",
+        "#b14923",
+        "#244320",
+        "#b1740f",
+        "#a682ff"],
     "orientation": "BT",
     "linesmax": 100,
     "columnsmax": 20,
@@ -129,7 +151,7 @@
     },
 
     "svgjoin": {
-        "base_names": ["TDStep", "PrimalGraphStep", "IncidenceGraphStep"],
+        "base_names": ["REQUIRED"],
         "folder": null,
         "outname": "combined",
         "suffix": "%d.svg",

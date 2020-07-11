@@ -21,7 +21,7 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from typing import Union, Iterable, Optional
+from typing import Iterable, List, Optional, Union
 from dataclasses import dataclass
 
 
@@ -84,8 +84,8 @@ class GeneralGraphData:
 @dataclass
 class VisualizationData:
     """Class holding different parameters for Visualization."""
-    incidence_graph: Optional[IncidenceGraphData] = None
-    general_graph: Optional[GeneralGraphData] = None
+    incidence_graphs: Optional[List[IncidenceGraphData]] = None
+    general_graphs: Optional[List[GeneralGraphData]] = None
     svg_join: Optional[SvgJoinData] = None
     td_file: str = 'TDStep'
     colors: Optional[list] = None
@@ -128,7 +128,7 @@ class VisualizationData:
 
 if __name__ == "__main__":
     # Just Testing:
-    incid = IncidenceGraphData([])
-    gen = GeneralGraphData([])
-    data = VisualizationData(incidence_graph=incid, general_graph=gen)
+    incid = [IncidenceGraphData([])]
+    gen = [GeneralGraphData([])]
+    data = VisualizationData(incidence_graphs=incid, general_graphs=gen)
     print(data)

@@ -133,3 +133,4 @@ dmypy.json
 *.stats
 tdvisu/Archive/*
 
+.vscode/settings.json

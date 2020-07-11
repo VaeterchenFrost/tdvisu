@@ -34,7 +34,7 @@ from tdvisu.svgjoin import f_transform, append_svg, gen_arg
 
 WRITE = False  # ??? Write Testimages instead of just reading them ???
 
-IMAGE_FOLDER = 'expected_images'
+IMAGE_FOLDER = join('expected_images', 'test_sat_and_join')
 DIR = join(dirname(__file__), IMAGE_FOLDER)
 FILE1 = join(dirname(__file__), 'IncidenceGraphStep11.svg')
 FILE2 = join(dirname(__file__), 'PrimalGraphStep11.svg')

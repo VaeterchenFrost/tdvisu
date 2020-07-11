@@ -1,0 +1,288 @@
+<?xml version="1.0" encoding="utf-8"?>
+<svg width="994pt" height="624pt" viewBox="0.0 0.0 994 624" xmlns="http://www.w3.org/2000/svg" xmlns:xlink="http://www.w3.org/1999/xlink" preserveAspectRatio="xMinYMin">
+	<g id="graph0" class="graph" transform="scale(1 1) rotate(0) translate(4 620)">
+		<title>Tree-Decomposition</title>
+		<polygon fill="white" stroke="transparent" points="-4,4 -4,-620 463,-620 463,4 -4,4"></polygon>
+		<g id="node1" class="node">
+			<title>bag 1</title>
+			<path fill="white" stroke="black" d="M237.5,-372C237.5,-372 158.5,-372 158.5,-372 152.5,-372 146.5,-366 146.5,-360 146.5,-360 146.5,-321 146.5,-321 146.5,-315 152.5,-309 158.5,-309 158.5,-309 237.5,-309 237.5,-309 243.5,-309 249.5,-315 249.5,-321 249.5,-321 249.5,-360 249.5,-360 249.5,-366 243.5,-372 237.5,-372"></path>
+			<polygon fill="white" stroke="transparent" points="155,-351.5 155,-370.5 242,-370.5 242,-351.5 155,-351.5"></polygon>
+			<text text-anchor="start" x="183" y="-357.3" font-family="Times New Roman,serif" font-size="14.00">bag 1</text>
+			<text text-anchor="start" x="169" y="-334.3" font-family="Times New Roman,serif" font-size="14.00">[1, 3, 5, 6]</text>
+			<text text-anchor="start" x="157" y="-315.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0009s</text>
+		</g>
+		<g id="node2" class="node">
+			<title>bag 2</title>
+			<path fill="yellow" stroke="black" stroke-width="2.5" d="M173.5,-199C173.5,-199 94.5,-199 94.5,-199 88.5,-199 82.5,-193 82.5,-187 82.5,-187 82.5,-148 82.5,-148 82.5,-142 88.5,-136 94.5,-136 94.5,-136 173.5,-136 173.5,-136 179.5,-136 185.5,-142 185.5,-148 185.5,-148 185.5,-187 185.5,-187 185.5,-193 179.5,-199 173.5,-199"></path>
+			<polygon fill="white" stroke="transparent" points="91,-178.5 91,-197.5 178,-197.5 178,-178.5 91,-178.5"></polygon>
+			<text text-anchor="start" x="119" y="-184.3" font-family="Times New Roman,serif" font-size="14.00">bag 2</text>
+			<text text-anchor="start" x="105" y="-161.3" font-family="Times New Roman,serif" font-size="14.00">[1, 3, 4, 5]</text>
+			<text text-anchor="start" x="93" y="-142.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0026s</text>
+		</g>
+		<g id="edge1" class="edge">
+			<title>bag 2-&gt;bag 1</title>
+			<path fill="none" stroke="black" d="M145.44,-199.07C155.92,-227.07 171.5,-268.7 182.98,-299.37"></path>
+			<polygon fill="black" stroke="black" points="179.77,-300.77 186.55,-308.91 186.32,-298.31 179.77,-300.77"></polygon>
+		</g>
+		<g id="node5" class="node">
+			<title>sol2</title>
+			<path fill="yellow" stroke="black" stroke-width="2.5" d="M12,-272.5C12,-272.5 116,-272.5 116,-272.5 122,-272.5 128,-278.5 128,-284.5 128,-284.5 128,-396.5 128,-396.5 128,-402.5 122,-408.5 116,-408.5 116,-408.5 12,-408.5 12,-408.5 6,-408.5 0,-402.5 0,-396.5 0,-396.5 0,-284.5 0,-284.5 0,-278.5 6,-272.5 12,-272.5"></path>
+			<text text-anchor="middle" x="64" y="-396.3" font-family="Times New Roman,serif" font-size="14.00">sol bag 2</text>
+			<text text-anchor="middle" x="15" y="-379.3" font-family="Times New Roman,serif" font-size="14.00">v1</text>
+			<text text-anchor="middle" x="15" y="-362.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="15" y="-345.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="15" y="-328.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="15" y="-311.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="15" y="-294.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="45" y="-379.3" font-family="Times New Roman,serif" font-size="14.00">v3</text>
+			<text text-anchor="middle" x="45" y="-362.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="45" y="-345.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="45" y="-328.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="45" y="-311.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="45" y="-294.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="75" y="-379.3" font-family="Times New Roman,serif" font-size="14.00">v5</text>
+			<text text-anchor="middle" x="75" y="-362.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="75" y="-345.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="75" y="-328.3" font-family="Times New Roman,serif" font-size="14.00">0</text>
+			<text text-anchor="middle" x="75" y="-311.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="75" y="-294.3" font-family="Times New Roman,serif" font-size="14.00">1</text>
+			<text text-anchor="middle" x="109" y="-379.3" font-family="Times New Roman,serif" font-size="14.00">size</text>
+			<text text-anchor="middle" x="109" y="-362.3" font-family="Times New Roman,serif" font-size="14.00">3</text>
+			<text text-anchor="middle" x="109" y="-345.3" font-family="Times New Roman,serif" font-size="14.00">3</text>
+			<text text-anchor="middle" x="109" y="-328.3" font-family="Times New Roman,serif" font-size="14.00">2</text>
+			<text text-anchor="middle" x="109" y="-311.3" font-family="Times New Roman,serif" font-size="14.00">3</text>
+			<text text-anchor="middle" x="109" y="-294.3" font-family="Times New Roman,serif" font-size="14.00">3</text>
+			<text text-anchor="middle" x="64" y="-277.3" font-family="Times New Roman,serif" font-size="14.00">min-size: 2</text>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-391.5 128,-391.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-374.5 30,-374.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-357.5 30,-357.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-340.5 30,-340.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-323.5 30,-323.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-306.5 30,-306.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-289.5 30,-391.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-374.5 60,-374.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-357.5 60,-357.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-340.5 60,-340.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-323.5 60,-323.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="30,-306.5 60,-306.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-289.5 60,-391.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-374.5 90,-374.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-357.5 90,-357.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-340.5 90,-340.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-323.5 90,-323.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="60,-306.5 90,-306.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-289.5 90,-391.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-374.5 128,-374.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-357.5 128,-357.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-340.5 128,-340.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-323.5 128,-323.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="90,-306.5 128,-306.5 "></polyline>
+			<polyline fill="none" stroke="black" stroke-width="2.5" points="0,-289.5 128,-289.5 "></polyline>
+		</g>
+		<g id="edge4" class="edge">
+			<title>bag 2-&gt;sol2</title>
+			<path fill="none" stroke="black" d="M121.49,-199.07C114.16,-216.97 104.55,-240.44 95.29,-263.06"></path>
+			<polygon fill="black" stroke="black" points="92.04,-261.76 91.49,-272.34 98.52,-264.41 92.04,-261.76"></polygon>
+		</g>
+		<g id="node3" class="node">
+			<title>bag 3</title>
+			<path fill="white" stroke="black" d="M300.5,-199C300.5,-199 221.5,-199 221.5,-199 215.5,-199 209.5,-193 209.5,-187 209.5,-187 209.5,-148 209.5,-148 209.5,-142 215.5,-136 221.5,-136 221.5,-136 300.5,-136 300.5,-136 306.5,-136 312.5,-142 312.5,-148 312.5,-148 312.5,-187 312.5,-187 312.5,-193 306.5,-199 300.5,-199"></path>
+			<polygon fill="white" stroke="transparent" points="218,-178.5 218,-197.5 305,-197.5 305,-178.5 218,-178.5"></polygon>
+			<text text-anchor="start" x="246" y="-184.3" font-family="Times New Roman,serif" font-size="14.00">bag 3</text>
+			<text text-anchor="start" x="232" y="-161.3" font-family="Times New Roman,serif" font-size="14.00">[1, 2, 3, 6]</text>
+			<text text-anchor="start" x="220" y="-142.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0020s</text>
+		</g>
+		<g id="edge2" class="edge">
+			<title>bag 3-&gt;bag 1</title>
+			<path fill="none" stroke="black" d="M249.74,-199.07C239.42,-227.07 224.08,-268.7 212.79,-299.37"></path>
+			<polygon fill="black" stroke="black" points="209.44,-298.31 209.27,-308.91 216.01,-300.73 209.44,-298.31"></polygon>
+		</g>
+		<g id="node4" class="node">
+			<title>bag 4</title>
+			<path fill="white" stroke="black" d="M367.5,-63C367.5,-63 288.5,-63 288.5,-63 282.5,-63 276.5,-57 276.5,-51 276.5,-51 276.5,-12 276.5,-12 276.5,-6 282.5,0 288.5,0 288.5,0 367.5,0 367.5,0 373.5,0 379.5,-6 379.5,-12 379.5,-12 379.5,-51 379.5,-51 379.5,-57 373.5,-63 367.5,-63"></path>
+			<polygon fill="white" stroke="transparent" points="285,-42.5 285,-61.5 372,-61.5 372,-42.5 285,-42.5"></polygon>
+			<text text-anchor="start" x="313" y="-48.3" font-family="Times New Roman,serif" font-size="14.00">bag 4</text>
+			<text text-anchor="start" x="299" y="-25.3" font-family="Times New Roman,serif" font-size="14.00">[1, 2, 6, 7]</text>
+			<text text-anchor="start" x="287" y="-6.3" font-family="Times New Roman,serif" font-size="14.00">dtime=0.0017s</text>
+		</g>
+		<g id="edge3" class="edge">
+			<title>bag 4-&gt;bag 3</title>
+			<path fill="none" stroke="black" d="M312.63,-63.24C303.18,-82.14 290.98,-106.54 280.81,-126.88"></path>
+			<polygon fill="black" stroke="black" points="277.64,-125.39 276.3,-135.9 283.9,-128.52 277.64,-125.39"></polygon>
+		</g>
+	</g>
+	<g id="graph0" class="graph" transform="translate(507.0 233.025) scale(1.0000000000000002) scale(1 1) rotate(0) translate(4 153.954)">
+		<title>graph</title>
+		<polygon fill="white" stroke="none" points="-4,4 -4,-153.954 227.589,-153.954 227.589,4 -4,4"></polygon>
+		<g id="edge1" class="edge">
+			<title>1--2</title>
+			<path fill="none" stroke="black" d="M76.4943,-55.0728C68.7196,-52.0652 60.091,-48.7274 52.3421,-45.7298"></path>
+		</g>
+		<g id="edge12" class="edge">
+			<title>1--3</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M77.4582,-74.0894C68.6417,-77.8984 58.5689,-82.2501 49.7537,-86.0585"></path>
+		</g>
+		<g id="edge5" class="edge">
+			<title>1--4</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M97.2193,-82.3958C95.6095,-92.1094 93.6323,-104.04 92.0212,-113.762"></path>
+		</g>
+		<g id="edge9" class="edge">
+			<title>1--7</title>
+			<path fill="none" stroke="black" d="M111.162,-47.5546C113.941,-43.3109 116.925,-38.7536 119.699,-34.5188"></path>
+		</g>
+		<g id="edge4" class="edge">
+			<title>1--5</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M114.542,-79.848C121.67,-87.6131 130.263,-96.9732 137.381,-104.727"></path>
+		</g>
+		<g id="edge11" class="edge">
+			<title>1--6</title>
+			<path fill="none" stroke="black" d="M127.325,-63.9362C140.462,-63.7826 156.205,-63.5985 169.36,-63.4447"></path>
+		</g>
+		<g id="edge6" class="edge">
+			<title>2--3</title>
+			<path fill="none" stroke="black" d="M28.3588,-54.7686C28.1206,-61.978 27.8467,-70.267 27.6075,-77.5056"></path>
+		</g>
+		<g id="edge3" class="edge">
+			<title>2--7</title>
+			<path fill="none" stroke="black" d="M55.1107,-31.8719C70.274,-29.0824 89.3028,-25.5819 104.451,-22.7951"></path>
+		</g>
+		<g id="edge2" class="edge">
+			<title>3--4</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M47.6472,-107.898C54.4113,-111.832 61.9184,-116.199 68.6601,-120.12"></path>
+		</g>
+		<g id="edge8" class="edge">
+			<title>4--5</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M115.197,-127.054C118.548,-126.426 121.98,-125.784 125.333,-125.157"></path>
+		</g>
+		<g id="edge10" class="edge">
+			<title>5--6</title>
+			<path fill="none" stroke="black" d="M164.386,-104.025C170.514,-96.2421 177.835,-86.9447 183.947,-79.1824"></path>
+		</g>
+		<g id="edge7" class="edge">
+			<title>6--7</title>
+			<path fill="none" stroke="black" d="M177.478,-50.074C168.788,-44.139 158.525,-37.1295 149.813,-31.1794"></path>
+		</g>
+		<g id="node1" class="node">
+			<title>1</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="100.226" cy="-64.2531" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="100.226" y="-60.5531" font-family="Times New Roman,serif" font-size="14.00">1</text>
+		</g>
+		<g id="node2" class="node">
+			<title>2</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="28.9565" cy="-36.6834" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="28.9565" y="-32.9834" font-family="Times New Roman,serif" font-size="14.00">2</text>
+		</g>
+		<g id="node3" class="node">
+			<title>3</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="27" cy="-95.8887" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="27" y="-92.1887" font-family="Times New Roman,serif" font-size="14.00">3</text>
+		</g>
+		<g id="node4" class="node">
+			<title>4</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="89.0062" cy="-131.954" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="89.0062" y="-128.254" font-family="Times New Roman,serif" font-size="14.00">4</text>
+		</g>
+		<g id="node5" class="node">
+			<title>7</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="130.517" cy="-18" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="130.517" y="-14.3" font-family="Times New Roman,serif" font-size="14.00">7</text>
+		</g>
+		<g id="node6" class="node">
+			<title>5</title>
+			<ellipse fill="yellow" stroke="black" stroke-width="2.2" cx="151.62" cy="-120.238" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="151.62" y="-116.538" font-family="Times New Roman,serif" font-size="14.00">5</text>
+		</g>
+		<g id="node7" class="node">
+			<title>6</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="196.589" cy="-63.1264" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="196.589" y="-59.4264" font-family="Times New Roman,serif" font-size="14.00">6</text>
+		</g>
+	</g>
+	<g id="graph0" class="graph" transform="translate(778.0 210.705) scale(1.0000000000000002) scale(1 1) rotate(0) translate(104.28 101.294)">
+		<title>graph_sorted</title>
+		<polygon fill="white" stroke="none" points="-104.28,101.294 -104.28,-101.294 112.334,-101.294 112.334,101.294 -104.28,101.294"></polygon>
+		<g id="edge9" class="edge">
+			<title>1--7</title>
+			<path fill="none" stroke="black" d="M7.52374,73.4459C13.1789,72.1553 19.1734,70.7871 24.8384,69.4942"></path>
+		</g>
+		<g id="edge1" class="edge">
+			<title>1--2</title>
+			<path fill="none" stroke="black" d="M-35.5584,65.3705C-41.9997,60.2339 -49.2964,54.4151 -55.7444,49.2731"></path>
+		</g>
+		<g id="edge12" class="edge">
+			<title>1--3</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-26.4796,61.8914C-36.9115,40.23 -54.6167,3.46571 -65.0009,-18.0967"></path>
+		</g>
+		<g id="edge5" class="edge">
+			<title>1--4</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-18.0988,61.1018C-18.0988,30.6734 -18.0988,-30.214 -18.0988,-60.8256"></path>
+		</g>
+		<g id="edge4" class="edge">
+			<title>1--5</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-9.79864,62.0586C3.42708,34.5955 29.138,-18.7929 42.3822,-46.2944"></path>
+		</g>
+		<g id="edge11" class="edge">
+			<title>1--6</title>
+			<path fill="none" stroke="black" d="M-0.779014,65.4818C17.3599,51.0167 45.6893,28.4249 63.8786,13.9196"></path>
+		</g>
+		<g id="edge3" class="edge">
+			<title>2--7</title>
+			<path fill="none" stroke="black" d="M-47.5887,41.1531C-26.3086,46.01 3.78266,52.878 25.0536,57.7329"></path>
+		</g>
+		<g id="edge6" class="edge">
+			<title>2--3</title>
+			<path fill="none" stroke="black" d="M-73.2798,17.1141C-73.2798,6.6584 -73.2798,-6.44199 -73.2798,-16.9284"></path>
+		</g>
+		<g id="edge2" class="edge">
+			<title>3--4</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M-55.8202,-49.2114C-49.3789,-54.3483 -42.0822,-60.1674 -35.6342,-65.3096"></path>
+		</g>
+		<g id="edge8" class="edge">
+			<title>4--5</title>
+			<path fill="none" stroke="red" stroke-width="2.2" d="M7.52374,-73.4467C13.1789,-72.1561 19.1734,-70.7881 24.8384,-69.4953"></path>
+		</g>
+		<g id="edge10" class="edge">
+			<title>5--6</title>
+			<path fill="none" stroke="black" d="M59.0794,-46.2143C63.4001,-37.2416 68.6569,-26.3252 72.9762,-17.3555"></path>
+		</g>
+		<g id="edge7" class="edge">
+			<title>6--7</title>
+			<path fill="none" stroke="black" d="M72.966,17.3759C68.6453,26.3484 63.3885,37.2646 59.0692,46.2341"></path>
+		</g>
+		<g id="node1" class="node">
+			<title>7</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="50.7118" cy="63.5891" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="50.7118" y="67.2891" font-family="Times New Roman,serif" font-size="14.00">7</text>
+		</g>
+		<g id="node2" class="node">
+			<title>1</title>
+			<ellipse fill="blue" stroke="black" stroke-width="2.2" stroke-dasharray="5,2" cx="-18.0988" cy="79.2938" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-18.0988" y="82.9938" font-family="Times New Roman,serif" font-size="14.00">1</text>
+		</g>
+		<g id="node3" class="node">
+			<title>2</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="-73.2798" cy="35.2894" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-73.2798" y="38.9894" font-family="Times New Roman,serif" font-size="14.00">2</text>
+		</g>
+		<g id="node4" class="node">
+			<title>3</title>
+			<ellipse fill="blue" stroke="black" stroke-width="2.2" stroke-dasharray="5,2" cx="-73.2798" cy="-35.2874" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-73.2798" y="-31.5874" font-family="Times New Roman,serif" font-size="14.00">3</text>
+		</g>
+		<g id="node5" class="node">
+			<title>4</title>
+			<ellipse fill="blue" stroke="black" stroke-width="2.2" stroke-dasharray="5,2" cx="-18.0988" cy="-79.294" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="-18.0988" y="-75.594" font-family="Times New Roman,serif" font-size="14.00">4</text>
+		</g>
+		<g id="node6" class="node">
+			<title>5</title>
+			<ellipse fill="blue" stroke="black" stroke-width="2.2" stroke-dasharray="5,2" cx="50.7118" cy="-63.5907" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="50.7118" y="-59.8907" font-family="Times New Roman,serif" font-size="14.00">5</text>
+		</g>
+		<g id="node7" class="node">
+			<title>6</title>
+			<ellipse fill="white" stroke="black" stroke-width="2.2" cx="81.3336" cy="-0.000102858" rx="27" ry="18"></ellipse>
+			<text text-anchor="middle" x="81.3336" y="3.6999" font-family="Times New Roman,serif" font-size="14.00">6</text>
+		</g>
+	</g>
+</svg>
