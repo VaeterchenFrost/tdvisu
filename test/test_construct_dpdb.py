@@ -22,7 +22,9 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pathlib import Path
-from tdvisu.construct_dpdb_visu import read_cfg, db_config, DEFAULT_DBCONFIG
+from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
+                                        IDpdbVisuConstruct, DpdbSharpSatVisu,
+                                        DpdbSatVisu, DpdbMinVcVisu)
 
 DIR = Path(__file__).parent
 SECTION = 'postgresql'
@@ -64,3 +66,10 @@ def test_db_passwd_config():
                              'port': 5432,
                              'user': 'postgres'
                              }
+
+def test_problem_interface():
+    """Derived classes should implement the interface."""
+    assert issubclass(DpdbSatVisu, IDpdbVisuConstruct)
+    assert issubclass(DpdbSharpSatVisu, IDpdbVisuConstruct)
+    assert issubclass(DpdbMinVcVisu, IDpdbVisuConstruct)
+    
