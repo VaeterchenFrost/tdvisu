@@ -13,7 +13,11 @@
 
         Optional("infer_primal" : BOOLEAN, default=false),
         Optional("infer_dual" : BOOLEAN, default=false),
+        Optional("primal_file": STR, default="PrimalGraphStep"),
+        Optional("inc_file": STR, default="IncidenceGraphStep"),
+        Optional("dual_file": STR, default="DualGraphStep"),
         Optional("fontsize" : INT, default=16),
+        Optional("penwidth": FLOAT, default=2.2),
         Optional("second_shape" : STR, default="diamond"),
         Optional("column_distance" : FLOAT, default=0.5),
         
