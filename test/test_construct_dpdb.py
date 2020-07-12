@@ -20,11 +20,11 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-
+import argparse
 from pathlib import Path
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
-                                        DpdbSatVisu, DpdbMinVcVisu)
+                                        DpdbSatVisu, DpdbMinVcVisu, main)
 
 DIR = Path(__file__).parent
 SECTION = 'postgresql'
@@ -67,9 +67,44 @@ def test_db_passwd_config():
                              'user': 'postgres'
                              }
 
+
 def test_problem_interface():
     """Derived classes should implement the interface."""
     assert issubclass(DpdbSatVisu, IDpdbVisuConstruct)
     assert issubclass(DpdbSharpSatVisu, IDpdbVisuConstruct)
     assert issubclass(DpdbMinVcVisu, IDpdbVisuConstruct)
+
+
+def test_main(mocker):
+    """Test behaviour of construct_dpdb_visu.main"""
+    PARSER = argparse.ArgumentParser()
+
+    PARSER.add_argument('problemnumber', type=int,
+                        help="selected problem-id in the postgres-database.")
+    PARSER.add_argument('--twfile',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        help="tw-file containing the edges of the graph - "
+                        "obtained from dpdb with option --gr-file GR_FILE.")
+    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
+    PARSER.add_argument('--outfile', default='dbjson%d.json',
+                        help="default:'dbjson%%d.json'")
+    PARSER.add_argument('--pretty', action='store_true',
+                        help="pretty-print the JSON.")
+    PARSER.add_argument('--inter-nodes', action='store_true',
+                        help="calculate and animate the shortest path between "
+                        "successive bags in the order of evaluation.")
+    # get cmd-arguments
+    _args = PARSER.parse_args(['1'])
     
+    mock_connect = mocker.patch('tdvisu.construct_dpdb_visu.pg.connect')
+    mocker.patch('tdvisu.construct_dpdb_visu.query_problem', return_value=('Sat',))
+    import psycopg2 as pg
+    mock_connect.return_value.__enter__.return_value.get_transaction_status.return_value = pg.extensions.TRANSACTION_STATUS_IDLE
+
+    try:
+        main(_args)
+    except ValueError as err:
+        print(err)
+        raise
+    # assert mock_con_cm.assert_called()
+    # assert mock_con_cm.assert_called()
