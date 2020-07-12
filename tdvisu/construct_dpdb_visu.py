@@ -101,6 +101,75 @@ def db_config(filename: str = 'database.ini',
     return {**DEFAULT_DBCONFIG, **cfg}
 
 
+def query_problem(cur, problem):
+    cur.execute("SELECT type FROM "
+                "public.problem WHERE id=%s", (problem,))
+    return cur.fetchone()
+
+
+def query_num_vars(cur, problem):
+    cur.execute(
+        "SELECT num_vertices FROM "
+        "public.problem WHERE id=%s", (problem,))
+    return cur.fetchone()[0]
+
+
+def query_sat_clause(cur, problem):
+    try:
+        cur.execute("SELECT * FROM public.p%d_sat_clause" % problem)
+    except pg.ProgrammingError:
+        LOGGER.error(
+            "dpdb.py SHARPSAT needs to be run with '--store-formula'!")
+        raise
+    return cur.fetchall()
+
+
+def query_td_bag_grouped(cur, problem):
+    cur.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
+    return cur.fetchall()
+
+
+def query_td_node_status(cur, problem, bag):
+    cur.execute(
+        ("SELECT start_time,end_time-start_time "
+         "FROM public.p%d_td_node_status" % problem)
+        + " WHERE node=%s", (bag,))
+    return cur.fetchone()
+
+
+def query_td_bag(cur, problem, bag):
+    cur.execute(
+        ("SELECT node FROM public.p%d_td_bag" % problem)
+        + " WHERE bag=%s", (bag,))
+    return cur.fetchall()
+
+
+def query_td_node_status_ordered(cur, problem):
+    cur.execute(
+        "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
+        problem)
+    return cur.fetchall()
+
+
+def query_column_name(cur, problem, bag):
+    cur.execute(
+        "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
+        "WHERE TABLE_NAME = 'p%d_td_node_%d'" % (problem, bag))
+    return cur.fetchall()
+
+
+def query_bag(cur, problem, bag):
+    cur.execute(
+        "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
+    return cur.fetchall()
+
+
+def query_edgearray(cur, problem):
+    cur.execute(
+        "SELECT node,parent FROM public.p%d_td_edge" % problem)
+    return cur.fetchall()
+
+
 class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
     """Interface for parsing database results from dynamic programming
     into the JSON used for visualizing the solution steps
@@ -216,10 +285,7 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
 
         """
         with self.connection.cursor() as cur:  # create a cursor
-            cur.execute(
-                "SELECT num_vertices FROM "
-                "public.problem WHERE id=%s", (self.problem,))
-            self.num_vars = cur.fetchone()[0]
+            self.num_vars = query_num_vars(cur, self.problem)
             assert isinstance(self.num_vars, int)
             return self.num_vars
 
@@ -233,15 +299,8 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
                 "list" : [ 1, -4, 6 ]
             },...]
         """
-        with self.connection.cursor() as cur:  # create a cursor
-            try:
-                cur.execute(
-                    f"SELECT * FROM public.p{self.problem}_sat_clause")
-            except pg.ProgrammingError:
-                LOGGER.error(
-                    "dpdb.py SHARPSAT NEEDS TO BE RUN WITH '--store-formula'!")
-                raise
-            result = cur.fetchall()
+        with self.connection.cursor() as cur:
+            result = query_sat_clause(cur, self.problem)
             result_cleaned = [[pos if elem else -pos for pos, elem in
                                enumerate(line, 1) if elem is not None]
                               for line in result]
@@ -262,18 +321,17 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
         with self.connection.cursor() as cur:  # create a cursor
             labeldict = []
             # check bag numbering:
-            cur.execute(
-                f"SELECT bag FROM public.p{self.problem}_td_bag group by bag")
-            bags = sorted(list(flatten(cur.fetchall())))
+            bags = sorted(
+                list(
+                    flatten(
+                        query_td_bag_grouped(
+                            cur,
+                            self.problem))))
             LOGGER.debug("bags: %s", bags)
             for bag in bags:
-                cur.execute(
-                    f"SELECT node FROM public.p{self.problem}_td_bag WHERE bag=%s", (bag,))
-                nodes = list(flatten(cur.fetchall()))
-                cur.execute(
-                    "SELECT start_time,end_time-start_time "
-                    f"FROM public.p{self.problem}_td_node_status WHERE node=%s", (bag,))
-                start_time, dtime = cur.fetchone()
+                nodes = list(flatten(query_td_bag(cur, self.problem, bag)))
+                start_time, dtime = query_td_node_status(
+                    cur, self.problem, bag)
                 labeldict.append(
                     {'id': bag, 'items': nodes, 'labels':
                      [str(nodes),
@@ -304,9 +362,10 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
         with self.connection.cursor() as cur:  # create a cursor
             timeline = list()
             adj = convert_to_adj(edgearray) if self.intermed_nodes else {}
-            cur.execute(
-                f"SELECT node FROM public.p{self.problem}_td_node_status ORDER BY start_time")
-            order_solved = list(flatten(cur.fetchall()))
+            order_solved = list(
+                flatten(
+                    query_td_node_status_ordered(
+                        cur, self.problem)))
             # tour sol -> through result nodes along the edges
 
             if self.intermed_nodes:
@@ -323,17 +382,15 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
                     for intermed in path[1][1:]:
                         timeline.append([intermed])
                 # query column names
-                #  deepcode ignore Sqli: general query, inserting integers
-                cur.execute(
-                    "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
-                    f"WHERE TABLE_NAME = 'p{self.problem}_td_node_{bag}'")
-                column_names = list(flatten(cur.fetchall()))
+                column_names = list(
+                    flatten(
+                        query_column_name(
+                            cur,
+                            self.problem,
+                            bag)))
                 LOGGER.debug("column_names %s", column_names)
                 # get solutions
-                #  deepcode ignore Sqli: general query, inserting integers
-                cur.execute(
-                    f"SELECT * FROM public.p{self.problem}_td_node_{bag}")
-                solution_raw = cur.fetchall()
+                solution_raw = query_bag(cur, self.problem, bag)
                 LOGGER.debug("solution_raw %s", solution_raw)
                 # check for nulled variables - assuming whole columns are
                 # nulled:
@@ -352,11 +409,8 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
 
     def read_edgearray(self):
         """Read from _td_edge the edges between bags."""
-        with self.connection.cursor() as cur:  # create a cursor
-            cur.execute(
-                f"SELECT node,parent FROM public.p{self.problem}_td_edge")
-            result = cur.fetchall()
-            return result
+        with self.connection.cursor() as cur:
+            return query_edgearray(cur, self.problem)
 
     @staticmethod
     def footer(lines) -> str:
@@ -458,12 +512,6 @@ def connect() -> pg.extensions.connection:
         LOGGER.error(error)
         raise error
     return conn
-
-
-def query_problem(cur, problem):
-    cur.execute("SELECT type FROM "
-                "public.problem WHERE id=%s", (problem,))
-    return cur.fetchone()
 
 
 def create_json(
