@@ -460,6 +460,12 @@ def connect() -> pg.extensions.connection:
     return conn
 
 
+def query_problem(cur, problem):
+    cur.execute("SELECT type FROM "
+                "public.problem WHERE id=%s", (problem,))
+    return cur.fetchone()
+
+
 def create_json(
         problem: int,
         tw_file=None,
@@ -470,9 +476,7 @@ def create_json(
         with connect() as connection:
             # get type of problem
             with connection.cursor() as cur:
-                cur.execute("SELECT name,type,num_bags FROM "
-                            "public.problem WHERE id=%s", (problem,))
-                (name, ptype, num_bags) = cur.fetchone()
+                (ptype,) = query_problem(cur, problem)
 
             # select the valid constructor for the problem
             constructor: IDpdbVisuConstruct
