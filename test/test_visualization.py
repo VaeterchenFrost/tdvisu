@@ -26,7 +26,7 @@ from pathlib import Path
 
 from tdvisu.visualization import main
 
-EXPECT_DIR = Path(__file__).parent / 'expected_images'
+EXPECT_DIR = Path(__file__).parent / 'expected_files'
 
 
 def test_sat_and_join(tmpdir):
