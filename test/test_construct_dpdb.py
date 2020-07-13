@@ -21,6 +21,8 @@ Copyright (C) 2020  Martin Röbke
 
 """
 import argparse
+import datetime
+import psycopg2 as pg
 from pathlib import Path
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
@@ -97,10 +99,20 @@ def test_main(mocker):
     _args = PARSER.parse_args(['1'])
     
     mock_connect = mocker.patch('tdvisu.construct_dpdb_visu.pg.connect')
-    mocker.patch('tdvisu.construct_dpdb_visu.query_problem', return_value=('Sat',))
-    import psycopg2 as pg
     mock_connect.return_value.__enter__.return_value.get_transaction_status.return_value = pg.extensions.TRANSACTION_STATUS_IDLE
-
+    
+    mocker.patch('tdvisu.construct_dpdb_visu.query_problem', return_value=('Sat',))
+    mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars', return_value=5)
+    mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status_ordered', return_value=[[1,2],[3,4]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_sat_clause', return_value=[(True, None, None, True, None, True, None, None, None, None), (True, None, None, None, False, None, None, None, None, None), (False, None, None, None, None, None, True, None, None, None), (None, True, True, None, None, None, None, None, None, None), (None, True, None, None, True, None, None, None, None, None), (None, True, None, None, None, False, None, None, None, None), (None, None, True, None, None, None, None, False, None, None), (None, None, None, True, None, None, None, False, None, None), (None, None, None, False, None, True, None, None, None, None), (None, None, None, False, None, None, True, None, None, None)])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag_grouped', return_value=[[1, 2, 3, 4, 5]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status', return_value=("2020-07-13 02:06:18.053880", datetime.timedelta(microseconds=768)))
+    mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag', return_value=[[5,6,7]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status_ordered', return_value=[[4,2,3,1]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_column_name', return_value=[["column_name"]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_bag', return_value=[["1","2","4","3"]])
+    mocker.patch('tdvisu.construct_dpdb_visu.query_edgearray', return_value=[(2, 1), (3, 2), (4, 2), (5, 4)])
+  
     try:
         main(_args)
     except ValueError as err:
