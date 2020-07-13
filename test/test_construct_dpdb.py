@@ -20,15 +20,17 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
+
 import argparse
 import datetime
 import tempfile
+
 from pathlib import Path
 import psycopg2 as pg
 
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
-                                        DpdbSatVisu, DpdbMinVcVisu, main)
+                                        DpdbSatVisu, DpdbMinVcVisu)
 
 DIR = Path(__file__).parent
 SECTION = 'postgresql'
