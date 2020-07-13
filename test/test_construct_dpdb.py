@@ -88,15 +88,15 @@ def test_main(mocker):
     ta_status = mock_connect.return_value.__enter__.return_value.get_transaction_status
     ta_status.return_value = pg.extensions.TRANSACTION_STATUS_IDLE
 
-    mocker.patch(
+    query_problem = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_problem',
         return_value=('Sat',))
-    mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars',
+    query_num_vars = mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars',
                  return_value=8)
-    mocker.patch(
+    query_td_node_status_ordered= mocker.patch(
         'tdvisu.construct_dpdb_visu.query_td_node_status_ordered',
         return_value=[(3,), (5,), (4,), (2,), (1,)])
-    mocker.patch(
+    query_sat_clause=mocker.patch(
         'tdvisu.construct_dpdb_visu.query_sat_clause',
         return_value=[(True, None, None, True, None, True, None, None, None, None),
                       (True, None, None, None, False,
@@ -115,22 +115,22 @@ def test_main(mocker):
                        True, None, None, None, None),
                       (None, None, None, False, None, None, True, None, None, None)])
 
-    mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag_grouped',
+    query_td_bag_grouped=mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag_grouped',
                  return_value=[[1, 2, 3, 4, 5]])
-    mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status', return_value=(
+    query_td_node_status=mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status', return_value=(
         "2020-07-13 02:06:18.053880", datetime.timedelta(microseconds=768)))
-    mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag',
+    query_td_bag=mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag',
                  return_value=[(1,), (2,), (4,), (6,)])
-    mocker.patch('tdvisu.construct_dpdb_visu.query_column_name',
+    query_column_name=mocker.patch('tdvisu.construct_dpdb_visu.query_column_name',
                  return_value=[('v1',), ('v2',), ('v4',), ('v6',)])
-    mocker.patch(
+    query_bag=mocker.patch(
         'tdvisu.construct_dpdb_visu.query_bag',
         return_value=[(False, None, False, None),
                       (True, None, True, None),
                       (False, None, True, None),
                       (True, None, False, None)])
 
-    mocker.patch('tdvisu.construct_dpdb_visu.query_edgearray',
+    query_edgearray=mocker.patch('tdvisu.construct_dpdb_visu.query_edgearray',
                  return_value=[(2, 1), (3, 2), (4, 2), (5, 4)])
 
     parser = argparse.ArgumentParser()
@@ -156,5 +156,15 @@ def test_main(mocker):
         # one mocked run
         main(_args)
 
-    # assert mock_con_cm.assert_called()
-    # assert mock_con_cm.assert_called()
+    # Assertions
+    mock_connect.assert_called_once()
+    query_problem.assert_called_once()
+    query_num_vars.assert_called_once()
+    query_td_bag_grouped.assert_called_once()
+    query_sat_clause.assert_called_once()
+    query_td_node_status_ordered.assert_called_once()
+    assert query_bag.call_count == 5
+    assert query_column_name.call_count == 5
+    assert query_td_bag.call_count == 5
+    assert query_td_node_status.call_count == 5
+    
