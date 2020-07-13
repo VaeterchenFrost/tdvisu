@@ -163,10 +163,10 @@ before completion.
 - Change date to the release day, keep format 
 
 ## Requirements
-In case any dependencies changed, or just to update some, check in
+In case dependencies have changed, or just to update some, check
 - *requirements.txt*
 - *stable-requirements.txt* (using `pip freeze`)
-- *setup.py* (only `tests_require = ['pytest']` right now)
+- *setup.py*
 
 ## Write Changelog.md
 - Add tag with link (see bottom for linking examples)
