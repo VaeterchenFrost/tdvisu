@@ -23,7 +23,6 @@ Copyright (C) 2020  Martin Röbke
 
 import argparse
 import datetime
-import tempfile
 
 from pathlib import Path
 import psycopg2 as pg
@@ -81,7 +80,7 @@ def test_problem_interface():
     assert issubclass(DpdbMinVcVisu, IDpdbVisuConstruct)
 
 
-def test_main(mocker):
+def test_main(mocker, tmp_path):
     """Test behaviour of construct_dpdb_visu.main"""
 
     mock_connect = mocker.patch('tdvisu.construct_dpdb_visu.pg.connect')
@@ -92,11 +91,11 @@ def test_main(mocker):
         'tdvisu.construct_dpdb_visu.query_problem',
         return_value=('Sat',))
     query_num_vars = mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars',
-                 return_value=8)
-    query_td_node_status_ordered= mocker.patch(
+                                  return_value=8)
+    query_td_node_status_ordered = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_td_node_status_ordered',
         return_value=[(3,), (5,), (4,), (2,), (1,)])
-    query_sat_clause=mocker.patch(
+    query_sat_clause = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_sat_clause',
         return_value=[(True, None, None, True, None, True, None, None, None, None),
                       (True, None, None, None, False,
@@ -115,23 +114,29 @@ def test_main(mocker):
                        True, None, None, None, None),
                       (None, None, None, False, None, None, True, None, None, None)])
 
-    query_td_bag_grouped=mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag_grouped',
-                 return_value=[[1, 2, 3, 4, 5]])
-    query_td_node_status=mocker.patch('tdvisu.construct_dpdb_visu.query_td_node_status', return_value=(
-        "2020-07-13 02:06:18.053880", datetime.timedelta(microseconds=768)))
-    query_td_bag=mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag',
-                 return_value=[(1,), (2,), (4,), (6,)])
-    query_column_name=mocker.patch('tdvisu.construct_dpdb_visu.query_column_name',
-                 return_value=[('v1',), ('v2',), ('v4',), ('v6',)])
-    query_bag=mocker.patch(
+    query_td_bag_grouped = mocker.patch(
+        'tdvisu.construct_dpdb_visu.query_td_bag_grouped', return_value=[[1, 2, 3, 4, 5]])
+    query_td_node_status = mocker.patch(
+        'tdvisu.construct_dpdb_visu.query_td_node_status',
+        return_value=(
+            "2020-07-13 02:06:18.053880",
+            datetime.timedelta(
+                microseconds=768)))
+    query_td_bag = mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag',
+                                return_value=[(1,), (2,), (4,), (6,)])
+    query_column_name = mocker.patch(
+        'tdvisu.construct_dpdb_visu.query_column_name', return_value=[
+            ('v1',), ('v2',), ('v4',), ('v6',)])
+    query_bag = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_bag',
         return_value=[(False, None, False, None),
                       (True, None, True, None),
                       (False, None, True, None),
                       (True, None, False, None)])
 
-    query_edgearray=mocker.patch('tdvisu.construct_dpdb_visu.query_edgearray',
-                 return_value=[(2, 1), (3, 2), (4, 2), (5, 4)])
+    query_edgearray = mocker.patch(
+        'tdvisu.construct_dpdb_visu.query_edgearray', return_value=[
+            (2, 1), (3, 2), (4, 2), (5, 4)])
 
     parser = argparse.ArgumentParser()
     parser.add_argument('problemnumber', type=int,
@@ -149,12 +154,11 @@ def test_main(mocker):
                         help="calculate and animate the shortest path between "
                         "successive bags in the order of evaluation.")
 
-    with tempfile.TemporaryDirectory() as tmpdirname:
-        # set cmd-arguments
-        outfile = str(Path(tmpdirname) / 'test_main.json')
-        _args = parser.parse_args(['1', '--outfile', outfile])
-        # one mocked run
-        main(_args)
+    # set cmd-arguments
+    outfile = str(tmp_path / 'test_main.json')
+    _args = parser.parse_args(['1', '--outfile', outfile])
+    # one mocked run
+    main(_args)
 
     # Assertions
     mock_connect.assert_called_once()
@@ -163,8 +167,8 @@ def test_main(mocker):
     query_td_bag_grouped.assert_called_once()
     query_sat_clause.assert_called_once()
     query_td_node_status_ordered.assert_called_once()
+    query_edgearray.assert_called_once()
     assert query_bag.call_count == 5
     assert query_column_name.call_count == 5
     assert query_td_bag.call_count == 5
     assert query_td_node_status.call_count == 5
-    

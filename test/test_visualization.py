@@ -65,7 +65,7 @@ def test_sat_and_join(tmpdir):
                 ), f"{file} should be the same"
 
 
-def test_vc_multiple_and_join(tmpdir):
+def test_vc_multiple_and_join(tmp_path):
     """Complete visualization run with svgjoin for MinVC and sorted graph."""
     parser = argparse.ArgumentParser()
     parser.add_argument('infile',
@@ -78,7 +78,7 @@ def test_vc_multiple_and_join(tmpdir):
 
     # get cmd-arguments
     infile = Path(__file__).parent / 'visualization_wheelgraph_2graphs.json'
-    outfolder = Path(tmpdir) / 'temp-test_vc_multiple_and_join'
+    outfolder = tmp_path / 'temp-test_vc_multiple_and_join'
     _args = parser.parse_args([str(infile), str(outfolder)])
     # call main()
     main(_args)
