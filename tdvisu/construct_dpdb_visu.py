@@ -104,14 +104,16 @@ def db_config(filename: str = 'database.ini',
 def query_problem(cur, problem):
     cur.execute("SELECT type FROM "
                 "public.problem WHERE id=%s", (problem,))
-    return cur.fetchone()
+    result = cur.fetchone()
+    return result
 
 
 def query_num_vars(cur, problem):
     cur.execute(
         "SELECT num_vertices FROM "
         "public.problem WHERE id=%s", (problem,))
-    return cur.fetchone()[0]
+    result = cur.fetchone()[0]
+    return result
 
 
 def query_sat_clause(cur, problem):
@@ -121,12 +123,14 @@ def query_sat_clause(cur, problem):
         LOGGER.error(
             "dpdb.py SHARPSAT needs to be run with '--store-formula'!")
         raise
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_td_bag_grouped(cur, problem):
     cur.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_td_node_status(cur, problem, bag):
@@ -134,40 +138,46 @@ def query_td_node_status(cur, problem, bag):
         ("SELECT start_time,end_time-start_time "
          "FROM public.p%d_td_node_status" % problem)
         + " WHERE node=%s", (bag,))
-    return cur.fetchone()
+    result = cur.fetchone()
+    return result
 
 
 def query_td_bag(cur, problem, bag):
     cur.execute(
         ("SELECT node FROM public.p%d_td_bag" % problem)
         + " WHERE bag=%s", (bag,))
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_td_node_status_ordered(cur, problem):
     cur.execute(
         "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
         problem)
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_column_name(cur, problem, bag):
     cur.execute(
         "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
         "WHERE TABLE_NAME = 'p%d_td_node_%d'" % (problem, bag))
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_bag(cur, problem, bag):
     cur.execute(
         "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 def query_edgearray(cur, problem):
     cur.execute(
         "SELECT node,parent FROM public.p%d_td_edge" % problem)
-    return cur.fetchall()
+    result = cur.fetchall()
+    return result
 
 
 class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
