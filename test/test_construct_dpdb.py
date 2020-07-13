@@ -30,7 +30,7 @@ import psycopg2 as pg
 
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
-                                        DpdbSatVisu, DpdbMinVcVisu)
+                                        DpdbSatVisu, DpdbMinVcVisu, main)
 
 DIR = Path(__file__).parent
 SECTION = 'postgresql'
