@@ -106,7 +106,7 @@ def db_config(filename: str = 'database.ini',
 def query_problem(cursor, problem: int) -> str:
     """Query type from public.problem for one problem."""
     cursor.execute("SELECT type FROM "
-                "public.problem WHERE id=%s", (problem,))
+                   "public.problem WHERE id=%s", (problem,))
     result = cursor.fetchone()[0]
     return result
 
