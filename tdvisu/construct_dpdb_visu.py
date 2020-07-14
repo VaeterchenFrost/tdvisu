@@ -102,6 +102,7 @@ def db_config(filename: str = 'database.ini',
 
 
 def query_problem(cur, problem):
+    """Query type from public.problem for one problem."""
     cur.execute("SELECT type FROM "
                 "public.problem WHERE id=%s", (problem,))
     result = cur.fetchone()
@@ -109,6 +110,7 @@ def query_problem(cur, problem):
 
 
 def query_num_vars(cur, problem):
+    """Query num_vertices from public.problem for one problem."""
     cur.execute(
         "SELECT num_vertices FROM "
         "public.problem WHERE id=%s", (problem,))
@@ -117,23 +119,27 @@ def query_num_vars(cur, problem):
 
 
 def query_sat_clause(cur, problem):
+    """Query sat-clauses for one problem."""
     try:
         cur.execute("SELECT * FROM public.p%d_sat_clause" % problem)
     except pg.ProgrammingError:
         LOGGER.error(
-            "dpdb.py SHARPSAT needs to be run with '--store-formula'!")
+            "dpdb.py *SAT needs to be run with '--store-formula'!")
         raise
     result = cur.fetchall()
     return result
 
 
 def query_td_bag_grouped(cur, problem):
+    """Query bag-ids for one problem."""
     cur.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
     result = cur.fetchall()
     return result
 
 
 def query_td_node_status(cur, problem, bag):
+    """Query details about the status of one node.
+    Currently start_time and end_time-start_time."""
     cur.execute(
         ("SELECT start_time,end_time-start_time "
          "FROM public.p%d_td_node_status" % problem)
@@ -143,6 +149,7 @@ def query_td_node_status(cur, problem, bag):
 
 
 def query_td_bag(cur, problem, bag):
+    """Query nodes included in one bag."""
     cur.execute(
         ("SELECT node FROM public.p%d_td_bag" % problem)
         + " WHERE bag=%s", (bag,))
@@ -151,6 +158,7 @@ def query_td_bag(cur, problem, bag):
 
 
 def query_td_node_status_ordered(cur, problem):
+    """Query bags ordered by 'start_time'."""
     cur.execute(
         "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
         problem)
@@ -159,6 +167,7 @@ def query_td_node_status_ordered(cur, problem):
 
 
 def query_column_name(cur, problem, bag):
+    """Query column names for one bag."""
     cur.execute(
         "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
         "WHERE TABLE_NAME = 'p%d_td_node_%d'" % (problem, bag))
@@ -167,6 +176,7 @@ def query_column_name(cur, problem, bag):
 
 
 def query_bag(cur, problem, bag):
+    """Query solution data for one bag."""
     cur.execute(
         "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
     result = cur.fetchall()
@@ -174,6 +184,7 @@ def query_bag(cur, problem, bag):
 
 
 def query_edgearray(cur, problem):
+    """Query edges between bags for one problem."""
     cur.execute(
         "SELECT node,parent FROM public.p%d_td_edge" % problem)
     result = cur.fetchall()
