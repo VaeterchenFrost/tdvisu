@@ -8,6 +8,21 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 ## [Unreleased]
 - No unreleased changes yet.
 
+## [1.1.4] - 2020-07-14
+### Added
+- Added the possibility to specify and create multiple graph-visualizations in one file [#25]
+- Added test case *test_vc_multiple_and_join* in [commit aa31901](https://github.com/VaeterchenFrost/tdvisu/commit/aa319016ac71f9a54023474bf820cb30929c52a8)
+- Added test cases for [construct_dpdb_visu](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_construct_dpdb.py)
+- Add pytest-mock to tests_require
+
+### Changed
+- Simplified and refactored TDVisu.schema.json 
+- Schema now includes possibility to specify multiple instances of generalGraph and incidenceGraph 
+- Revisited doc/JsonAPI.md to now include all parameters available
+- Renamed test folder expected_images to expected_files
+- Updated stable-requirements.txt
+- Several minor improvements
+
 ## [1.1.3] - 2020-07-09
 ### Added
 - Added *TDVisu.schema.json* to validate the Json-API for TDVisu [#24]
@@ -134,6 +149,7 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [#20]: https://github.com/VaeterchenFrost/tdvisu/pull/20
 [#22]: https://github.com/VaeterchenFrost/tdvisu/issues/22
 [#24]: https://github.com/VaeterchenFrost/tdvisu/issues/24
+[#25]: https://github.com/VaeterchenFrost/tdvisu/pull/25
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 [PyPI]: https://pypi.org/project/tdvisu/
@@ -141,7 +157,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.3...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.4...master
+[1.1.4]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.4
 [1.1.3]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.3
 [1.1.2]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.2
 [1.1.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.1
