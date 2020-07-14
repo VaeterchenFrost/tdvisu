@@ -27,8 +27,10 @@ import abc
 import argparse
 import json
 import logging
+from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
+from typing import List, Tuple, Optional
 
 import psycopg2 as pg
 
@@ -101,93 +103,94 @@ def db_config(filename: str = 'database.ini',
     return {**DEFAULT_DBCONFIG, **cfg}
 
 
-def query_problem(cur, problem: int) -> str:
+def query_problem(cursor, problem: int) -> str:
     """Query type from public.problem for one problem."""
-    cur.execute("SELECT type FROM "
+    cursor.execute("SELECT type FROM "
                 "public.problem WHERE id=%s", (problem,))
-    result = cur.fetchone()[0]
+    result = cursor.fetchone()[0]
     return result
 
 
-def query_num_vars(cur, problem):
+def query_num_vars(cursor, problem: int) -> int:
     """Query num_vertices from public.problem for one problem."""
-    cur.execute(
+    cursor.execute(
         "SELECT num_vertices FROM "
         "public.problem WHERE id=%s", (problem,))
-    result = cur.fetchone()[0]
+    result = cursor.fetchone()[0]
     return result
 
 
-def query_sat_clause(cur, problem):
+def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]:
     """Query sat-clauses for one problem."""
     try:
-        cur.execute("SELECT * FROM public.p%d_sat_clause" % problem)
+        cursor.execute("SELECT * FROM public.p%d_sat_clause" % problem)
     except pg.ProgrammingError:
         LOGGER.error(
             "dpdb.py *SAT needs to be run with '--store-formula'!")
         raise
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
-def query_td_bag_grouped(cur, problem):
+def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]:
     """Query bag-ids for one problem."""
-    cur.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
-    result = cur.fetchall()
+    cursor.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
+    result = cursor.fetchall()
     return result
 
 
-def query_td_node_status(cur, problem, bag):
+def query_td_node_status(
+        cursor, problem: int, bag: int) -> Tuple[datetime, timedelta]:
     """Query details about the status of one node.
     Currently start_time and end_time-start_time."""
-    cur.execute(
+    cursor.execute(
         ("SELECT start_time,end_time-start_time "
          "FROM public.p%d_td_node_status" % problem)
         + " WHERE node=%s", (bag,))
-    result = cur.fetchone()
+    result = cursor.fetchone()
     return result
 
 
-def query_td_bag(cur, problem, bag):
+def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]:
     """Query nodes included in one bag."""
-    cur.execute(
+    cursor.execute(
         ("SELECT node FROM public.p%d_td_bag" % problem)
         + " WHERE bag=%s", (bag,))
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
-def query_td_node_status_ordered(cur, problem):
+def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]:
     """Query bags ordered by 'start_time'."""
-    cur.execute(
+    cursor.execute(
         "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
         problem)
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
-def query_column_name(cur, problem, bag):
+def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]:
     """Query column names for one bag."""
-    cur.execute(
+    cursor.execute(
         "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
         "WHERE TABLE_NAME = 'p%d_td_node_%d'" % (problem, bag))
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
-def query_bag(cur, problem, bag):
+def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]:
     """Query solution data for one bag."""
-    cur.execute(
+    cursor.execute(
         "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
-def query_edgearray(cur, problem):
+def query_edgearray(cursor, problem: int) -> List[Tuple[int, int]]:
     """Query edges between bags for one problem."""
-    cur.execute(
+    cursor.execute(
         "SELECT node,parent FROM public.p%d_td_edge" % problem)
-    result = cur.fetchall()
+    result = cursor.fetchall()
     return result
 
 
