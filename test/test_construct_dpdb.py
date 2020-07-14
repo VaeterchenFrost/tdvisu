@@ -89,7 +89,7 @@ def test_main(mocker, tmp_path):
 
     query_problem = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_problem',
-        return_value=('Sat',))
+        return_value='Sat')
     query_num_vars = mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars',
                                   return_value=8)
     query_td_node_status_ordered = mocker.patch(

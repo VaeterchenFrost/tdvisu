@@ -101,11 +101,11 @@ def db_config(filename: str = 'database.ini',
     return {**DEFAULT_DBCONFIG, **cfg}
 
 
-def query_problem(cur, problem):
+def query_problem(cur, problem: int) -> str:
     """Query type from public.problem for one problem."""
     cur.execute("SELECT type FROM "
                 "public.problem WHERE id=%s", (problem,))
-    result = cur.fetchone()
+    result = cur.fetchone()[0]
     return result
 
 
@@ -545,7 +545,7 @@ def create_json(
         with connect() as connection:
             # get type of problem
             with connection.cursor() as cur:
-                (ptype,) = query_problem(cur, problem)
+                ptype = query_problem(cur, problem)
 
             # select the valid constructor for the problem
             constructor: IDpdbVisuConstruct
