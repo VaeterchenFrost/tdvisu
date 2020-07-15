@@ -110,8 +110,8 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
         But maybe just a list or a single object.
 
     """
-    err_str = """utilities.read_yml_or_cfg encountered '{}' while
-                reading config from '{}' and prefer_cfg={}"""
+    err_str = ("utilities.read_yml_or_cfg encountered '{}' while "
+              "reading config from '{}' and prefer_cfg={}")
 
     file = Path(file)
     if not file.exists():
