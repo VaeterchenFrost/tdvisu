@@ -20,7 +20,7 @@ Copyright (C) 2020  Martin Röbke
 
 """
 from pytest import param, mark, raises
-from tdvisu.utilities import flatten, convert_to_adj, add_edge_to
+from tdvisu.utilities import flatten, convert_to_adj, add_edge_to, read_yml_or_cfg
 
 
 @mark.parametrize(
@@ -87,3 +87,37 @@ def test_add_edge_to(edges, adj, vertex1, vertex2, new_adj):
     # adding second time switched does not change the adjacency
     add_edge_to(edges, adj, vertex2, vertex1)
     assert adj == new_adj
+
+
+def test_read_yml_or_cfg_not_file(tmp_path):
+    """Test cases of reading not existing files"""
+    with raises(FileNotFoundError):
+        read_yml_or_cfg(tmp_path / 'file_not_exists')
+    with raises(IsADirectoryError):
+        read_yml_or_cfg(tmp_path)
+
+
+def test_read_yml_or_cfg_config(tmp_path, capsys):
+    """Test edge cases for reading config"""
+    with open(tmp_path / 'file', 'w+') as file:
+        file.write('')
+        file.flush()
+        assert read_yml_or_cfg(file.name, True) == dict()
+        captured = capsys.readouterr()
+        msg = "utilities.read_yml_or_cfg encountered 'empty config' while"
+        assert captured.out.startswith(msg)
+        # invalid cfg
+        file.write('invalid cfg')
+        file.flush()
+        assert read_yml_or_cfg(file.name, True) == "invalid cfg"
+        captured = capsys.readouterr()
+        msg = "utilities.read_yml_or_cfg encountered 'File contains no section headers.\nfile:"
+        assert captured.out.startswith(msg)
+        # yaml error
+    with open(tmp_path / 'yaml', 'w+') as file:
+        file.write('{invalid yaml')
+        file.flush()
+        read_yml_or_cfg(file.name)
+        captured = capsys.readouterr()
+        msg = "utilities.read_yml_or_cfg encountered 'while parsing a flow mapping"
+        assert captured.out.startswith(msg)
