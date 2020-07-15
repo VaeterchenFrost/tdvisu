@@ -111,7 +111,7 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
 
     """
     err_str = ("utilities.read_yml_or_cfg encountered '{}' while "
-              "reading config from '{}' and prefer_cfg={}")
+               "reading config from '{}' and prefer_cfg={}")
 
     file = Path(file)
     if not file.exists():
@@ -356,7 +356,8 @@ def solution_node(
         bottomlabel: str = '',
         transpose: bool = False,
         linesmax: int = 1000,
-        columnsmax: int = 50) -> str:
+        columnsmax: int = 50,
+        fillstr: str = '...') -> str:
     """Fill the node from the 2D 'solution_table' (columnbased!).
     Optionally add a line above and/or below the table.
 
@@ -374,6 +375,8 @@ def solution_node(
 
     columnsmax : int, if positive it indicates the
             maximum number of columns to display + the last.
+
+    fillstr : str, the string to use to indicate skipped entries.
 
     Example structure for four columns:
     |----------|
@@ -410,7 +413,7 @@ def solution_node(
             for row in column[:vslice]:
                 result += str(row) + '|'
             if vslice < -1:     # add one indicator of shortening
-                result += '...' + '|'
+                result += fillstr + '|'
             for row in column[-1:]:
                 result += str(row)
             result += '}|'      # sep. between columns
@@ -418,11 +421,11 @@ def solution_node(
         if hslice < len(solution_table) - 1:
             result += '{'                                   # start column
             for row in column[:vslice]:
-                result += '...' + '|'
+                result += fillstr + '|'
             if vslice < -1:     # add one indicator of shortening
-                result += '...' + '|'
+                result += fillstr + '|'
             for row in column[-1:]:
-                result += '...'
+                result += fillstr
             result += '}|'      # sep. between columns
         # last column (usually a summary of the previous cols)
         for column in solution_table[-1:]:
@@ -430,7 +433,7 @@ def solution_node(
             for row in column[:vslice]:
                 result += str(row) + '|'
             if vslice < -1:     # add one indicator of shortening
-                result += '...' + '|'
+                result += fillstr + '|'
             for row in column[-1:]:
                 result += str(row)
             result += '}'      # sep. between columns
