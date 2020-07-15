@@ -159,13 +159,13 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     column_based_table = [['%dL%dC' % (line, column)
                            for line in range(lines)]
                           for column in range(columns)]
+    optional_args = dict([param for param in
+                          zip(['columnsmax', 'linesmax'],
+                              [columnsmax, linesmax])
+                          if param[1] is not None])
 
     # no labels (default) COLUMN-BASED:
-    result = solution_node(column_based_table,
-                           **dict([param for param in
-                                   zip(['columnsmax', 'linesmax'],
-                                       [columnsmax, linesmax])
-                                   if param[1] is not None]))
+    result = solution_node(column_based_table, **optional_args)
 
     # columns indication
     assert result.count('{') == result.count('}'), "brackets schould close"
@@ -182,3 +182,30 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
 
     assert (result.count('|') == expect_line_dividers
             ), "line-divider count should match the number in the expected grid."
+
+    # labels, COLUMN-BASED:
+    result = solution_node(column_based_table, 'a', 'b', **optional_args)
+    assert (result.count('|') == expect_line_dividers + 2
+            ), "line-divider count should increase by two with labels."
+
+    # TRANSPOSED:
+    # no labels (default)
+    result = solution_node(column_based_table, transpose=True, **optional_args)
+    # columns indication
+    assert result.count('{') == result.count('}'), "brackets schould close"
+    assert (result.count('{') == 2 +
+            min(lines, (50 if columnsmax is None else columnsmax) + 1)
+            ), "columns should match the formula"
+    # lines indication
+    expect_line_dividers = (min(columns,
+                                (1000 if linesmax is None else linesmax) + 2) *
+                            min(lines,
+                                (50 if columnsmax is None else columnsmax) + 1)
+                            - 1)
+
+    assert (result.count('|') == expect_line_dividers
+            ), "line-divider count should match the number in the expected grid."
+    # With labels
+    result = solution_node(column_based_table, 'a', 'b', True, **optional_args)
+    assert (result.count('|') == expect_line_dividers + 2
+            ), "line-divider count should increase by two with labels."
