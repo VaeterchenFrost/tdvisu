@@ -19,8 +19,10 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
+import random
 from pytest import param, mark, raises
 from tdvisu.utilities import flatten, convert_to_adj, add_edge_to, read_yml_or_cfg
+from tdvisu.utilities import bag_node, solution_node
 
 
 @mark.parametrize(
@@ -121,3 +123,31 @@ def test_read_yml_or_cfg_config(tmp_path, capsys):
         captured = capsys.readouterr()
         msg = "utilities.read_yml_or_cfg encountered 'while parsing a flow mapping"
         assert captured.out.startswith(msg)
+
+
+def test_bag_node():
+    """Test edge cases for bag_node"""
+    result = bag_node(
+        "my_head",
+        "my_tail",
+        anchor='my_anchor',
+        headcolor='orange',
+        tableborder=1,
+        cellborder=2,
+        cellspacing=10)
+    assert result == """<<TABLE BORDER="1" CELLBORDER="2"
+              CELLSPACING="10">
+              <TR><TD BGCOLOR="orange">my_head</TD></TR>
+              <TR><TD PORT="my_anchor"></TD></TR><TR><TD>my_tail</TD></TR></TABLE>>"""
+
+
+def test_solution_node_filler():
+    """Test solution_node with column and lines maximum."""
+    result = solution_node(
+        solution_table=[
+            ''.join(
+                random.choice('01') for x in range(7)) for _ in range(7)],
+        toplabel='toplabel',
+        bottomlabel='bottomlabel',
+        linesmax=5,
+        columnsmax=5)
