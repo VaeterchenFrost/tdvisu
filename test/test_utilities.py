@@ -147,17 +147,21 @@ def test_bag_node():
            id="Testing under maximum"),
      param(random.randint(1001, 1234), random.randint(51, 123), None, None,
            id="Testing defaults linesmax = 1000, columnsmax = 50"),
+     param(random.randint(101, 200), random.randint(16, 30), 100, 15,
+           id="Testing over maximums"),
+     param(random.randint(101, 200), random.randint(16, 30), 10, 5,
+           id="Testing over maximums 2")
      ]
 )
 def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     """Test properties of solution_node with column and lines maximum."""
 
-    solution_table = [['%dL%dC' % (line, column)
-                       for column in range(columns)]
-                      for line in range(lines)]
+    column_based_table = [['%dL%dC' % (line, column)
+                           for line in range(lines)]
+                          for column in range(columns)]
 
     # no labels (default) COLUMN-BASED:
-    result = solution_node(solution_table,
+    result = solution_node(column_based_table,
                            **dict([param for param in
                                    zip(['columnsmax', 'linesmax'],
                                        [columnsmax, linesmax])
@@ -166,13 +170,13 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     # columns indication
     assert result.count('{') == result.count('}'), "brackets schould close"
     assert (result.count('{') == 2 +
-            min(lines, (50 if columnsmax is None else columnsmax) + 1)
+            min(columns, (50 if columnsmax is None else columnsmax) + 1)
             ), "columns should match the formula"
 
     # lines indication
-    expect_line_dividers = (min(columns,
+    expect_line_dividers = (min(lines,
                                 (1000 if linesmax is None else linesmax) + 2) *
-                            min(lines,
+                            min(columns,
                                 (50 if columnsmax is None else columnsmax) + 1)
                             - 1)
 
