@@ -133,7 +133,9 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
 
     # try yaml file next
     try:
-        return yaml.safe_load(file.open())
+        result = yaml.safe_load(file.open())
+        if result is not None:
+            return result
     except yaml.error.MarkedYAMLError as exc:
         print(err_str.format(exc, file.resolve(), prefer_cfg))
     if not prefer_cfg:
@@ -143,6 +145,7 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
             return config
         except (ParsingError, CfgError) as exc:
             print(err_str.format(exc, file.resolve(), prefer_cfg))
+    return dict()
 
 
 def logging_cfg(filename: str, prefer_cfg: bool = False,
