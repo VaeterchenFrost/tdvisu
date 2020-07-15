@@ -141,13 +141,40 @@ def test_bag_node():
               <TR><TD PORT="my_anchor"></TD></TR><TR><TD>my_tail</TD></TR></TABLE>>"""
 
 
-def test_solution_node_filler():
-    """Test solution_node with column and lines maximum."""
-    result = solution_node(
-        solution_table=[
-            ''.join(
-                random.choice('01') for x in range(7)) for _ in range(7)],
-        toplabel='toplabel',
-        bottomlabel='bottomlabel',
-        linesmax=5,
-        columnsmax=5)
+@mark.parametrize(
+    "columns, lines, columnsmax, linesmax",
+    [param(random.randint(1, 2000), random.randint(1, 15), 2000, 15,
+           id="Testing under maximum"),
+     param(random.randint(1001, 1234), random.randint(51, 123), None, None,
+           id="Testing defaults linesmax = 1000, columnsmax = 50"),
+     ]
+)
+def test_solution_node_filler(columns, lines, columnsmax, linesmax):
+    """Test properties of solution_node with column and lines maximum."""
+
+    solution_table = [['%dL%dC' % (line, column)
+                       for column in range(columns)]
+                      for line in range(lines)]
+
+    # no labels (default) COLUMN-BASED:
+    result = solution_node(solution_table,
+                           **dict([param for param in
+                                   zip(['columnsmax', 'linesmax'],
+                                       [columnsmax, linesmax])
+                                   if param[1] is not None]))
+
+    # columns indication
+    assert result.count('{') == result.count('}'), "brackets schould close"
+    assert (result.count('{') == 2 +
+            min(lines, (50 if columnsmax is None else columnsmax) + 1)
+            ), "columns should match the formula"
+
+    # lines indication
+    expect_line_dividers = (min(columns,
+                                (1000 if linesmax is None else linesmax) + 2) *
+                            min(lines,
+                                (50 if columnsmax is None else columnsmax) + 1)
+                            - 1)
+
+    assert (result.count('|') == expect_line_dividers
+            ), "line-divider count should match the number in the expected grid."

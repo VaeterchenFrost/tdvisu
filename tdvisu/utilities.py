@@ -358,8 +358,11 @@ def solution_node(
         linesmax: int = 1000,
         columnsmax: int = 50,
         fillstr: str = '...') -> str:
-    """Fill the node from the 2D 'solution_table' (columnbased!).
-    Optionally add a line above and/or below the table.
+    """Fill the node from the 2D-matrix 'solution_table' COLUMNBASED!.
+    Optionally add a line above and/or below the table for labels.
+    The size of the result can be limited by using linesmax and columnsmax.
+    Usually the minimal size in both directions is 3.
+    
 
     solution_table : 2D-arraylike, entries get converted to str
 
