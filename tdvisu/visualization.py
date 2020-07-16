@@ -739,9 +739,11 @@ def main(args: List[str]) -> None:
     visu = Visualization(infile=infile, outfolder=outfolder)
     visu.tree_dec_timeline()
 
+
 def init():
     """Initialization that is executed at the time of the module import."""
     if __name__ == "__main__":
         sys.exit(main(sys.argv[1:]))  # call main function
+
 
 init()

@@ -631,9 +631,11 @@ def main(args: List[str]) -> None:
             ensure_ascii=False)
         LOGGER.debug("Wrote to %s", file)
 
+
 def init():
     """Initialization that is executed at the time of the module import."""
     if __name__ == "__main__":
         sys.exit(main(sys.argv[1:]))  # call main function
+
 
 init()

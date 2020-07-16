@@ -140,7 +140,7 @@ def test_main(mocker, tmp_path):
     outfile = str(tmp_path / 'test_main.json')
     # one mocked run
     main(['1', '--outfile', outfile])
-    
+
     # Assertions
     mock_connect.assert_called_once()
     query_problem.assert_called_once()
