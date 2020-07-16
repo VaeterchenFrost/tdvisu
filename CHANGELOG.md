@@ -8,6 +8,16 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 ## [Unreleased]
 - No unreleased changes yet.
 
+## [1.1.5] - 2020-07-17
+### Added
+- Added many new tests.
+- Hints for not covered code lines.
+
+### Changed
+- Simplified code to parse commandline flags while removing duplications in code.
+- Entrypoint for modules visualization and construct_dpdb_visu is now in init().
+- Some improvements in utilities.solution_node
+
 ## [1.1.4] - 2020-07-14
 ### Added
 - Added the possibility to specify and create multiple graph-visualizations in one file [#25]
