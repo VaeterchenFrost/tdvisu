@@ -362,7 +362,7 @@ def solution_node(
     Optionally add a line above and/or below the table for labels.
     The size of the result can be limited by using linesmax and columnsmax.
     Usually the minimal size in both directions is 3.
-    
+
 
     solution_table : 2D-arraylike, entries get converted to str
 

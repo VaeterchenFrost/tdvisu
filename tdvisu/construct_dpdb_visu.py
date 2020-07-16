@@ -103,7 +103,7 @@ def db_config(filename: str = 'database.ini',
     return {**DEFAULT_DBCONFIG, **cfg}
 
 
-def query_problem(cursor, problem: int) -> str: # pragma: no cover
+def query_problem(cursor, problem: int) -> str:  # pragma: no cover
     """Query type from public.problem for one problem."""
     cursor.execute("SELECT type FROM "
                    "public.problem WHERE id=%s", (problem,))
@@ -111,7 +111,7 @@ def query_problem(cursor, problem: int) -> str: # pragma: no cover
     return result
 
 
-def query_num_vars(cursor, problem: int) -> int: # pragma: no cover
+def query_num_vars(cursor, problem: int) -> int:  # pragma: no cover
     """Query num_vertices from public.problem for one problem."""
     cursor.execute(
         "SELECT num_vertices FROM "
@@ -120,7 +120,7 @@ def query_num_vars(cursor, problem: int) -> int: # pragma: no cover
     return result
 
 
-def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]: # pragma: no cover
+def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]:  # pragma: no cover
     """Query sat-clauses for one problem."""
     try:
         cursor.execute("SELECT * FROM public.p%d_sat_clause" % problem)
@@ -132,7 +132,7 @@ def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]: # pra
     return result
 
 
-def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]: # pragma: no cover
+def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]:  # pragma: no cover
     """Query bag-ids for one problem."""
     cursor.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
     result = cursor.fetchall()
@@ -140,7 +140,7 @@ def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]: # pragma: no 
 
 
 def query_td_node_status(
-        cursor, problem: int, bag: int) -> Tuple[datetime, timedelta]: # pragma: no cover
+        cursor, problem: int, bag: int) -> Tuple[datetime, timedelta]:  # pragma: no cover
     """Query details about the status of one node.
     Currently start_time and end_time-start_time."""
     cursor.execute(
@@ -151,7 +151,7 @@ def query_td_node_status(
     return result
 
 
-def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]: # pragma: no cover
+def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]:  # pragma: no cover
     """Query nodes included in one bag."""
     cursor.execute(
         ("SELECT node FROM public.p%d_td_bag" % problem)
@@ -160,7 +160,7 @@ def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]: # pragma: 
     return result
 
 
-def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]: # pragma: no cover
+def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]:  # pragma: no cover
     """Query bags ordered by 'start_time'."""
     cursor.execute(
         "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
@@ -169,7 +169,7 @@ def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]: # pr
     return result
 
 
-def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]: # pragma: no cover
+def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]:  # pragma: no cover
     """Query column names for one bag."""
     cursor.execute(
         "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
@@ -178,7 +178,7 @@ def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]: # pra
     return result
 
 
-def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]: # pragma: no cover
+def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]:  # pragma: no cover
     """Query solution data for one bag."""
     cursor.execute(
         "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
@@ -186,7 +186,7 @@ def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]: # 
     return result
 
 
-def query_edgearray(cursor, problem: int) -> List[Tuple[int, int]]: # pragma: no cover
+def query_edgearray(cursor, problem: int) -> List[Tuple[int, int]]:  # pragma: no cover
     """Query edges between bags for one problem."""
     cursor.execute(
         "SELECT node,parent FROM public.p%d_td_edge" % problem)
@@ -233,7 +233,7 @@ class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
             - create the timeline of the solving process
             - construct the path and solution-tables used during solving.
         """
-        raise NotImplementedError # pragma: no cover
+        raise NotImplementedError  # pragma: no cover
 
 
 class DpdbSharpSatVisu(IDpdbVisuConstruct):
