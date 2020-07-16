@@ -229,7 +229,7 @@ def _weight_function(weight, multigraph: bool = False):
     return lambda u, v, data: data.get(weight, 1)
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":   # pragma: no cover
     # Show one example and print to console
     EDGES = {2: {1: {}, 3: {}, 4: {}},
              1: {2: {}},

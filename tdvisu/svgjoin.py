@@ -347,7 +347,7 @@ def svg_join(
     LOGGER.info("Finished svg_join")
 
 
-if __name__ == "__main__":
+if __name__ == "__main__":  # pragma: no cover
     logging.basicConfig(level=logging.DEBUG)
     svg_join(['TDStep', 'graph'],
              'Archive/WheelGraph7',
