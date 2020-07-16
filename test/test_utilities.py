@@ -147,6 +147,8 @@ def test_bag_node():
            id="Testing under maximum"),
      param(random.randint(1001, 1234), random.randint(51, 123), None, None,
            id="Testing defaults linesmax = 1000, columnsmax = 50"),
+     param(11, 6, 10, 5,
+           id="Testing directly over maximums"),
      param(random.randint(101, 200), random.randint(16, 30), 100, 15,
            id="Testing over maximums"),
      param(random.randint(101, 200), random.randint(16, 30), 10, 5,
@@ -163,22 +165,20 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
                           zip(['columnsmax', 'linesmax'],
                               [columnsmax, linesmax])
                           if param[1] is not None])
-
+    fill = '...'
     # no labels (default) COLUMN-BASED:
-    result = solution_node(column_based_table, **optional_args)
+    result = solution_node(column_based_table, **optional_args, fillstr=fill)
+    # defaults from function signature
+    lmax = (1000 if linesmax is None else linesmax)
+    cmax = (50 if columnsmax is None else columnsmax)
 
     # columns indication
     assert result.count('{') == result.count('}'), "brackets schould close"
-    assert (result.count('{') == 2 +
-            min(columns, (50 if columnsmax is None else columnsmax) + 1)
+    assert (result.count('{') == 2 + min(columns, cmax + 1)
             ), "columns should match the formula"
 
     # lines indication
-    expect_line_dividers = (min(lines,
-                                (1000 if linesmax is None else linesmax) + 2) *
-                            min(columns,
-                                (50 if columnsmax is None else columnsmax) + 1)
-                            - 1)
+    expect_line_dividers = (min(lines, lmax + 2) * min(columns, cmax + 1) - 1)
 
     assert (result.count('|') == expect_line_dividers
             ), "line-divider count should match the number in the expected grid."
@@ -193,15 +193,11 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     result = solution_node(column_based_table, transpose=True, **optional_args)
     # columns indication
     assert result.count('{') == result.count('}'), "brackets schould close"
-    assert (result.count('{') == 2 +
-            min(lines, (50 if columnsmax is None else columnsmax) + 1)
+    assert (result.count('{') == 2 + min(lines, cmax + 1)
             ), "columns should match the formula"
     # lines indication
-    expect_line_dividers = (min(columns,
-                                (1000 if linesmax is None else linesmax) + 2) *
-                            min(lines,
-                                (50 if columnsmax is None else columnsmax) + 1)
-                            - 1)
+    expect_line_dividers = (min(columns, lmax + 2) *
+                            min(lines, cmax + 1) - 1)
 
     assert (result.count('|') == expect_line_dividers
             ), "line-divider count should match the number in the expected grid."
@@ -209,3 +205,7 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     result = solution_node(column_based_table, 'a', 'b', True, **optional_args)
     assert (result.count('|') == expect_line_dividers + 2
             ), "line-divider count should increase by two with labels."
+
+    # number of fillers:
+    assert result.count(fill) == (bool(lines > cmax) * min(columns, lmax + 1) +
+                                  bool(columns > lmax) * min(lines, cmax + 1))
