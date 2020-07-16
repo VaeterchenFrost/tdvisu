@@ -31,9 +31,9 @@ import io
 import itertools
 import json
 import logging
+import sys
 from dataclasses import asdict
 from pathlib import Path
-from sys import stdin
 from typing import Iterable, List, Optional, Union, NewType
 
 from graphviz import Digraph, Graph
@@ -698,25 +698,38 @@ class Visualization:
             svg_join(**asdict(sj_data))
 
 
-def main(args: argparse.Namespace) -> None:
+def main(args: List[str]) -> None:
     """
-    Main method running construct_dpdb_visu for arguments in 'args'
+    Main method running visualization for arguments in 'args'.
 
     Parameters
     ----------
-    args : argparse.Namespace
-        The namespace containing all (command-line) parameters.
+    args : List[str]
+        The array containing all (command-line) flags.
 
     Returns
     -------
     None
     """
+    parser = get_parser(
+        "Visualizing Dynamic Programming on Tree-Decompositions.")
+    # possible to use stdin for the file.
+    parser.add_argument('infile', nargs='?',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        default=sys.stdin,
+                        help="Input file for the visualization "
+                        "must conform with the 'JsonAPI.md'")
+    parser.add_argument('outfolder',
+                        help="Folder to output the visualization results")
 
-    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
-    LOGGER.info("Called with '%s'", args)
+    # get cmd-arguments
+    options = parser.parse_args(args)
 
-    infile = args.infile
-    outfolder = args.outfolder
+    logging_cfg(filename='logging.yml', loglevel=options.loglevel)
+    LOGGER.info("Called with '%s'", options)
+
+    infile = options.infile
+    outfolder = options.outfolder
     if not outfolder:
         outfolder = 'outfolder'
     outfolder = Path(outfolder).resolve()
@@ -728,20 +741,4 @@ def main(args: argparse.Namespace) -> None:
 
 
 if __name__ == "__main__":
-    # Parse args, call main
-
-    PARSER = get_parser(
-        "Visualizing Dynamic Programming on Tree-Decompositions.")
-    # possible to use stdin for the file.
-    PARSER.add_argument('infile', nargs='?',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        default=stdin,
-                        help="Input file for the visualization "
-                        "must conform with the 'JsonAPI.md'")
-    PARSER.add_argument('outfolder',
-                        help="Folder to output the visualization results")
-
-    # get cmd-arguments
-    _args = PARSER.parse_args()
-    # call main()
-    main(_args)
+    main(sys.argv[1:])  # call main function

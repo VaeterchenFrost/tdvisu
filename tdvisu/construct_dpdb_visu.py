@@ -572,66 +572,65 @@ def create_json(
     return {}
 
 
-def main(args: argparse.Namespace) -> None:
+def main(args: List[str]) -> None:
     """
-    Main method running construct_dpdb_visu for arguments in 'args'
+    Main method running construct_dpdb_visu for arguments in 'args'.
 
     Parameters
     ----------
-    args : argparse.Namespace
-        The namespace containing all (command-line) parameters.
+    args : List[str]
+        The array containing all (command-line) flags.
 
     Returns
     -------
     None
     """
-    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
-    LOGGER.info("Called with '%s'", args)
-    problem_ = args.problemnumber
+    parser = get_parser("Extracts Information from "
+                        "https://github.com/hmarkus/dp_on_dbs runs "
+                        "for further visualization.")
+
+    parser.add_argument('problemnumber', type=int,
+                        help="selected problem-id in the postgres-database.")
+    parser.add_argument('--twfile',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        help="tw-file containing the edges of the graph - "
+                        "obtained from dpdb with option --gr-file GR_FILE.")
+    parser.add_argument('--outfile', default='dbjson%d.json',
+                        help="default:'dbjson%%d.json'")
+    parser.add_argument('--pretty', action='store_true',
+                        help="pretty-print the JSON.")
+    parser.add_argument('--inter-nodes', action='store_true',
+                        help="calculate and animate the shortest path between "
+                        "successive bags in the order of evaluation.")
+    # get cmd-arguments
+    options = parser.parse_args(args)
+
+    logging_cfg(filename='logging.yml', loglevel=options.loglevel)
+    LOGGER.info("Called with '%s'", options)
+    problem_ = options.problemnumber
     # get twfile if supplied
     try:
-        tw_file_ = args.twfile
+        tw_file_ = options.twfile
     except AttributeError:
         tw_file_ = None
 
     # create JSON
     result_json = create_json(problem=problem_, tw_file=tw_file_)
     try:    # build json filename, can be supplied with problem-number
-        outfile = args.outfile % problem_
+        outfile = options.outfile % problem_
     except TypeError:
-        outfile = args.outfile
+        outfile = options.outfile
     LOGGER.info("Output file-name: %s", outfile)
     with open(outfile, 'w') as file:
         json.dump(
             result_json,
             file,
             sort_keys=True,
-            indent=2 if args.pretty else None,
+            indent=2 if options.pretty else None,
             ensure_ascii=False)
         LOGGER.debug("Wrote to %s", file)
 
 
 if __name__ == "__main__":
-    # Parse args, call main
-
-    PARSER = get_parser("Extracts Information from "
-                        "https://github.com/hmarkus/dp_on_dbs runs "
-                        "for further visualization.")
-
-    PARSER.add_argument('problemnumber', type=int,
-                        help="selected problem-id in the postgres-database.")
-    PARSER.add_argument('--twfile',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        help="tw-file containing the edges of the graph - "
-                        "obtained from dpdb with option --gr-file GR_FILE.")
-    PARSER.add_argument('--outfile', default='dbjson%d.json',
-                        help="default:'dbjson%%d.json'")
-    PARSER.add_argument('--pretty', action='store_true',
-                        help="pretty-print the JSON.")
-    PARSER.add_argument('--inter-nodes', action='store_true',
-                        help="calculate and animate the shortest path between "
-                        "successive bags in the order of evaluation.")
-
-    # get cmd-arguments
-    _args = PARSER.parse_args()
-    main(_args)
+    import sys
+    main(sys.argv[1:])  # call main function
