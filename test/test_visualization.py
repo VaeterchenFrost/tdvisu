@@ -21,9 +21,8 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import argparse
 from pathlib import Path
-
+from tdvisu import visualization as module
 from tdvisu.visualization import main
 
 EXPECT_DIR = Path(__file__).parent / 'expected_files'
@@ -31,21 +30,13 @@ EXPECT_DIR = Path(__file__).parent / 'expected_files'
 
 def test_sat_and_join(tmpdir):
     """Complete visualization run with svgjoin."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument('infile',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        help="Input file for the visualization "
-                        "must conform with the 'JsonAPI.md'")
-    parser.add_argument('outfolder',
-                        help="Folder to output the visualization results")
-    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
 
     # get cmd-arguments
     infile = Path(__file__).parent / 'dbjson4andjoin.json'
     outfolder = Path(tmpdir) / 'temp-test_sat_and_join'
-    _args = parser.parse_args([str(infile), str(outfolder)])
+    args = [str(infile), str(outfolder)]
     # call main()
-    main(_args)
+    main(args)
     files = [file for file in outfolder.iterdir() if file.is_file()]
     assert len(files
                ) == 42, "total files"
@@ -67,21 +58,13 @@ def test_sat_and_join(tmpdir):
 
 def test_vc_multiple_and_join(tmp_path):
     """Complete visualization run with svgjoin for MinVC and sorted graph."""
-    parser = argparse.ArgumentParser()
-    parser.add_argument('infile',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        help="Input file for the visualization "
-                        "must conform with the 'JsonAPI.md'")
-    parser.add_argument('outfolder',
-                        help="Folder to output the visualization results")
-    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
 
     # get cmd-arguments
     infile = Path(__file__).parent / 'visualization_wheelgraph_2graphs.json'
     outfolder = tmp_path / 'temp-test_vc_multiple_and_join'
-    _args = parser.parse_args([str(infile), str(outfolder)])
+    args = [str(infile), str(outfolder)]
     # call main()
-    main(_args)
+    main(args)
     files = [file for file in outfolder.iterdir() if file.is_file()]
     assert len(files
                ) == 35, "total files"
@@ -99,3 +82,15 @@ def test_vc_multiple_and_join(tmp_path):
             with open(outfolder / file) as result:
                 assert result.read() == expected.read(
                 ), f"{file} should be the same"
+
+
+def test_init(mocker):
+    """Test that main is called correctly if called as __main__."""
+    expected = -1000
+    main = mocker.patch.object(module, "main", return_value=expected)
+    mock_exit = mocker.patch.object(module.sys, 'exit')
+    mocker.patch.object(module, "__name__", "__main__")
+    module.init()
+
+    main.assert_called_once()
+    assert mock_exit.call_args[0][0] == expected

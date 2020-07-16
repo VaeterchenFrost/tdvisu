@@ -31,17 +31,16 @@ import io
 import itertools
 import json
 import logging
+import sys
 from dataclasses import asdict
 from pathlib import Path
-from sys import stdin
 from typing import Iterable, List, Optional, Union, NewType
 
 from graphviz import Digraph, Graph
 from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
-from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten, LOGLEVEL_EPILOG, logging_cfg
+from tdvisu.utilities import flatten, logging_cfg, get_parser
 from tdvisu.utilities import bag_node, solution_node, base_style
 from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
@@ -699,25 +698,38 @@ class Visualization:
             svg_join(**asdict(sj_data))
 
 
-def main(args: argparse.Namespace) -> None:
+def main(args: List[str]) -> None:
     """
-    Main method running construct_dpdb_visu for arguments in 'args'
+    Main method running visualization for arguments in 'args'.
 
     Parameters
     ----------
-    args : argparse.Namespace
-        The namespace containing all (command-line) parameters.
+    args : List[str]
+        The array containing all (command-line) flags.
 
     Returns
     -------
     None
     """
+    parser = get_parser(
+        "Visualizing Dynamic Programming on Tree-Decompositions.")
+    # possible to use stdin for the file.
+    parser.add_argument('infile', nargs='?',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        default=sys.stdin,
+                        help="Input file for the visualization "
+                        "must conform with the 'JsonAPI.md'")
+    parser.add_argument('outfolder',
+                        help="Folder to output the visualization results")
 
-    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
-    LOGGER.info("Called with '%s'", args)
+    # get cmd-arguments
+    options = parser.parse_args(args)
 
-    infile = args.infile
-    outfolder = args.outfolder
+    logging_cfg(filename='logging.yml', loglevel=options.loglevel)
+    LOGGER.info("Called with '%s'", options)
+
+    infile = options.infile
+    outfolder = options.outfolder
     if not outfolder:
         outfolder = 'outfolder'
     outfolder = Path(outfolder).resolve()
@@ -728,33 +740,10 @@ def main(args: argparse.Namespace) -> None:
     visu.tree_dec_timeline()
 
 
-if __name__ == "__main__":
-    # Parse args, call main
+def init():
+    """Initialization that is executed at the time of the module import."""
+    if __name__ == "__main__":
+        sys.exit(main(sys.argv[1:]))  # call main function
 
-    PARSER = argparse.ArgumentParser(
-        description="""
-        Copyright (C) 2020 Martin Röbke
-        This program comes with ABSOLUTELY NO WARRANTY
-        This is free software, and you are welcome to redistribute it
-        under certain conditions; see COPYING for more information.
 
-        Visualizing Dynamic Programming on Tree-Decompositions.""",
-        epilog=LOGLEVEL_EPILOG,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-
-    # possible to use stdin for the file.
-    PARSER.add_argument('infile', nargs='?',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        default=stdin,
-                        help="Input file for the visualization "
-                        "must conform with the 'JsonAPI.md'")
-    PARSER.add_argument('outfolder',
-                        help="Folder to output the visualization results")
-    PARSER.add_argument('--version', action='version',
-                        version='%(prog)s ' + version + ', ' + __date__)
-    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
-
-    # get cmd-arguments
-    _args = PARSER.parse_args()
-    # call main()
-    main(_args)
+init()

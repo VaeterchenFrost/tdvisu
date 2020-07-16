@@ -27,6 +27,7 @@ import abc
 import argparse
 import json
 import logging
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
@@ -38,8 +39,7 @@ from tdvisu.dijkstra import bidirectional_dijkstra as find_path
 from tdvisu.utilities import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
-from tdvisu.version import __date__, __version__ as version
-from tdvisu.utilities import read_yml_or_cfg, logging_cfg, LOGLEVEL_EPILOG
+from tdvisu.utilities import read_yml_or_cfg, logging_cfg, get_parser
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
@@ -573,79 +573,69 @@ def create_json(
     return {}
 
 
-def main(args: argparse.Namespace) -> None:
+def main(args: List[str]) -> None:
     """
-    Main method running construct_dpdb_visu for arguments in 'args'
+    Main method running construct_dpdb_visu for arguments in 'args'.
 
     Parameters
     ----------
-    args : argparse.Namespace
-        The namespace containing all (command-line) parameters.
+    args : List[str]
+        The array containing all (command-line) flags.
 
     Returns
     -------
     None
     """
+    parser = get_parser("Extracts Information from "
+                        "https://github.com/hmarkus/dp_on_dbs runs "
+                        "for further visualization.")
 
-    logging_cfg(filename='logging.yml', loglevel=args.loglevel)
-    LOGGER.info("Called with '%s'", args)
+    parser.add_argument('problemnumber', type=int,
+                        help="selected problem-id in the postgres-database.")
+    parser.add_argument('--twfile',
+                        type=argparse.FileType('r', encoding='UTF-8'),
+                        help="tw-file containing the edges of the graph - "
+                        "obtained from dpdb with option --gr-file GR_FILE.")
+    parser.add_argument('--outfile', default='dbjson%d.json',
+                        help="default:'dbjson%%d.json'")
+    parser.add_argument('--pretty', action='store_true',
+                        help="pretty-print the JSON.")
+    parser.add_argument('--inter-nodes', action='store_true',
+                        help="calculate and animate the shortest path between "
+                        "successive bags in the order of evaluation.")
+    # get cmd-arguments
+    options = parser.parse_args(args)
 
-    problem_ = args.problemnumber
+    logging_cfg(filename='logging.yml', loglevel=options.loglevel)
+    LOGGER.info("Called with '%s'", options)
+    problem_ = options.problemnumber
     # get twfile if supplied
     try:
-        tw_file_ = args.twfile
+        tw_file_ = options.twfile
     except AttributeError:
         tw_file_ = None
+
+    # create JSON
     result_json = create_json(problem=problem_, tw_file=tw_file_)
-    # build json filename, can be supplied with problem-number
-    try:
-        outfile = args.outfile % problem_
+    try:    # build json filename, can be supplied with problem-number
+        outfile = options.outfile % problem_
     except TypeError:
-        outfile = args.outfile
+        outfile = options.outfile
     LOGGER.info("Output file-name: %s", outfile)
     with open(outfile, 'w') as file:
         json.dump(
             result_json,
             file,
             sort_keys=True,
-            indent=2 if args.pretty else None,
+            indent=2 if options.pretty else None,
             ensure_ascii=False)
         LOGGER.debug("Wrote to %s", file)
 
 
-if __name__ == "__main__":
-    # Parse args, call main
+def init():
+    """Initialization that is executed at the time of the module import."""
+    if __name__ == "__main__":
+        sys.exit(main(sys.argv[1:]))  # call main function
 
-    PARSER = argparse.ArgumentParser(
-        description="""
-        Copyright (C) 2020 Martin Röbke
-        This program comes with ABSOLUTELY NO WARRANTY
-        This is free software, and you are welcome to redistribute it
-        under certain conditions; see COPYING for more information.
 
-        Extracts Information from https://github.com/hmarkus/dp_on_dbs runs
-        for further visualization.""",
-        epilog=LOGLEVEL_EPILOG,
-        formatter_class=argparse.RawDescriptionHelpFormatter
-    )
-
-    PARSER.add_argument('problemnumber', type=int,
-                        help="selected problem-id in the postgres-database.")
-    PARSER.add_argument('--twfile',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        help="tw-file containing the edges of the graph - "
-                        "obtained from dpdb with option --gr-file GR_FILE.")
-    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
-    PARSER.add_argument('--outfile', default='dbjson%d.json',
-                        help="default:'dbjson%%d.json'")
-    PARSER.add_argument('--pretty', action='store_true',
-                        help="pretty-print the JSON.")
-    PARSER.add_argument('--inter-nodes', action='store_true',
-                        help="calculate and animate the shortest path between "
-                        "successive bags in the order of evaluation.")
-    PARSER.add_argument('--version', action='version',
-                        version='%(prog)s ' + version + ', ' + __date__)
-
-    # get cmd-arguments
-    _args = PARSER.parse_args()
-    main(_args)
+init()

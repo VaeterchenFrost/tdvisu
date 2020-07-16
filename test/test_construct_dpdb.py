@@ -21,12 +21,11 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import argparse
 import datetime
 
 from pathlib import Path
 import psycopg2 as pg
-
+from tdvisu import construct_dpdb_visu as module
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
                                         DpdbSatVisu, DpdbMinVcVisu, main)
@@ -137,28 +136,10 @@ def test_main(mocker, tmp_path):
     query_edgearray = mocker.patch(
         'tdvisu.construct_dpdb_visu.query_edgearray', return_value=[
             (2, 1), (3, 2), (4, 2), (5, 4)])
-
-    parser = argparse.ArgumentParser()
-    parser.add_argument('problemnumber', type=int,
-                        help="selected problem-id in the postgres-database.")
-    parser.add_argument('--twfile',
-                        type=argparse.FileType('r', encoding='UTF-8'),
-                        help="tw-file containing the edges of the graph - "
-                        "obtained from dpdb with option --gr-file GR_FILE.")
-    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
-    parser.add_argument('--outfile', default='dbjson%d.json',
-                        help="default:'dbjson%%d.json'")
-    parser.add_argument('--pretty', action='store_true',
-                        help="pretty-print the JSON.")
-    parser.add_argument('--inter-nodes', action='store_true',
-                        help="calculate and animate the shortest path between "
-                        "successive bags in the order of evaluation.")
-
     # set cmd-arguments
     outfile = str(tmp_path / 'test_main.json')
-    _args = parser.parse_args(['1', '--outfile', outfile])
     # one mocked run
-    main(_args)
+    main(['1', '--outfile', outfile])
 
     # Assertions
     mock_connect.assert_called_once()
@@ -172,3 +153,15 @@ def test_main(mocker, tmp_path):
     assert query_column_name.call_count == 5
     assert query_td_bag.call_count == 5
     assert query_td_node_status.call_count == 5
+
+
+def test_init(mocker):
+    """Test that main is called correctly if called as __main__."""
+    expected = -1000
+    main = mocker.patch.object(module, "main", return_value=expected)
+    mock_exit = mocker.patch.object(module.sys, 'exit')
+    mocker.patch.object(module, "__name__", "__main__")
+    module.init()
+
+    main.assert_called_once()
+    assert mock_exit.call_args[0][0] == expected

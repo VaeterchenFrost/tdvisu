@@ -20,15 +20,17 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-
+import argparse
 from collections.abc import Iterable as iter_type
 from configparser import ConfigParser, ParsingError, Error as CfgError
+from itertools import chain
 import logging
 import logging.config
-from itertools import chain
 from pathlib import Path
 from typing import Any, Generator, Iterable, Iterator, List, Tuple, TypeVar, Union
 import yaml
+
+from tdvisu.version import __date__, __version__
 
 LOGGER = logging.getLogger('utilities.py')
 
@@ -446,3 +448,35 @@ def solution_node(
         result += '|' + bottomlabel
 
     return '{' + result + '}'
+
+
+def get_parser(extra_desc: str = '') -> argparse.ArgumentParser:
+    """
+    Prepare an argument parser for TDVisu scripts.
+
+    Parameters
+    ----------
+    extra_desc : str, optional
+        Description about the script using the parser. The default is ''.
+
+    Returns
+    -------
+    parser : argparse.ArgumentParser
+        The prepared argument parser object.
+
+    """
+    parser = argparse.ArgumentParser(
+        description="""
+        Copyright (C) 2020 Martin Röbke
+        This program comes with ABSOLUTELY NO WARRANTY
+        This is free software, and you are welcome to redistribute it
+        under certain conditions; see COPYING for more information.
+        """
+        + "\n" + extra_desc,
+        epilog=LOGLEVEL_EPILOG,
+        formatter_class=argparse.RawDescriptionHelpFormatter)
+
+    parser.add_argument('--version', action='version',
+                        version='%(prog)s ' + __version__ + ', ' + __date__)
+    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
+    return parser
