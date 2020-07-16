@@ -742,6 +742,6 @@ def main(args: List[str]) -> None:
 def init():
     """Initialization that is executed at the time of the module import."""
     if __name__ == "__main__":
-        main(sys.argv[1:])  # call main function
+        sys.exit(main(sys.argv[1:]))  # call main function
 
 init()

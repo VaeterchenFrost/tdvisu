@@ -27,6 +27,7 @@ import abc
 import argparse
 import json
 import logging
+import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
@@ -633,7 +634,6 @@ def main(args: List[str]) -> None:
 def init():
     """Initialization that is executed at the time of the module import."""
     if __name__ == "__main__":
-        import sys
-        main(sys.argv[1:])  # call main function
+        sys.exit(main(sys.argv[1:]))  # call main function
 
 init()

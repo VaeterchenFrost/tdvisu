@@ -26,7 +26,7 @@ import datetime
 
 from pathlib import Path
 import psycopg2 as pg
-
+from tdvisu import construct_dpdb_visu as module
 from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
                                         IDpdbVisuConstruct, DpdbSharpSatVisu,
                                         DpdbSatVisu, DpdbMinVcVisu, main)
@@ -172,3 +172,15 @@ def test_main(mocker, tmp_path):
     assert query_column_name.call_count == 5
     assert query_td_bag.call_count == 5
     assert query_td_node_status.call_count == 5
+
+
+def test_init(mocker):
+    """Test that main is called correctly if called as __main__."""
+    expected = -1000
+    main = mocker.patch.object(module, "main", return_value=expected)
+    mock_exit = mocker.patch.object(module.sys, 'exit')
+    mocker.patch.object(module, "__name__", "__main__")
+    module.init()
+
+    main.assert_called_once()
+    assert mock_exit.call_args[0][0] == expected

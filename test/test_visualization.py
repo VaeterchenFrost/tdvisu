@@ -23,7 +23,7 @@ Copyright (C) 2020  Martin Röbke
 
 import argparse
 from pathlib import Path
-
+from tdvisu import visualization as module
 from tdvisu.visualization import main
 
 EXPECT_DIR = Path(__file__).parent / 'expected_files'
@@ -99,3 +99,15 @@ def test_vc_multiple_and_join(tmp_path):
             with open(outfolder / file) as result:
                 assert result.read() == expected.read(
                 ), f"{file} should be the same"
+
+
+def test_init(mocker):
+    """Test that main is called correctly if called as __main__."""
+    expected = -1000
+    main = mocker.patch.object(module, "main", return_value=expected)
+    mock_exit = mocker.patch.object(module.sys, 'exit')
+    mocker.patch.object(module, "__name__", "__main__")
+    module.init()
+
+    main.assert_called_once()
+    assert mock_exit.call_args[0][0] == expected
