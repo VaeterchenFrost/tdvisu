@@ -39,9 +39,8 @@ from typing import Iterable, List, Optional, Union, NewType
 from graphviz import Digraph, Graph
 from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
                                        GeneralGraphData, SvgJoinData)
-from tdvisu.version import __date__, __version__ as version
 from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten, LOGLEVEL_EPILOG, logging_cfg
+from tdvisu.utilities import flatten, logging_cfg, get_parser
 from tdvisu.utilities import bag_node, solution_node, base_style
 from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
@@ -731,17 +730,8 @@ def main(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     # Parse args, call main
 
-    PARSER = argparse.ArgumentParser(
-        description="""
-        Copyright (C) 2020 Martin Röbke
-        This program comes with ABSOLUTELY NO WARRANTY
-        This is free software, and you are welcome to redistribute it
-        under certain conditions; see COPYING for more information.
-
-        Visualizing Dynamic Programming on Tree-Decompositions.""",
-        epilog=LOGLEVEL_EPILOG,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
-
+    PARSER = get_parser(
+        "Visualizing Dynamic Programming on Tree-Decompositions.")
     # possible to use stdin for the file.
     PARSER.add_argument('infile', nargs='?',
                         type=argparse.FileType('r', encoding='UTF-8'),
@@ -750,9 +740,6 @@ if __name__ == "__main__":
                         "must conform with the 'JsonAPI.md'")
     PARSER.add_argument('outfolder',
                         help="Folder to output the visualization results")
-    PARSER.add_argument('--version', action='version',
-                        version='%(prog)s ' + version + ', ' + __date__)
-    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
 
     # get cmd-arguments
     _args = PARSER.parse_args()

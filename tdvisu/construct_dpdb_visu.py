@@ -38,8 +38,7 @@ from tdvisu.dijkstra import bidirectional_dijkstra as find_path
 from tdvisu.utilities import convert_to_adj
 from tdvisu.reader import TwReader
 from tdvisu.visualization import flatten
-from tdvisu.version import __date__, __version__ as version
-from tdvisu.utilities import read_yml_or_cfg, logging_cfg, LOGLEVEL_EPILOG
+from tdvisu.utilities import read_yml_or_cfg, logging_cfg, get_parser
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 
@@ -586,19 +585,18 @@ def main(args: argparse.Namespace) -> None:
     -------
     None
     """
-
     logging_cfg(filename='logging.yml', loglevel=args.loglevel)
     LOGGER.info("Called with '%s'", args)
-
     problem_ = args.problemnumber
     # get twfile if supplied
     try:
         tw_file_ = args.twfile
     except AttributeError:
         tw_file_ = None
+
+    # create JSON
     result_json = create_json(problem=problem_, tw_file=tw_file_)
-    # build json filename, can be supplied with problem-number
-    try:
+    try:    # build json filename, can be supplied with problem-number
         outfile = args.outfile % problem_
     except TypeError:
         outfile = args.outfile
@@ -616,18 +614,9 @@ def main(args: argparse.Namespace) -> None:
 if __name__ == "__main__":
     # Parse args, call main
 
-    PARSER = argparse.ArgumentParser(
-        description="""
-        Copyright (C) 2020 Martin Röbke
-        This program comes with ABSOLUTELY NO WARRANTY
-        This is free software, and you are welcome to redistribute it
-        under certain conditions; see COPYING for more information.
-
-        Extracts Information from https://github.com/hmarkus/dp_on_dbs runs
-        for further visualization.""",
-        epilog=LOGLEVEL_EPILOG,
-        formatter_class=argparse.RawDescriptionHelpFormatter
-    )
+    PARSER = get_parser("Extracts Information from "
+                        "https://github.com/hmarkus/dp_on_dbs runs "
+                        "for further visualization.")
 
     PARSER.add_argument('problemnumber', type=int,
                         help="selected problem-id in the postgres-database.")
@@ -635,7 +624,6 @@ if __name__ == "__main__":
                         type=argparse.FileType('r', encoding='UTF-8'),
                         help="tw-file containing the edges of the graph - "
                         "obtained from dpdb with option --gr-file GR_FILE.")
-    PARSER.add_argument('--loglevel', help="set the minimal loglevel for root")
     PARSER.add_argument('--outfile', default='dbjson%d.json',
                         help="default:'dbjson%%d.json'")
     PARSER.add_argument('--pretty', action='store_true',
@@ -643,8 +631,6 @@ if __name__ == "__main__":
     PARSER.add_argument('--inter-nodes', action='store_true',
                         help="calculate and animate the shortest path between "
                         "successive bags in the order of evaluation.")
-    PARSER.add_argument('--version', action='version',
-                        version='%(prog)s ' + version + ', ' + __date__)
 
     # get cmd-arguments
     _args = PARSER.parse_args()
