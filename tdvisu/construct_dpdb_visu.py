@@ -23,6 +23,7 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
+
 import abc
 import argparse
 import json
@@ -31,15 +32,14 @@ import sys
 from datetime import datetime, timedelta
 from pathlib import Path
 from time import sleep
-from typing import List, Tuple, Optional
+from typing import List, Optional, Tuple
 
 import psycopg2 as pg
 
 from tdvisu.dijkstra import bidirectional_dijkstra as find_path
-from tdvisu.utilities import convert_to_adj
 from tdvisu.reader import TwReader
-from tdvisu.visualization import flatten
-from tdvisu.utilities import read_yml_or_cfg, logging_cfg, get_parser
+from tdvisu.utilities import convert_to_adj, flatten, get_parser
+from tdvisu.utilities import logging_cfg, read_yml_or_cfg
 
 LOGGER = logging.getLogger('construct_dpdb_visu.py')
 

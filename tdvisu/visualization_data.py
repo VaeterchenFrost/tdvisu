@@ -21,8 +21,8 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from typing import Iterable, List, Optional, Union
 from dataclasses import dataclass
+from typing import Iterable, List, Optional, Union
 
 
 @dataclass

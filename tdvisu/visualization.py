@@ -34,16 +34,16 @@ import logging
 import sys
 from dataclasses import asdict
 from pathlib import Path
-from typing import Iterable, List, Optional, Union, NewType
+from typing import Iterable, List, NewType, Optional, Union
 
 from graphviz import Digraph, Graph
-from tdvisu.visualization_data import (VisualizationData, IncidenceGraphData,
-                                       GeneralGraphData, SvgJoinData)
-from tdvisu.svgjoin import svg_join
-from tdvisu.utilities import flatten, logging_cfg, get_parser
-from tdvisu.utilities import bag_node, solution_node, base_style
-from tdvisu.utilities import style_hide_edge, style_hide_node, emphasise_node
 
+from tdvisu.svgjoin import svg_join
+from tdvisu.utilities import (bag_node, base_style, emphasise_node, flatten,
+                              get_parser, logging_cfg, solution_node,
+                              style_hide_edge, style_hide_node)
+from tdvisu.visualization_data import (GeneralGraphData, IncidenceGraphData,
+                                       SvgJoinData, VisualizationData)
 
 LOGGER = logging.getLogger('visualization.py')
 

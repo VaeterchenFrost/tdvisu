@@ -20,17 +20,20 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
+
 import argparse
-from collections.abc import Iterable as iter_type
-from configparser import ConfigParser, ParsingError, Error as CfgError
-from itertools import chain
 import logging
 import logging.config
+from collections.abc import Iterable as iter_type
+from configparser import ConfigParser, Error as CfgError, ParsingError
+from itertools import chain
 from pathlib import Path
 from typing import Any, Generator, Iterable, Iterator, List, Tuple, TypeVar, Union
+
 import yaml
 
 from tdvisu.version import __date__, __version__
+
 
 LOGGER = logging.getLogger('utilities.py')
 

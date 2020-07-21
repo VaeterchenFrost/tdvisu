@@ -39,6 +39,7 @@ Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien,
 
 """
 from __future__ import annotations
+
 import logging
 import sys
 from typing import Iterable

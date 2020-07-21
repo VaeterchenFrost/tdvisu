@@ -21,10 +21,10 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-import re
 import logging
+import re
 from pathlib import Path
-from typing import Union, Iterable, List, Dict
+from typing import Dict, Iterable, List, Union
 
 from benedict import benedict
 

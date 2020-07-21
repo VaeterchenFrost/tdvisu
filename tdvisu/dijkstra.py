@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 """
-Bidirectional Dijkstra's Algorithm for finding the shortest path between nodes in a graph.
+Bidirectional Dijkstra's Algorithm for finding the shortest path between nodes
+in a graph.
 For more information on the bidirectional agorithm see for example
 cs.princeton.edu/courses/archive/spr06/cos423/Handouts/EPP%20shortest%20path%20algorithms.pdf
 
@@ -43,8 +44,7 @@ THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
-
-from heapq import heappush, heappop
+from heapq import heappop, heappush
 from itertools import count
 
 
