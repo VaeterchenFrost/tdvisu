@@ -24,6 +24,20 @@ from pytest import param, mark, raises
 from tdvisu.utilities import flatten, convert_to_adj, add_edge_to, read_yml_or_cfg
 from tdvisu.utilities import bag_node, solution_node
 
+from hypothesis import example, given, settings, Verbosity
+from hypothesis.strategies import (
+    binary,
+    dictionaries,
+    floats,
+    integers,
+    iterables,
+    lists,
+    sampled_from,
+    sets,
+    text,
+    tuples,
+)
+
 
 @mark.parametrize(
     "arg",
@@ -141,31 +155,27 @@ def test_bag_node():
               <TR><TD PORT="my_anchor"></TD></TR><TR><TD>my_tail</TD></TR></TABLE>>"""
 
 
-@mark.parametrize(
-    "columns, lines, columnsmax, linesmax",
-    [param(random.randint(1, 2000), random.randint(1, 15), 2000, 15,
-           id="Testing under maximum"),
-     param(random.randint(1001, 1234), random.randint(51, 123), None, None,
-           id="Testing defaults linesmax = 1000, columnsmax = 50"),
-     param(11, 6, 10, 5,
-           id="Testing directly over maximums"),
-     param(10 - 1, 5 + 1, 10, 5,
-           id="Under+Over max"),
-     param(10 - 1, 5 + 4, 10, 5,
-           id="Under+Over max 2"),
-     param(10 + 1, 5 - 1, 10, 5,
-           id="Over+Under max"),
-     param(10 + 4, 5 - 1, 10, 5,
-           id="Under+Over max 2"),
-     param(random.randint(101, 200), random.randint(16, 30), 100, 15,
-           id="Testing over maximums"),
-     param(random.randint(101, 200), random.randint(16, 30), 10, 5,
-           id="Testing over maximums 2")
-     ]
-)
+@example( columns=1, lines=2, columnsmax=1, linesmax=0)
+# "Testing under maximum"
+@example(random.randint(1, 2000), random.randint(1, 15), 2000, 15)
+# "Testing defaults linesmax = 1000, columnsmax = 50"
+@example(random.randint(1001, 1234), random.randint(51, 123), None, None)
+# "Testing directly over maximums"
+@example(11, 6, 10, 5)
+@example(10 - 1, 5 + 1, 10, 5)
+@example(10 - 1, 5 + 4, 10, 5)
+@example(10 + 1, 5 - 1, 10, 5)
+@example(10 + 4, 5 - 1, 10, 5)
+# "Testing over maximums"
+@example(random.randint(101, 200), random.randint(16, 30), 100, 15)
+@given(integers(1, 50),integers(1, 50), integers(), integers())
+@settings(verbosity=Verbosity.verbose)
 def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     """Test properties of solution_node with column and lines maximum."""
-
+    # if columnsmax is None or columnsmax < 1:
+    #     columnsmax = None
+    # if linesmax is None or linesmax < 1:
+    #     linesmax = None
     column_based_table = [['%dL%dC' % (line, column)
                            for line in range(lines)]
                           for column in range(columns)]
