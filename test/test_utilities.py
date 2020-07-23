@@ -32,6 +32,8 @@ from hypothesis.strategies import (
     integers,
     iterables,
     lists,
+    none,
+    one_of,
     sampled_from,
     sets,
     text,
@@ -155,7 +157,7 @@ def test_bag_node():
               <TR><TD PORT="my_anchor"></TD></TR><TR><TD>my_tail</TD></TR></TABLE>>"""
 
 
-@example( columns=1, lines=2, columnsmax=1, linesmax=0)
+@example(columns=1, lines=2, columnsmax=1, linesmax=0)
 # "Testing under maximum"
 @example(random.randint(1, 2000), random.randint(1, 15), 2000, 15)
 # "Testing defaults linesmax = 1000, columnsmax = 50"
@@ -168,14 +170,14 @@ def test_bag_node():
 @example(10 + 4, 5 - 1, 10, 5)
 # "Testing over maximums"
 @example(random.randint(101, 200), random.randint(16, 30), 100, 15)
-@given(integers(1, 50),integers(1, 50), integers(), integers())
+@given(*[integers(1, 150)] * 2, *[one_of(none(), integers())] * 2)
 @settings(verbosity=Verbosity.verbose)
 def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     """Test properties of solution_node with column and lines maximum."""
-    # if columnsmax is None or columnsmax < 1:
-    #     columnsmax = None
-    # if linesmax is None or linesmax < 1:
-    #     linesmax = None
+    if columnsmax is not None:
+        columnsmax = max(columnsmax, 2)
+    if linesmax is not None:
+        linesmax = max(linesmax, 2)
     column_based_table = [['%dL%dC' % (line, column)
                            for line in range(lines)]
                           for column in range(columns)]
@@ -225,5 +227,5 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
             ), "line-divider count should increase by two with labels."
 
     # number of fillers:
-    assert result.count(fill) == (bool(lines > cmax) * min(columns, lmax + 1) +
-                                  bool(columns > lmax) * min(lines, cmax + 1))
+    assert result.count(fill) == (bool(lines >= cmax + 1) * min(columns, lmax + 1) +
+                                  bool(columns >= lmax + 2) * min(lines, cmax + 1))
