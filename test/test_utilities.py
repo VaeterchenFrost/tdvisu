@@ -19,26 +19,16 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-import random
-from pytest import param, mark, raises
-from tdvisu.utilities import flatten, convert_to_adj, add_edge_to, read_yml_or_cfg
-from tdvisu.utilities import bag_node, solution_node
 
-from hypothesis import example, given, settings, Verbosity
-from hypothesis.strategies import (
-    binary,
-    dictionaries,
-    floats,
-    integers,
-    iterables,
-    lists,
-    none,
-    one_of,
-    sampled_from,
-    sets,
-    text,
-    tuples,
-)
+import random
+
+from hypothesis import Verbosity, example, given, settings
+from hypothesis.strategies import (integers, none, one_of)
+
+from pytest import mark, param, raises
+
+from tdvisu.utilities import (add_edge_to, bag_node, convert_to_adj, flatten,
+                              read_yml_or_cfg, solution_node)
 
 
 @mark.parametrize(

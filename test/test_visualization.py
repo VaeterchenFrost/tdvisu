@@ -22,6 +22,7 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pathlib import Path
+
 from tdvisu import visualization as module
 from tdvisu.visualization import main
 

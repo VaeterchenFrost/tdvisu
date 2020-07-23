@@ -21,15 +21,17 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
+from collections.abc import Iterable as iter_type
 from os import makedirs
 from os.path import dirname, join
 from random import randint
 from typing import Generator
-from collections.abc import Iterable as iter_type
-from pytest import param, mark
+
 from benedict import benedict
 
-from tdvisu.svgjoin import f_transform, append_svg, gen_arg
+from pytest import mark, param
+
+from tdvisu.svgjoin import append_svg, f_transform, gen_arg
 
 
 WRITE = False  # ??? Write Testimages instead of just reading them ???

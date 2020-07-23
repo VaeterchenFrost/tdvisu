@@ -22,6 +22,7 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pytest import mark, raises
+
 from tdvisu.dijkstra import DijkstraNoPath, bidirectional_dijkstra as find_path
 
 
