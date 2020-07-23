@@ -52,7 +52,7 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Visualization',
     'Topic :: Multimedia :: Graphics :: Presentation']
 
-tests_require = ['pytest', 'pytest-mock']
+tests_require = ['hypothesis', 'pytest', 'pytest-mock']
 
 setup(name="tdvisu",
       version=version,
@@ -65,7 +65,7 @@ setup(name="tdvisu",
       license='GPLv3',
       packages=['tdvisu'],
       platforms='any',
-      install_requires=['graphviz', 'hypothesis', 'psycopg2', 'python-benedict', 'PyYAML'],
+      install_requires=['graphviz', 'psycopg2', 'python-benedict', 'PyYAML'],
       extras_require={'test': tests_require},
       classifiers=classifiers,
       keywords='graph visualization dynamic-programming msol-solver')
