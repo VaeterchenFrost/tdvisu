@@ -87,22 +87,24 @@ class TestShortestPath:
         with raises(DijkstraNoPath):
             find_path({**self.edges_low, **self.edges_high}, 1, 10)
 
-    @mark.parametrize(
-        "weight",
-        [2, 100, 0.25, 0.1, 0.15]
-    )
+    @given(floats(-10e7, 10e7))
     def test_simple_weight(self, weight):
         """Weight is one constant function"""
-        result = find_path(self.edges_low, 1, 4, lambda u, v, data: weight)
-        assert result == (2 * weight, [1, 2, 4])
+        if weight < 0:
+            with raises(ValueError):
+                find_path(self.edges_low, 1, 4, lambda u, v, data: weight)
+        elif weight > 0:
+            result = find_path(self.edges_low, 1, 4, lambda u, v, data: weight)
+            assert result == (2 * weight, [1, 2, 4])
 
-    @mark.parametrize(
-        "weight",
-        [2, 100, 0.1, 0.15]
-    )
+    @given(floats(-10e7, 10e7))
     def test_individual_weight(self, weight):
         """Weight is attribute in edges"""
         edges = {k: {target: {'weight': weight}for target in d}
                  for k, d in self.edges_low.items()}
-        result = find_path(edges, 1, 4)
-        assert result == (2 * weight, [1, 2, 4])
+        if weight < 0:
+            with raises(ValueError):
+                find_path(edges, 1, 4)
+        elif weight > 0:
+            result = find_path(edges, 1, 4)
+            assert result == (2 * weight, [1, 2, 4])
