@@ -21,6 +21,10 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
+from hypothesis import Verbosity, given, settings
+from hypothesis.strategies import (
+    booleans, floats, integers, none, one_of, text)
+
 from pytest import mark, raises
 
 from tdvisu.dijkstra import DijkstraNoPath, bidirectional_dijkstra as find_path
@@ -59,10 +63,10 @@ class TestShortestPath:
         result = find_path(arg, 1, 1)
         assert result == (0, [1])
 
-    @mark.parametrize(
-        "source,target",
-        [(1, 1), (2, 2), ('a', 'a'), ('33', '23'), (100000, 2000000)]
+    @given(
+        *[one_of(none(), booleans(), floats(), text(), integers())] * 2
     )
+    @settings(verbosity=Verbosity.verbose)
     def test_empty_graph(self, source, target):
         """Empty graph should raise Value Error."""
         with raises(ValueError):
