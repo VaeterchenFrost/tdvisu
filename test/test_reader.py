@@ -22,6 +22,7 @@ Copyright (C) 2020  Martin Röbke
 """
 
 from pathlib import Path
+
 from tdvisu.reader import TwReader
 
 

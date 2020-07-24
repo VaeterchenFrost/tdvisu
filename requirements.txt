@@ -1,4 +1,5 @@
 graphviz~=0.14
+hypothesis~=5.20.3
 psycopg2~=2.8.5
 python-benedict~=0.18.1
 pytest~=5.4.3

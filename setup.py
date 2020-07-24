@@ -52,7 +52,7 @@ classifiers = [
     'Topic :: Scientific/Engineering :: Visualization',
     'Topic :: Multimedia :: Graphics :: Presentation']
 
-tests_require = ['pytest', 'pytest-mock']
+tests_require = ['hypothesis', 'pytest', 'pytest-mock']
 
 setup(name="tdvisu",
       version=version,

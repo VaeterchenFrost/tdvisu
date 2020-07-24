@@ -22,13 +22,20 @@ Copyright (C) 2020  Martin Röbke
 """
 
 import datetime
-
 from pathlib import Path
+
 import psycopg2 as pg
+
 from tdvisu import construct_dpdb_visu as module
-from tdvisu.construct_dpdb_visu import (read_cfg, db_config, DEFAULT_DBCONFIG,
-                                        IDpdbVisuConstruct, DpdbSharpSatVisu,
-                                        DpdbSatVisu, DpdbMinVcVisu, main)
+from tdvisu.construct_dpdb_visu import (
+    DEFAULT_DBCONFIG,
+    DpdbMinVcVisu,
+    DpdbSatVisu,
+    DpdbSharpSatVisu,
+    IDpdbVisuConstruct,
+    db_config,
+    main,
+    read_cfg)
 
 DIR = Path(__file__).parent
 SECTION = 'postgresql'

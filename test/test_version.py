@@ -19,9 +19,12 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
-from datetime import date
+
 import re
+from datetime import date
+
 from pytest import fail
+
 from tdvisu.version import __date__, __version__ as version
 
 

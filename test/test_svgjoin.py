@@ -21,15 +21,21 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
+from collections.abc import Iterable as iter_type
 from os import makedirs
 from os.path import dirname, join
 from random import randint
 from typing import Generator
-from collections.abc import Iterable as iter_type
-from pytest import param, mark
+
 from benedict import benedict
 
-from tdvisu.svgjoin import f_transform, append_svg, gen_arg
+from hypothesis import Verbosity, given, settings
+from hypothesis.strategies import (
+    booleans, floats, integers, lists, none, recursive, text, tuples)
+
+from pytest import mark, param
+
+from tdvisu.svgjoin import append_svg, f_transform, gen_arg
 
 
 WRITE = False  # ??? Write Testimages instead of just reading them ???
@@ -118,20 +124,12 @@ class TestNewHeight:
         assert result == expected
 
 
-@mark.parametrize(
-    "arg",
-    [param(None,
-           id="Should accept None as argument"),
-     param(randint(1, 100),
-           id="One integer in generator"),
-     param("Hello Test",
-           id="Should yield the string itself"),
-     param([None, randint(1, 1000), None],
-           id="Should accept None as element in list"),
-     param([[1, 2], "String", None, [[[1]]]],
-           id="Should only return elements from the first level")
-     ]
-)
+@given(recursive(booleans() | floats() | none() | text() | integers(),
+                 lambda children: lists(children,
+                                        min_size=1) | tuples(children,
+                                                             children),
+                 max_leaves=3))
+@settings(verbosity=Verbosity.verbose)
 def test_gen_arg(arg):
     """Test the generator in svgjoin"""
     gen = gen_arg(arg)
@@ -140,6 +138,7 @@ def test_gen_arg(arg):
     if isinstance(arg, str) or not isinstance(arg, iter_type):
         assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
     else:
+        arg = list(arg)  # be subscriptable
         assert ([next(gen) for _ in range(size)] ==
                 arg + [arg[-1] for _ in range(size - len(arg))])
 

@@ -20,7 +20,8 @@ Copyright (C) 2020  Martin Röbke
 
 """
 
-from pytest import param, mark
+from pytest import mark, param
+
 from tdvisu.utilities import solution_node
 
 
