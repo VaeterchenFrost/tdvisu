@@ -448,7 +448,8 @@ class Visualization:
             graph.engine = 'circo'
             # 2: nodes in edges+extra_nodes make a circle
             nodes = sorted([vartag_n % n for n in set(
-                itertools.chain(flatten(edges), extra_nodes))])
+                itertools.chain(flatten(edges), extra_nodes))],
+                key=lambda x: (len(x), x))
             for i, node in enumerate(nodes):
                 graph.edge(str(nodes[i - 1]), str(node))
             # 3: reads in bytes!
