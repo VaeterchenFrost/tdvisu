@@ -28,7 +28,8 @@ from random import randint
 from typing import Generator
 
 from benedict import benedict
-
+from hypothesis import Verbosity, given, settings
+from hypothesis.strategies import (lists, sets, tuples, booleans, floats, integers, none, one_of, recursive, text)
 from pytest import mark, param
 
 from tdvisu.svgjoin import append_svg, f_transform, gen_arg
@@ -120,20 +121,12 @@ class TestNewHeight:
         assert result == expected
 
 
-@mark.parametrize(
-    "arg",
-    [param(None,
-           id="Should accept None as argument"),
-     param(randint(1, 100),
-           id="One integer in generator"),
-     param("Hello Test",
-           id="Should yield the string itself"),
-     param([None, randint(1, 1000), None],
-           id="Should accept None as element in list"),
-     param([[1, 2], "String", None, [[[1]]]],
-           id="Should only return elements from the first level")
-     ]
+
+@given(recursive(none() | booleans() | floats() | none() | text() | integers(),
+      lambda children: lists(children, min_size=1) | tuples(children,children),
+      max_leaves=3)
 )
+@settings(verbosity=Verbosity.verbose)
 def test_gen_arg(arg):
     """Test the generator in svgjoin"""
     gen = gen_arg(arg)
@@ -142,6 +135,7 @@ def test_gen_arg(arg):
     if isinstance(arg, str) or not isinstance(arg, iter_type):
         assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
     else:
+        arg = list(arg) # be subscriptable
         assert ([next(gen) for _ in range(size)] ==
                 arg + [arg[-1] for _ in range(size - len(arg))])
 
