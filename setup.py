@@ -2,6 +2,7 @@
 """Describing local installs or distribution of the package tdvisu."""
 
 from setuptools import setup
+
 from tdvisu.version import __version__ as version
 
 
@@ -34,10 +35,9 @@ def read_files(files, delim: str = "\n") -> str:
     return delim.join(data)
 
 
-long_description = read_files(['README.md', 'CHANGELOG.md'])
-
-
 description = "Visualizing Dynamic Programming on Tree Decompositions."
+
+long_description = read_files(['README.md', 'CHANGELOG.md'])
 
 classifiers = [
     'Development Status :: 4 - Beta',
