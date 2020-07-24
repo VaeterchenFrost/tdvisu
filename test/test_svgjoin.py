@@ -124,15 +124,11 @@ class TestNewHeight:
         assert result == expected
 
 
-@given(
-    recursive(
-        none() | booleans() | floats() | none() | text() | integers(),
-        lambda children: lists(
-            children,
-            min_size=1) | tuples(
-                children,
-                children),
-        max_leaves=3))
+@given(recursive(booleans() | floats() | none() | text() | integers(),
+                 lambda children: lists(children,
+                                        min_size=1) | tuples(children,
+                                                             children),
+                 max_leaves=3))
 @settings(verbosity=Verbosity.verbose)
 def test_gen_arg(arg):
     """Test the generator in svgjoin"""
