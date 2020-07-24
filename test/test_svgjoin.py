@@ -28,8 +28,11 @@ from random import randint
 from typing import Generator
 
 from benedict import benedict
+
 from hypothesis import Verbosity, given, settings
-from hypothesis.strategies import (lists, sets, tuples, booleans, floats, integers, none, one_of, recursive, text)
+from hypothesis.strategies import (
+    booleans, floats, integers, lists, none, recursive, text, tuples)
+
 from pytest import mark, param
 
 from tdvisu.svgjoin import append_svg, f_transform, gen_arg
@@ -121,11 +124,15 @@ class TestNewHeight:
         assert result == expected
 
 
-
-@given(recursive(none() | booleans() | floats() | none() | text() | integers(),
-      lambda children: lists(children, min_size=1) | tuples(children,children),
-      max_leaves=3)
-)
+@given(
+    recursive(
+        none() | booleans() | floats() | none() | text() | integers(),
+        lambda children: lists(
+            children,
+            min_size=1) | tuples(
+                children,
+                children),
+        max_leaves=3))
 @settings(verbosity=Verbosity.verbose)
 def test_gen_arg(arg):
     """Test the generator in svgjoin"""
@@ -135,7 +142,7 @@ def test_gen_arg(arg):
     if isinstance(arg, str) or not isinstance(arg, iter_type):
         assert [next(gen) for _ in range(size)] == [arg for _ in range(size)]
     else:
-        arg = list(arg) # be subscriptable
+        arg = list(arg)  # be subscriptable
         assert ([next(gen) for _ in range(size)] ==
                 arg + [arg[-1] for _ in range(size - len(arg))])
 
