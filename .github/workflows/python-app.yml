@@ -104,9 +104,11 @@ jobs:
         ./configure
         make
         make install
+        # register the plugins
+        dot.exe -c 
         
     - name: Test with pytest
       run: |
         # Tests reside in folder 'test'
-        pytest .\test
+        pytest .\test -vv
     
