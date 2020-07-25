@@ -72,8 +72,14 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: setup-conda
-      if: ${{ runner.os != 'macOS' }}
+    - name: Set up Python 3.8
+      if: ${{ runner.os != 'Windows' }}
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Setup Conda
+      if: ${{ runner.os == 'Windows' }}
       uses: s-weigand/setup-conda@v1.0.3
       with:
         # Whether to activate the conda base env (Default: 'true')
@@ -101,12 +107,12 @@ jobs:
         sudo dot -c
 
     - name: install graphviz for visualization test
-      if: ${{ runner.os != 'macOS' }}
+      if: ${{ runner.os == 'Windows' }}
       run: |
         conda install -c anaconda graphviz
 
     - name: add graphviz PATH
-      if: ${{ runner.os != 'macOS' }}
+      if: ${{ runner.os == 'Windows' }}
       run: |
         # should give base conda python
         $python=Get-Command python | select -Property Source
