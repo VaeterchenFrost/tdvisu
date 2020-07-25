@@ -91,17 +91,18 @@ jobs:
       run: |
         pip install .[test]
     
-    - name: Install GNU Triangulated Surface Library
+    - name: Brew graphviz
       if: ${{ runner.os == 'macOS' }}
       run: |
-        brew install gts
-      
+        brew install graphviz
 
     - name: install graphviz for visualization test
+      if: ${{ runner.os != 'macOS' }}
       run: |
         conda install -c anaconda graphviz
 
     - name: add graphviz PATH
+      if: ${{ runner.os != 'macOS' }}
       run: |
         # should give base conda python
         $python=Get-Command python | select -Property Source
