@@ -19,7 +19,7 @@ on:
 
 jobs:
   linux_and_coverage:
-    if: failure()
+    
     runs-on: ubuntu-latest
 
     steps:
@@ -62,15 +62,16 @@ jobs:
         file: ./coverage.xml
         flags: unittests
 
+
   other_os_tests:
     strategy:
       matrix:
         os: [macos-latest, windows-latest]
+
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
     steps:
-    - uses: actions/checkout@v2
 
     - name: Setup Conda
       uses: s-weigand/setup-conda@v1.0.3
@@ -104,7 +105,7 @@ jobs:
       if: ${{ runner.os == 'Windows' }}
       run: |
         # should give base conda python
-        $python=Get-Command python | select -Property Source
+        $python=Get-Command python
         $pypath=Split-Path $python.Source -Parent
 
         # Add to PATH, we know pypath is on it
