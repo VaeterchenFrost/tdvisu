@@ -104,6 +104,7 @@ jobs:
         # Add to PATH, we know pypath is on it
         $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
         echo "::add-path::$dot"
+      shell: powershell
 
     - name: register plugins for graphviz
       run: |
