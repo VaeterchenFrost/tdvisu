@@ -73,6 +73,7 @@ jobs:
     - uses: actions/checkout@v2
 
     - name: setup-conda
+      if: ${{ runner.os != 'macOS' }}
       uses: s-weigand/setup-conda@v1.0.3
       with:
         # Whether to activate the conda base env (Default: 'true')
@@ -95,6 +96,9 @@ jobs:
       if: ${{ runner.os == 'macOS' }}
       run: |
         brew install graphviz
+        # execute dot
+        dot -V
+        sudo dot -c
 
     - name: install graphviz for visualization test
       if: ${{ runner.os != 'macOS' }}
@@ -114,6 +118,7 @@ jobs:
       shell: powershell
 
     - name: register plugins for graphviz
+      if: ${{ runner.os == 'Windows' }}
       run: |
         # execute dot
         dot -V
