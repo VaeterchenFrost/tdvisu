@@ -66,16 +66,12 @@ jobs:
   other_os_tests:
     strategy:
       matrix:
-        os: [windows-latest]
+        os: [windows-latest, macos-latest]
     runs-on: ${{ matrix.os }}
+    continue-on-error: true
 
     steps:
     - uses: actions/checkout@v2
-      
-    - name: Set up Python 3.8
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
 
     - name: setup-conda
       uses: s-weigand/setup-conda@v1.0.3
@@ -91,17 +87,18 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install wheel
-        
+
     - name: Install project dependencies
       run: |
         pip install .[test]
-    
+
     - name: install graphviz for visualization test
       run: |
         conda install -c anaconda graphviz
-        
+        # register plugins
+        dot -c
+
     - name: Test with pytest
       run: |
         # Tests reside in folder 'test'
-        pytest .\test -vv
-    
+        pytest .\test
