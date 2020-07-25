@@ -90,6 +90,12 @@ jobs:
     - name: Install project dependencies
       run: |
         pip install .[test]
+    
+    - name: Install GNU Triangulated Surface Library
+      if: ${{ runner.os == 'macOS' }}
+      run: |
+        brew install gts
+      
 
     - name: install graphviz for visualization test
       run: |
