@@ -18,7 +18,7 @@ on:
     - '*.md'
 
 jobs:
-  linux+coverage:
+  linux_and_coverage:
 
     runs-on: ubuntu-latest
 
@@ -62,3 +62,37 @@ jobs:
         token: ${{ secrets.CODECOV_TOKEN }}
         file: ./coverage.xml
         flags: unittests
+
+  other_os_tests:
+    strategy:
+      matrix:
+        os: [macos-latest, windows-latest]
+    runs-on: ${{ matrix.os }}
+
+    steps:
+    - uses: actions/checkout@v2
+      
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
+      with:
+        python-version: 3.8
+
+    - name: Install Workflow dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install wheel
+        pip install pytest
+        
+    - name: Install project dependencies
+      run: |
+        pip install .[test]
+        
+    - name: graphviz for visualization test
+      run: |
+        sudo apt-get update && sudo apt-get install -yq graphviz
+        
+    - name: Test with pytest
+      run: |
+        # Tests reside in folder 'test'
+        pytest .\test
+    
