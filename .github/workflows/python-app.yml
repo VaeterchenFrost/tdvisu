@@ -19,7 +19,7 @@ on:
 
 jobs:
   linux_and_coverage:
-
+    if: failure()
     runs-on: ubuntu-latest
 
     steps:
@@ -98,9 +98,15 @@ jobs:
         
     - name: register plugins for graphviz
       run: |
-        # dir "C:/Program Files"
-        # $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        C:/ProgramData/Anaconda3/Library/bin/graphviz/dot.exe -c
+        # find dot first, simpler solutions did not work right now
+        # should give base conda python
+        $python=Get-Command python | select -Property Source
+        $python 
+        $pypath=Split-Path $python.Source -Parent
+        $pypath
+        # execute dot
+        & ([IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz', 'dot.exe')) -c
+        
 
     - name: Test with pytest
       run: |
