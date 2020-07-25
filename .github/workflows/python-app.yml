@@ -85,27 +85,10 @@ jobs:
     - name: Install project dependencies
       run: |
         pip install .[test]
-
-    - name: Download graphviz To Workspace
-      uses: carlosperate/download-file-action@v1.0.3
-      with:
-        # URL of the file to download
-        file-url: https://www2.graphviz.org/Packages/stable/portable_source/graphviz-2.44.1.tar.gz
-        # New filename to rename the downloaded file
-        #file-name: # optional
-        # Path to download the file
-        #location:  optional, default is .
     
     - name: install graphviz for visualization test
-      # windows install
       run: |
-        tar xzvf graphviz-2.44.1.tar.gz
-        cd graphviz-2.44.1
-        ./configure
-        make
-        make install
-        # register the plugins
-        dot.exe -c 
+        conda install -c anaconda graphviz
         
     - name: Test with pytest
       run: |
