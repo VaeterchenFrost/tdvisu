@@ -105,13 +105,16 @@ jobs:
         
         # Add to PATH, we know pypath is on it
         $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz', 'dot.exe')
+        & $dot -V
         cp $dot $pypath
         
         # execute dot
         dot -V
         dot -c
+      shell: powershell
 
     - name: Test with pytest
       run: |
         # Tests reside in folder 'test'
         pytest ./test
+      shell: python
