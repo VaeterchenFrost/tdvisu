@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      
+
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
       with:
@@ -34,27 +34,27 @@ jobs:
         python -m pip install --upgrade pip
         pip install wheel
         pip install flake8 flake8-import-order pytest coverage
-        
+
     - name: Install project dependencies
       run: |
         pip install .[test]
-      
+
     - name: Lint with flake8
       run: |
         # stop the build if there are Python syntax errors or undefined names
         flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
         # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
         flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
-        
+
     - name: graphviz for visualization test
       run: |
         sudo apt-get update && sudo apt-get install -yq graphviz
-        
+
     - name: Test with coverage & pytest
       run: |
         coverage run --source=tdvisu -m pytest .
         coverage xml
-        
+
     - name: Upload coverage to Codecov
       uses: codecov/codecov-action@v1
       with:
@@ -94,14 +94,14 @@ jobs:
     - name: install graphviz for visualization test
       run: |
         conda install -c anaconda graphviz
-        
+
     - name: add graphviz PATH
       run: |
         # find dot first, simpler solutions did not work right now
         # should give base conda python
         $python=Get-Command python | select -Property Source
         $pypath=Split-Path $python.Source -Parent
-        
+
         # Add to PATH, we know pypath is on it
         $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
         echo "::add-path::$dot"
@@ -116,4 +116,3 @@ jobs:
       run: |
         # Tests reside in folder 'test'
         pytest ./test
-      shell: python
