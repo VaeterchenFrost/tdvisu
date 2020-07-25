@@ -65,7 +65,7 @@ jobs:
   other_os_tests:
     strategy:
       matrix:
-        os: [windows-latest] #, macos-latest]
+        os: [macos-latest, windows-latest]
     runs-on: ${{ matrix.os }}
     continue-on-error: true
 
@@ -97,7 +97,6 @@ jobs:
 
     - name: add graphviz PATH
       run: |
-        # find dot first, simpler solutions did not work right now
         # should give base conda python
         $python=Get-Command python | select -Property Source
         $pypath=Split-Path $python.Source -Parent
