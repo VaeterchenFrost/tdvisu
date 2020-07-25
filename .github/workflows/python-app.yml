@@ -98,8 +98,9 @@ jobs:
         
     - name: register plugins for graphviz
       run: |
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
-        dot -c
+        # dir "C:/Program Files"
+        # $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
+        C:/ProgramData/Anaconda3/Library/bin/graphviz/dot.exe -c
 
     - name: Test with pytest
       run: |
