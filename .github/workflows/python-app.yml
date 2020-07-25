@@ -95,10 +95,12 @@ jobs:
     - name: install graphviz for visualization test
       run: |
         conda install -c anaconda graphviz
-        # register plugins
+        
+    - name: register plugins for graphviz
+      run: |
         dot -c
 
     - name: Test with pytest
       run: |
         # Tests reside in folder 'test'
-        pytest .\test
+        pytest ./test
