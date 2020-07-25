@@ -95,25 +95,16 @@ jobs:
       run: |
         conda install -c anaconda graphviz
         
-#    - name: register plugins for graphviz
-#      run: |
-#        # find dot first, simpler solutions did not work right now
-#        # should give base conda python
-#        $python=Get-Command python | select -Property Source
-#        $python 
-#        $pypath=Split-Path $python.Source -Parent
-#        
-#        # Add to PATH, we know pypath is on it
-#        $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz', 'dot.exe')
-#        & $dot -V
-
-    - name: Copy dot to path
-      uses: canastro/copy-action@0.0.2
-      with:
-        # Source file
-        source: C:/Miniconda/Library/bin/graphviz/dot.exe
-        # Target file
-        target: C:/Miniconda/dot.exe
+    - name: add graphviz PATH
+      run: |
+        # find dot first, simpler solutions did not work right now
+        # should give base conda python
+        $python=Get-Command python | select -Property Source
+        $pypath=Split-Path $python.Source -Parent
+        
+        # Add to PATH, we know pypath is on it
+        $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
+        echo "::add-path::$dot"
 
     - name: register plugins for graphviz
       run: |
