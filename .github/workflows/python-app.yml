@@ -23,7 +23,6 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
       
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
@@ -102,18 +101,15 @@ jobs:
         # should give base conda python
         $python=Get-Command python | select -Property Source
         $python 
-        
         $pypath=Split-Path $python.Source -Parent
         
-        # Add to PATH
-        $graphviz=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
-        # locally:
-        $env:Path = $env:Path + ";$graphviz"
+        # Add to PATH, we know pypath is on it
+        $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz', 'dot.exe')
+        cp $dot $pypath
+        
         # execute dot
         dot -V
         dot -c
-        # for later: https://opentechguides.com/how-to/article/windows-10/113/windows-10-set-path.html
-        setx PATH $env:Path
 
     - name: Test with pytest
       run: |
