@@ -110,9 +110,10 @@ jobs:
         # locally:
         $env:Path = $env:Path + ";$graphviz"
         # execute dot
-        dot.exe -c
-        # for later:
-        [Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
+        dot -V
+        dot -c
+        # for later: https://opentechguides.com/how-to/article/windows-10/113/windows-10-set-path.html
+        setx PATH $env:Path
 
     - name: Test with pytest
       run: |
