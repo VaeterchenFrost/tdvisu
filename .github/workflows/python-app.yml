@@ -72,14 +72,7 @@ jobs:
     steps:
     - uses: actions/checkout@v2
 
-    - name: Set up Python 3.8
-      if: ${{ runner.os != 'Windows' }}
-      uses: actions/setup-python@v2
-      with:
-        python-version: 3.8
-
     - name: Setup Conda
-      if: ${{ runner.os == 'Windows' }}
       uses: s-weigand/setup-conda@v1.0.3
       with:
         # Whether to activate the conda base env (Default: 'true')
@@ -97,7 +90,6 @@ jobs:
     - name: Brew graphviz
       if: ${{ runner.os == 'macOS' }}
       run: |
-        brew install openssl
         brew install graphviz
         # execute dot
         dot -V
