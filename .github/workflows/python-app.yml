@@ -85,7 +85,8 @@ jobs:
         
     - name: Install project dependencies
       run: |
-        pip install .[test] --only-binary :all:
+        pip install psycopg2-binary
+        pip install .[test]
         
 #    - name: graphviz for visualization test
 #      run: |
