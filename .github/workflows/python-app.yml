@@ -102,10 +102,14 @@ jobs:
         # should give base conda python
         $python=Get-Command python | select -Property Source
         $python 
+        
         $pypath=Split-Path $python.Source -Parent
-        $pypath
+        
+        # Add to PATH
+        $graphviz=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
+        [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$graphviz", "Machine")
         # execute dot
-        & ([IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz', 'dot.exe')) -c
+        dot.exe -c
         
 
     - name: Test with pytest
