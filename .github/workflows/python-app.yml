@@ -107,10 +107,12 @@ jobs:
         
         # Add to PATH
         $graphviz=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
-        [Environment]::SetEnvironmentVariable("Path", $env:Path + ";$graphviz", "Machine")
+        # locally:
+        $env:Path = $env:Path + ";$graphviz"
         # execute dot
         dot.exe -c
-        
+        # for later:
+        [Environment]::SetEnvironmentVariable("Path", $env:Path, "Machine")
 
     - name: Test with pytest
       run: |
