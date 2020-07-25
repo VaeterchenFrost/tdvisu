@@ -98,8 +98,7 @@ jobs:
         
     - name: register plugins for graphviz
       run: |
-        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" \
-                  + [System.Environment]::GetEnvironmentVariable("Path","User")
+        $env:Path = [System.Environment]::GetEnvironmentVariable("Path","Machine") + ";" + [System.Environment]::GetEnvironmentVariable("Path","User")
         dot -c
 
     - name: Test with pytest
