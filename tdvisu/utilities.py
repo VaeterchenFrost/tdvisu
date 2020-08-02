@@ -28,12 +28,12 @@ from collections.abc import Iterable as iter_type
 from configparser import ConfigParser, Error as CfgError, ParsingError
 from itertools import chain
 from pathlib import Path
-from typing import Any, Generator, Iterable, Iterator, List, Tuple, TypeVar, Union
-
-import yaml
+from typing import (Any, Generator, Iterable, Iterator,
+                    List, Tuple, TypeVar, Union)
 
 from tdvisu.version import __date__, __version__
 
+import yaml
 
 LOGGER = logging.getLogger('utilities.py')
 
