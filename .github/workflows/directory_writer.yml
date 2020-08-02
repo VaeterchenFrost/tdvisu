@@ -10,7 +10,7 @@ on:
       - "master"
 
 jobs:
-  build:
+  Update DIRECTORY.md:
     runs-on: ubuntu-latest
 
     steps:
