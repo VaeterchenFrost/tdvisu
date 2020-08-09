@@ -54,9 +54,14 @@ pip install -h (for more information on install options)
 pip install tdvisu
 ```
 
+To download the latest version from the default branch:
+```shell
+git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
+```
+
 # To isolate the dependencies
 
-With [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html ) on the system installed you can isolate the environment with for example:
+With [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html ) on the system installed you can isolate the environment, for example
 ```shell
 virtualenv tdvisu_dir -p 3.8
 cd tdvisu_dir/bin/
@@ -64,16 +69,14 @@ source activate
 ```
 With [Conda](https://docs.conda.io/en/latest/) on the system installed the dependencies for this project can be automatically installed in a new environment:
 
-To download the latest version from the default branch:
-```shell
-git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
-```
-Open a *conda-command-prompt* with admin privileges and run the commands from the project folder:
-to create a new environment with basic dependencies:
+Go to the projects base directory.
+
+Open a *conda-command-prompt* with admin privileges and run the commands from the project folder
+- to create a new environment with basic dependencies:
 ```shell
 conda env create -f .\environment.yml
 ```
-to activate the environment:
+- to activate the environment:
 ```shell
 conda activate tdvisu
 ```
@@ -142,7 +145,7 @@ After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) w
   - for the problem **SharpSat**
     - with flag `--store-formula` to store the formula in the database
 - Run 
-  - **SharpSat**: `python construct_dpdb_visu.py [PROBLEMNUMBER]`
+  - **Sat** / **SharpSat**: `python construct_dpdb_visu.py [PROBLEMNUMBER]`
   - **VertexCover**: `python construct_dpdb_visu.py [PROBLEMNUMBER] --twfile [TWFILE]` 
    with the file in DIMACS tw-format containing the edges of the graph.
 
