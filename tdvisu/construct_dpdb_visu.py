@@ -107,7 +107,7 @@ def db_config(filename: str = 'database.ini',
 def query_problem(cursor, problem: int) -> str:  # pragma: no cover
     """Query type from public.problem for one problem."""
     cursor.execute("SELECT type FROM "
-                   "public.problem WHERE id=%s", (problem,))
+                   "public.problem WHERE id=%s", (int(problem),))
     result = cursor.fetchone()[0]
     return result
 
@@ -115,7 +115,7 @@ def query_problem(cursor, problem: int) -> str:  # pragma: no cover
 def query_num_vars(cursor, problem: int) -> int:  # pragma: no cover
     """Query num_vertices from public.problem for one problem."""
     cursor.execute(
-        "SELECT num_vertices FROM public.problem WHERE id=%s", (problem,))
+        "SELECT num_vertices FROM public.problem WHERE id=%s", (int(problem),))
     result = cursor.fetchone()[0]
     return result
 
@@ -124,7 +124,7 @@ def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]:  # pr
     """Query sat-clauses for one problem."""
     try:
         cursor.execute(
-            sql.SQL("SELECT * FROM public.p{}_sat_clause").format(sql.Literal(problem)))
+            sql.SQL("SELECT * FROM public.p{}_sat_clause").format(sql.Literal(int(problem))))
     except pg.ProgrammingError:
         LOGGER.error(
             "dpdb.py *SAT needs to be run with '--store-formula'!")
@@ -137,7 +137,7 @@ def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]:  # pragma: no
     """Query bag-ids for one problem."""
     cursor.execute(
         sql.SQL("SELECT bag FROM public.p{}_td_bag GROUP BY bag").format(
-            sql.Literal(problem)))
+            sql.Literal(int(problem))))
     result = cursor.fetchall()
     return result
 
@@ -150,7 +150,7 @@ def query_td_node_status(
         sql.SQL(
             "SELECT start_time,end_time-start_time "
             "FROM public.p{}_td_node_status WHERE node=%s").format(
-            sql.Literal(problem)), (bag,))
+            sql.Literal(int(problem))), (int(bag),))
     result = cursor.fetchone()
     return result
 
@@ -159,7 +159,7 @@ def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]:  # pragma:
     """Query nodes included in one bag."""
     cursor.execute(
         sql.SQL("SELECT node FROM public.p{}_td_bag WHERE bag=%s").format(
-            sql.Literal(problem)), (bag,))
+            sql.Literal(int(problem))), (int(bag),))
     result = cursor.fetchall()
     return result
 
@@ -168,7 +168,7 @@ def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]:  # p
     """Query bags ordered by 'start_time'."""
     cursor.execute(
         sql.SQL("SELECT node FROM public.p{}_td_node_status ORDER BY start_time").format(
-            sql.Literal(problem)))
+            sql.Literal(int(problem))))
     result = cursor.fetchall()
     return result
 
@@ -179,8 +179,8 @@ def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]:  # pr
         sql.SQL(
             "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
             "WHERE TABLE_NAME = 'p{}_td_node_{}'").format(
-            sql.Literal(problem),
-            sql.Literal(bag)))
+            sql.Literal(int(problem)),
+            sql.Literal(int(bag))))
     result = cursor.fetchall()
     return result
 
@@ -188,7 +188,7 @@ def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]:  # pr
 def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]:  # pragma: no cover
     """Query solution data for one bag."""
     cursor.execute(sql.SQL(
-        "SELECT * FROM public.p{}_td_node_{}").format(sql.Literal(problem), sql.Literal(bag)))
+        "SELECT * FROM public.p{}_td_node_{}").format(sql.Literal(int(problem)), sql.Literal(int(bag))))
     result = cursor.fetchall()
     return result
 
@@ -197,7 +197,7 @@ def query_edgearray(cursor, problem: int) -> List[Tuple[int, int]]:  # pragma: n
     """Query edges between bags for one problem."""
     cursor.execute(
         sql.SQL("SELECT node,parent FROM public.p{}_td_edge").format(
-            sql.Literal(problem)))
+            sql.Literal(int(problem))))
     result = cursor.fetchall()
     return result
 
