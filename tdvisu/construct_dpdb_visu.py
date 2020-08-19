@@ -35,6 +35,7 @@ from time import sleep
 from typing import List, Optional, Tuple
 
 import psycopg2 as pg
+from psycopg2 import sql
 
 from tdvisu.dijkstra import bidirectional_dijkstra as find_path
 from tdvisu.reader import TwReader
@@ -114,8 +115,7 @@ def query_problem(cursor, problem: int) -> str:  # pragma: no cover
 def query_num_vars(cursor, problem: int) -> int:  # pragma: no cover
     """Query num_vertices from public.problem for one problem."""
     cursor.execute(
-        "SELECT num_vertices FROM "
-        "public.problem WHERE id=%s", (problem,))
+        "SELECT num_vertices FROM public.problem WHERE id=%s", (problem,))
     result = cursor.fetchone()[0]
     return result
 
@@ -123,7 +123,8 @@ def query_num_vars(cursor, problem: int) -> int:  # pragma: no cover
 def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]:  # pragma: no cover
     """Query sat-clauses for one problem."""
     try:
-        cursor.execute("SELECT * FROM public.p%d_sat_clause" % problem)
+        cursor.execute(
+            sql.SQL("SELECT * FROM public.p{}_sat_clause").format(sql.Literal(problem)))
     except pg.ProgrammingError:
         LOGGER.error(
             "dpdb.py *SAT needs to be run with '--store-formula'!")
@@ -134,7 +135,9 @@ def query_sat_clause(cursor, problem: int) -> List[Tuple[Optional[bool]]]:  # pr
 
 def query_td_bag_grouped(cursor, problem: int) -> List[List[int]]:  # pragma: no cover
     """Query bag-ids for one problem."""
-    cursor.execute("SELECT bag FROM public.p%d_td_bag GROUP BY bag" % problem)
+    cursor.execute(
+        sql.SQL("SELECT bag FROM public.p{}_td_bag GROUP BY bag").format(
+            sql.Literal(problem)))
     result = cursor.fetchall()
     return result
 
@@ -144,9 +147,10 @@ def query_td_node_status(
     """Query details about the status of one node.
     Currently start_time and end_time-start_time."""
     cursor.execute(
-        ("SELECT start_time,end_time-start_time "
-         "FROM public.p%d_td_node_status" % problem)
-        + " WHERE node=%s", (bag,))
+        sql.SQL(
+            "SELECT start_time,end_time-start_time "
+            "FROM public.p{}_td_node_status WHERE node=%s").format(
+            sql.Literal(problem)), (bag,))
     result = cursor.fetchone()
     return result
 
@@ -154,8 +158,8 @@ def query_td_node_status(
 def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]:  # pragma: no cover
     """Query nodes included in one bag."""
     cursor.execute(
-        ("SELECT node FROM public.p%d_td_bag" % problem)
-        + " WHERE bag=%s", (bag,))
+        sql.SQL("SELECT node FROM public.p{}_td_bag WHERE bag=%s").format(
+            sql.Literal(problem)), (bag,))
     result = cursor.fetchall()
     return result
 
@@ -163,8 +167,8 @@ def query_td_bag(cursor, problem: int, bag: int) -> List[Tuple[int]]:  # pragma:
 def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]:  # pragma: no cover
     """Query bags ordered by 'start_time'."""
     cursor.execute(
-        "SELECT node FROM public.p%d_td_node_status ORDER BY start_time" %
-        problem)
+        sql.SQL("SELECT node FROM public.p{}_td_node_status ORDER BY start_time").format(
+            sql.Literal(problem)))
     result = cursor.fetchall()
     return result
 
@@ -172,16 +176,19 @@ def query_td_node_status_ordered(cursor, problem: int) -> List[Tuple[int]]:  # p
 def query_column_name(cursor, problem: int, bag: int) -> List[Tuple[str]]:  # pragma: no cover
     """Query column names for one bag."""
     cursor.execute(
-        "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
-        "WHERE TABLE_NAME = 'p%d_td_node_%d'" % (problem, bag))
+        sql.SQL(
+            "SELECT column_name FROM INFORMATION_SCHEMA.COLUMNS "
+            "WHERE TABLE_NAME = 'p{}_td_node_{}'").format(
+            sql.Literal(problem),
+            sql.Literal(bag)))
     result = cursor.fetchall()
     return result
 
 
 def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]:  # pragma: no cover
     """Query solution data for one bag."""
-    cursor.execute(
-        "SELECT * FROM public.p%d_td_node_%d" % (problem, bag))
+    cursor.execute(sql.SQL(
+        "SELECT * FROM public.p{}_td_node_{}").format(sql.Literal(problem), sql.Literal(bag)))
     result = cursor.fetchall()
     return result
 
@@ -189,7 +196,8 @@ def query_bag(cursor, problem: int, bag: int) -> List[Tuple[Optional[bool]]]:  #
 def query_edgearray(cursor, problem: int) -> List[Tuple[int, int]]:  # pragma: no cover
     """Query edges between bags for one problem."""
     cursor.execute(
-        "SELECT node,parent FROM public.p%d_td_edge" % problem)
+        sql.SQL("SELECT node,parent FROM public.p{}_td_edge").format(
+            sql.Literal(problem)))
     result = cursor.fetchall()
     return result
 
