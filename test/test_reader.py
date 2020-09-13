@@ -26,7 +26,7 @@ from pathlib import Path
 from tdvisu.reader import DimacsReader, Reader, TwReader
 
 
-def test_reader():
+def test_reader_valid_input():
     """Create and test the reader on valid input from a file."""
     twfile = Path(__file__).parent / 'grda16.tw'
     # from filename
