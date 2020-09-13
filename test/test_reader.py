@@ -101,6 +101,46 @@ def test_reader_no_type_found(caplog):
         assert pytest_wrapped_e.value.code == 1
 
 
+def test_dimacs_wrong_type_found(caplog):
+    """Test message and exit when unexpected type was read from the file."""
+    content = "p wrong 16 31\n1 2\n2 1\n"
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        TwReader.from_string(content)  # should raise SystemExit
+        assert ("reader.py",
+                logging.ERROR,
+                "Not a tw file!") in caplog.record_tuples
+        assert pytest_wrapped_e.type == SystemExit
+        assert pytest_wrapped_e.value.code == 1
+
+
+def test_dimacs_col_long_line(caplog):
+    """Test message when long line was read in the body."""
+    colfile = Path(__file__).parent / 'col_with_long_line.col'
+
+    TwReader.from_filename(colfile)  # should raise SystemExit
+    assert (
+        "reader.py",
+        logging.WARN,
+        "Expected exactly 2 vertices at line 1, but 3 found") in caplog.record_tuples
+    assert (
+        "reader.py",
+        logging.WARN,
+        "Expected exactly 2 vertices at line 1, but 3 found") in caplog.record_tuples
+
+
+def test_dimacs_fewer_edges(caplog):
+    """Test message when the number of edges mismatches the preamble."""
+    content = "p tw 3 3\n1 2\n2 3\n"
+    reader = TwReader.from_string(content)
+    assert (
+        "reader.py",
+        logging.WARN,
+        "Number of edges mismatch preamble (2 vs 3)") in caplog.record_tuples
+    assert reader.num_vertices == 3
+    assert reader.num_edges == 3
+    assert len(reader.edges) == 2
+
+
 def _reader_assertions(reader: TwReader):
     """Read a file containing graph edges. Check stored edges and adjacency
     as well as the number of vertices and number of edges.
