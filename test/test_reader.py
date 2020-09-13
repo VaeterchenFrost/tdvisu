@@ -23,14 +23,39 @@ Copyright (C) 2020  Martin Röbke
 
 from pathlib import Path
 
-from tdvisu.reader import TwReader
+from tdvisu.reader import Reader, TwReader
 
 
 def test_reader():
-    """Read a file containing graph edges. Check stored edges and adjacency
-    as well as the number of vertices and number of edges."""
-
+    """Create and test the reader on valid input from a file."""
     twfile = Path(__file__).parent / 'grda16.tw'
+    # from filename
+    reader = TwReader.from_filename(twfile)
+    _reader_assertions(reader)
+    # from prepared wrapper
+    with open(twfile) as wrapper:
+        reader = TwReader.from_filewrapper(wrapper)
+        _reader_assertions(reader)
+    # from (binary) stream
+    with open(twfile, "rb") as binary:
+        reader = TwReader.from_stream(binary)
+        _reader_assertions(reader)
+    # from string
+    with open(twfile) as file:
+        reader = TwReader.from_string(file.read())
+        _reader_assertions(reader)
+
+
+def test_reader_has_parse():
+    """Test existence of (empty) parse() method."""
+    reader = Reader()
+    reader.parse("Testcase")
+
+
+def _reader_assertions(reader: TwReader):
+    """Read a file containing graph edges. Check stored edges and adjacency
+    as well as the number of vertices and number of edges.
+    """
 
     expected_edges = {(1, 2), (2, 1), (2, 3), (3, 2), (3, 4), (3, 5),
                       (4, 3), (4, 5), (4, 6), (5, 3), (5, 4), (6, 4),
@@ -44,8 +69,6 @@ def test_reader():
                     5: {3, 4}, 6: {4, 7, 15}, 7: {6, 8, 14}, 8: {7, 9},
                     9: {8, 10, 11}, 10: {9}, 11: {9, 12, 14}, 12: {11, 13, 14},
                     13: {12}, 14: {7, 11, 12}, 15: {6, 16}, 16: {15}}
-
-    reader = TwReader.from_filename(twfile)
 
     assert reader.num_vertices == 16
     assert reader.num_edges == 36
