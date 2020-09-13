@@ -23,7 +23,7 @@ Copyright (C) 2020  Martin Röbke
 
 from pathlib import Path
 
-from tdvisu.reader import Reader, TwReader
+from tdvisu.reader import DimacsReader, Reader, TwReader
 
 
 def test_reader():
@@ -50,6 +50,18 @@ def test_reader_has_parse():
     """Test existence of (empty) parse() method."""
     reader = Reader()
     reader.parse("Testcase")
+
+
+def test_dimacsreader_has_store_problem_vars():
+    """Test existence of (empty) store_problem_vars() method."""
+    dr = DimacsReader()
+    dr.store_problem_vars()
+
+
+def test_dimacsreader_has_body():
+    """Test existence of (empty) body() method."""
+    dr = DimacsReader()
+    dr.body(lines=["", ""])
 
 
 def _reader_assertions(reader: TwReader):
