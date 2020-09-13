@@ -20,8 +20,11 @@ Copyright (C) 2020  Martin Röbke
     If not, see https://www.gnu.org/licenses/gpl-3.0.html
 
 """
+import logging
 
 from pathlib import Path
+
+import pytest
 
 from tdvisu.reader import DimacsReader, Reader, TwReader
 
@@ -54,14 +57,40 @@ def test_reader_has_parse():
 
 def test_dimacsreader_has_store_problem_vars():
     """Test existence of (empty) store_problem_vars() method."""
-    dr = DimacsReader()
-    dr.store_problem_vars()
+    reader = DimacsReader()
+    reader.store_problem_vars()
 
 
 def test_dimacsreader_has_body():
     """Test existence of (empty) body() method."""
-    dr = DimacsReader()
-    dr.body(lines=["", ""])
+    reader = DimacsReader()
+    reader.body(lines=["", ""])
+
+
+def test_reader_inval_preamble(caplog):
+    """Test message when a unexpected token in the preamble was encountered."""
+    twfile = Path(__file__).parent / 'grda16.tw'
+    # from string
+    with open(twfile) as file:
+        content = "invalid preamble\n" + file.read()
+        reader = TwReader.from_string(content)
+        _reader_assertions(reader)
+        assert (
+            "reader.py",
+            logging.WARN,
+            "Invalid content in preamble at line 0: invalid preamble") in caplog.record_tuples
+
+
+def test_reader_no_type_found(caplog):
+    """Test message and exit when no type could be inferred from the file."""
+    content = "c no preamble\n"
+    with pytest.raises(SystemExit) as pytest_wrapped_e:
+        TwReader.from_string(content)  # should raise SystemExit
+        assert ("reader.py",
+                logging.ERROR,
+                "No type found in DIMACS file!") in caplog.record_tuples
+        assert pytest_wrapped_e.type == SystemExit
+        assert pytest_wrapped_e.value.code == 1
 
 
 def _reader_assertions(reader: TwReader):
