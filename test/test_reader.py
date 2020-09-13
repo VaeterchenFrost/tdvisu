@@ -49,6 +49,14 @@ def test_reader_valid_input():
         _reader_assertions(reader)
 
 
+def test_reader_commented_body():
+    """Create and test the reader on valid input from a file with comments in the body."""
+    twfile = Path(__file__).parent / 'grda16_comments.tw'
+    # from filename
+    reader = TwReader.from_filename(twfile)
+    _reader_assertions(reader)
+
+
 def test_reader_has_parse():
     """Test existence of (empty) parse() method."""
     reader = Reader()
