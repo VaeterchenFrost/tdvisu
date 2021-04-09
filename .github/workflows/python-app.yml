@@ -112,7 +112,7 @@ jobs:
 
         # Add to PATH, we know pypath is on it
         $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
-        echo "$dot" >> $GITHUB_PATH
+        echo $dot | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
       shell: powershell
 
     - name: register plugins for graphviz
