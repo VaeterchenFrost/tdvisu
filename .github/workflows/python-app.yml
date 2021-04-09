@@ -76,7 +76,7 @@ jobs:
     - uses: actions/checkout@v2
       
     - name: Setup Conda
-      uses: s-weigand/setup-conda@v1.0.3
+      uses: s-weigand/setup-conda@v1
       with:
         # Whether to activate the conda base env (Default: 'true')
         activate-conda: true
