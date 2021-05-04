@@ -8,6 +8,13 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 ## [Unreleased]
 - No unreleased changes yet.
 
+## [1.1.8] - 2021-05-04
+
+### Changed
+- Updated pyyaml from 5.3.1 to 5.4 [#33]
+- Updated py from 1.9.0 to 1.10.0 [#35]
+- Fixed python-app.yml [#34]
+
 ## [1.1.7] - 2020-09-13
 ### Added
 - Better tests around the (Dimacs) Reader
@@ -180,6 +187,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [#29]: https://github.com/VaeterchenFrost/tdvisu/issues/29
 [#31]: https://github.com/VaeterchenFrost/tdvisu/issues/31
 [#32]: https://github.com/VaeterchenFrost/tdvisu/pull/32
+[#33]: https://github.com/VaeterchenFrost/tdvisu/pull/33
+[#34]: https://github.com/VaeterchenFrost/tdvisu/pull/34
+[#35]: https://github.com/VaeterchenFrost/tdvisu/pull/35
 
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 [PyPI]: https://pypi.org/project/tdvisu/
@@ -187,7 +197,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.7...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.8...master
+[1.1.8]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.8
 [1.1.7]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.7
 [1.1.6]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.6
 [1.1.5]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.5
