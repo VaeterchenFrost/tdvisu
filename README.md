@@ -192,7 +192,7 @@ In case dependencies have changed, or just to update some, check
 - Click on **Publish release** on the bottom
 
 ## Should automatically release to [PyPI](https://pypi.org/project/tdvisu/ )
-- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-app.yml )
+- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-publish.yml )
 
 **Now you are set for the new release :tada:**
 
