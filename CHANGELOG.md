@@ -8,6 +8,15 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 ## [Unreleased]
 - No unreleased changes yet.
 
+## [1.1.9] - 2023-07-27
+
+### Added
+- `python-benedict[xml]` to dependencies
+### Changed
+- Updated requirements.txt
+- Updated stable-requirements.txt
+
+
 ## [1.1.8] - 2021-05-04
 
 ### Changed
@@ -197,7 +206,8 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html ).
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
 
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.8...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.1.9...master
+[1.1.8]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.9
 [1.1.8]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.8
 [1.1.7]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.7
 [1.1.6]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.6

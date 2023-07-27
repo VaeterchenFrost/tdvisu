@@ -1,8 +1,8 @@
-graphviz~=0.14
-hypothesis~=5.20.3
-psycopg2~=2.8.5
-python-benedict~=0.18.1
-python-benedict[xml]
-pytest~=5.4.3
-pytest-mock~=3.2.0
-PyYAML~=5.4
+graphviz~=0.20
+hypothesis~=6.82.0
+psycopg2~=2.9.6
+python-benedict~=0.32.0
+python-benedict[xml]~=0.32.0
+pytest~=7.4.0
+pytest-mock~=3.11.0
+PyYAML~=6.0
