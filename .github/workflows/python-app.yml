@@ -84,19 +84,9 @@ jobs:
       run: |
         python -m pip install --upgrade pip
         pip install wheel
-    
-    - name: Brew graphviz
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        brew install graphviz
-        # execute dot
-        dot -V
-        sudo dot -c
 
-    - name: install graphviz for visualization test
-      if: ${{ runner.os == 'Windows' }}
-      run: |
-        conda install -c anaconda graphviz
+    - name: Install graphviz for visualization test
+      uses: ts-graphviz/setup-graphviz@v2
 
     - name: add graphviz PATH
       if: ${{ runner.os == 'Windows' }}
