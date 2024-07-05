@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
@@ -73,16 +73,11 @@ jobs:
     continue-on-error: true
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       
-    - name: Setup Conda
-      uses: s-weigand/setup-conda@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
       with:
-        # Whether to activate the conda base env (Default: 'true')
-        activate-conda: true
-        # If conda should be updated before running other commands (Default: 'false')
-        update-conda: true
-        # Python version which should be installed with conda (default: 'Default')
         python-version: 3.8
 
     - name: Install Workflow dependencies
