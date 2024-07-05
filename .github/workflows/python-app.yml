@@ -23,7 +23,7 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       
     - name: Set up Python 3.8
       uses: actions/setup-python@v2
@@ -73,32 +73,34 @@ jobs:
     continue-on-error: true
 
     steps:
-    - uses: actions/checkout@v2
+    - uses: actions/checkout@v4
       
-    - name: Setup Conda
-      uses: s-weigand/setup-conda@v1
+    - name: Set up Python 3.8
+      uses: actions/setup-python@v2
       with:
-        # Whether to activate the conda base env (Default: 'true')
-        activate-conda: true
-        # If conda should be updated before running other commands (Default: 'false')
-        update-conda: true
-        # Python version which should be installed with conda (default: 'Default')
         python-version: 3.8
 
     - name: Install Workflow dependencies
       run: |
         python -m pip install --upgrade pip
         pip install wheel
-    
-    - name: Brew graphviz
-      if: ${{ runner.os == 'macOS' }}
-      run: |
-        brew install graphviz
-        # execute dot
-        dot -V
-        sudo dot -c
 
-    - name: install graphviz for visualization test
+    - name: Install graphviz for visualization test
+      if: ${{ runner.os == 'macOS' }}
+      uses: ts-graphviz/setup-graphviz@v2
+      with:
+        macos-skip-brew-update: 'true' # default false
+
+    - name: Setup Conda
+      if: ${{ runner.os == 'Windows' }}
+      uses: s-weigand/setup-conda@v1
+      with:
+        # Whether to activate the conda base env (Default: 'true')
+        activate-conda: true
+        # Python version which should be installed with conda (default: 'Default')
+        python-version: 3.8
+
+    - name: Install graphviz via conda
       if: ${{ runner.os == 'Windows' }}
       run: |
         conda install -c anaconda graphviz
@@ -109,7 +111,6 @@ jobs:
         # should give base conda python
         $python=Get-Command python
         $pypath=Split-Path $python.Source -Parent
-
         # Add to PATH, we know pypath is on it
         $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
         echo $dot | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
