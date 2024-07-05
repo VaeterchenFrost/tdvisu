@@ -86,11 +86,35 @@ jobs:
         pip install wheel
 
     - name: Install graphviz for visualization test
+      if: ${{ runner.os == 'macOS' }}
       uses: ts-graphviz/setup-graphviz@v2
       with:
-        windows-graphviz-version: '2.49.3'
-        # Skip to run brew update command on macOS.
         macos-skip-brew-update: 'true' # default false
+
+    - name: Setup Conda
+      if: ${{ runner.os == 'Windows' }}
+      uses: s-weigand/setup-conda@v1
+      with:
+        # Whether to activate the conda base env (Default: 'true')
+        activate-conda: true
+        # Python version which should be installed with conda (default: 'Default')
+        python-version: 3.8
+
+    - name: Install graphviz via conda
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        conda install -c anaconda graphviz
+
+    - name: add graphviz PATH
+      if: ${{ runner.os == 'Windows' }}
+      run: |
+        # should give base conda python
+        $python=Get-Command python
+        $pypath=Split-Path $python.Source -Parent
+        # Add to PATH, we know pypath is on it
+        $dot=[IO.Path]::Combine($pypath, 'Library', 'bin', 'graphviz')
+        echo $dot | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
+      shell: powershell
 
     - name: register plugins for graphviz
       if: ${{ runner.os == 'Windows' }}
