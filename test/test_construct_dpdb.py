@@ -23,8 +23,9 @@ Copyright (C) 2020  Martin Röbke
 
 import datetime
 from pathlib import Path
+from unittest.mock import PropertyMock
 
-import psycopg2 as pg
+import psycopg as pg
 
 from tdvisu import construct_dpdb_visu as module
 from tdvisu.construct_dpdb_visu import (
@@ -35,48 +36,52 @@ from tdvisu.construct_dpdb_visu import (
     IDpdbVisuConstruct,
     db_config,
     main,
-    read_cfg)
+    read_cfg,
+)
 
 DIR = Path(__file__).parent
-SECTION = 'postgresql'
+SECTION = "postgresql"
 
 
 def test_db_config():
     """Test reading the database configuration from the test file."""
-    result = read_cfg(DIR / 'database.ini', SECTION, True)
-    assert result == {'application_name': 'dpdb-admin',
-                      'host': 'localhost',
-                      'password': 'XXX',
-                      'port': '123',
-                      'user': 'postgres'
-                      }, "should be able to read from ini file"
+    result = read_cfg(DIR / "database.ini", SECTION, True)
+    assert result == {
+        "application_name": "dpdb-admin",
+        "host": "localhost",
+        "password": "XXX",
+        "port": "123",
+        "user": "postgres",
+    }, "should be able to read from ini file"
 
-    result = db_config(DIR / 'database.ini', SECTION)
-    assert result == {'application_name': 'dpdb-admin',
-                      'database': DEFAULT_DBCONFIG['database'],
-                      'host': 'localhost',
-                      'password': 'XXX',
-                      'port': '123',
-                      'user': 'postgres'
-                      }, "should complete 'database' with default."
+    result = db_config(DIR / "database.ini", SECTION)
+    assert result == {
+        "application_name": "dpdb-admin",
+        "database": DEFAULT_DBCONFIG["database"],
+        "host": "localhost",
+        "password": "XXX",
+        "port": "123",
+        "user": "postgres",
+    }, "should complete 'database' with default."
 
 
 def test_db2_config():
     """Test should use defaults when file not found."""
-    fixed_defaults = db_config(DIR / 'database2.ini', SECTION)
+    fixed_defaults = db_config(DIR / "database2.ini", SECTION)
     assert fixed_defaults == DEFAULT_DBCONFIG
 
 
 def test_db_passwd_config():
     """Test should add password from file to defaults."""
-    insert_passwd = db_config(DIR / 'db_password.ini', SECTION)
-    assert insert_passwd == {'application_name': 'dpdb-admin',
-                             'database': 'logicsem',
-                             'host': 'localhost',
-                             'password': 'XXX',
-                             'port': 5432,
-                             'user': 'postgres'
-                             }
+    insert_passwd = db_config(DIR / "db_password.ini", SECTION)
+    assert insert_passwd == {
+        "application_name": "dpdb-admin",
+        "database": "logicsem",
+        "host": "localhost",
+        "password": "XXX",
+        "port": 5432,
+        "user": "postgres",
+    }
 
 
 def test_problem_interface():
@@ -89,64 +94,76 @@ def test_problem_interface():
 def test_main(mocker, tmp_path):
     """Test behaviour of construct_dpdb_visu.main"""
 
-    mock_connect = mocker.patch('tdvisu.construct_dpdb_visu.pg.connect')
-    ta_status = mock_connect.return_value.__enter__.return_value.get_transaction_status
-    ta_status.return_value = pg.extensions.TRANSACTION_STATUS_IDLE
+    mock_connect = mocker.patch("tdvisu.construct_dpdb_visu.pg.connect")
+    mock_status = mocker.patch(
+        "tdvisu.construct_dpdb_visu.pg.connect.return_value.__enter__.return_value.info"
+    )
+    type(mock_status).status = PropertyMock(
+        side_effect=[pg.pq.ConnStatus.BAD, pg.pq.ConnStatus.OK]
+    )
 
     query_problem = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_problem',
-        return_value='Sat')
-    query_num_vars = mocker.patch('tdvisu.construct_dpdb_visu.query_num_vars',
-                                  return_value=8)
+        "tdvisu.construct_dpdb_visu.query_problem", return_value="Sat"
+    )
+    query_num_vars = mocker.patch(
+        "tdvisu.construct_dpdb_visu.query_num_vars", return_value=8
+    )
     query_td_node_status_ordered = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_td_node_status_ordered',
-        return_value=[(3,), (5,), (4,), (2,), (1,)])
+        "tdvisu.construct_dpdb_visu.query_td_node_status_ordered",
+        return_value=[(3,), (5,), (4,), (2,), (1,)],
+    )
     query_sat_clause = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_sat_clause',
-        return_value=[(True, None, None, True, None, True, None, None, None, None),
-                      (True, None, None, None, False,
-                       None, None, None, None, None),
-                      (False, None, None, None, None,
-                       None, True, None, None, None),
-                      (None, True, True, None, None, None, None, None, None, None),
-                      (None, True, None, None, True, None, None, None, None, None),
-                      (None, True, None, None, None,
-                       False, None, None, None, None),
-                      (None, None, True, None, None,
-                       None, None, False, None, None),
-                      (None, None, None, True, None,
-                       None, None, False, None, None),
-                      (None, None, None, False, None,
-                       True, None, None, None, None),
-                      (None, None, None, False, None, None, True, None, None, None)])
+        "tdvisu.construct_dpdb_visu.query_sat_clause",
+        return_value=[
+            (True, None, None, True, None, True, None, None, None, None),
+            (True, None, None, None, False, None, None, None, None, None),
+            (False, None, None, None, None, None, True, None, None, None),
+            (None, True, True, None, None, None, None, None, None, None),
+            (None, True, None, None, True, None, None, None, None, None),
+            (None, True, None, None, None, False, None, None, None, None),
+            (None, None, True, None, None, None, None, False, None, None),
+            (None, None, None, True, None, None, None, False, None, None),
+            (None, None, None, False, None, True, None, None, None, None),
+            (None, None, None, False, None, None, True, None, None, None),
+        ],
+    )
 
     query_td_bag_grouped = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_td_bag_grouped', return_value=[[1, 2, 3, 4, 5]])
+        "tdvisu.construct_dpdb_visu.query_td_bag_grouped",
+        return_value=[[1, 2, 3, 4, 5]],
+    )
     query_td_node_status = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_td_node_status',
+        "tdvisu.construct_dpdb_visu.query_td_node_status",
         return_value=(
             "2020-07-13 02:06:18.053880",
-            datetime.timedelta(
-                microseconds=768)))
-    query_td_bag = mocker.patch('tdvisu.construct_dpdb_visu.query_td_bag',
-                                return_value=[(1,), (2,), (4,), (6,)])
+            datetime.timedelta(microseconds=768),
+        ),
+    )
+    query_td_bag = mocker.patch(
+        "tdvisu.construct_dpdb_visu.query_td_bag", return_value=[(1,), (2,), (4,), (6,)]
+    )
     query_column_name = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_column_name', return_value=[
-            ('v1',), ('v2',), ('v4',), ('v6',)])
+        "tdvisu.construct_dpdb_visu.query_column_name",
+        return_value=[("v1",), ("v2",), ("v4",), ("v6",)],
+    )
     query_bag = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_bag',
-        return_value=[(False, None, False, None),
-                      (True, None, True, None),
-                      (False, None, True, None),
-                      (True, None, False, None)])
+        "tdvisu.construct_dpdb_visu.query_bag",
+        return_value=[
+            (False, None, False, None),
+            (True, None, True, None),
+            (False, None, True, None),
+            (True, None, False, None),
+        ],
+    )
 
     query_edgearray = mocker.patch(
-        'tdvisu.construct_dpdb_visu.query_edgearray', return_value=[
-            (2, 1), (3, 2), (4, 2), (5, 4)])
+        "tdvisu.construct_dpdb_visu.query_edgearray",
+        return_value=[(2, 1), (3, 2), (4, 2), (5, 4)],
+    )
     # set cmd-arguments
-    outfile = str(tmp_path / 'test_main.json')
+    outfile = str(tmp_path / "test_main.json")
     # one mocked run
-    main(['1', '--outfile', outfile])
+    main(["1", "--outfile", outfile])
 
     # Assertions
     mock_connect.assert_called_once()
@@ -166,7 +183,7 @@ def test_init(mocker):
     """Test that main is called correctly if called as __main__."""
     expected = -1000
     main = mocker.patch.object(module, "main", return_value=expected)
-    mock_exit = mocker.patch.object(module.sys, 'exit')
+    mock_exit = mocker.patch.object(module.sys, "exit")
     mocker.patch.object(module, "__name__", "__main__")
     module.init()
 

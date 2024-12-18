@@ -39,7 +39,7 @@ LOGGER = logging.getLogger('utilities.py')
 
 CFG_EXT = ('.ini', '.cfg', '.conf', '.config')
 LOGLEVEL_EPILOG = """
-Logging levels for python 3.8.2:
+Logging levels for Python:
     CRITICAL: 50
     ERROR:    40
     WARNING:  30
