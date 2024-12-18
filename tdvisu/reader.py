@@ -46,11 +46,12 @@ from typing import Iterable
 
 from tdvisu.utilities import add_edge_to
 
-logger = logging.getLogger('reader.py')
+logger = logging.getLogger("reader.py")
 
 
-class Reader():
+class Reader:
     """Base class for string-readers."""
+
     @classmethod
     def from_filename(cls, fname) -> Reader:
         with open(fname, "r") as file:
@@ -150,7 +151,7 @@ class TwReader(DimacsReader):
 
     def body(self, lines) -> None:
         """Store the content from the given lines in the edges and adjacency_dict."""
-        if self.format not in ('col', 'tw'):
+        if self.format not in ("col", "tw"):
             logger.error("Not a tw file!")
             sys.exit(1)
 
@@ -163,7 +164,8 @@ class TwReader(DimacsReader):
                 logger.warning(
                     "Expected exactly 2 vertices at line %d, but %d found",
                     lineno,
-                    len(line))
+                    len(line),
+                )
             vertex1 = int(line[0])
             vertex2 = int(line[1])
 
@@ -171,5 +173,7 @@ class TwReader(DimacsReader):
 
         if len(self.edges) != self.num_edges:
             logger.warning(
-                "Number of edges mismatch preamble (%d vs %d)", len(
-                    self.edges), self.num_edges)
+                "Number of edges mismatch preamble (%d vs %d)",
+                len(self.edges),
+                self.num_edges,
+            )

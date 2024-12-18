@@ -30,7 +30,7 @@ from benedict import benedict
 
 from tdvisu.utilities import gen_arg
 
-LOGGER = logging.getLogger('svg_join.py')
+LOGGER = logging.getLogger("svg_join.py")
 
 
 # indices
@@ -41,19 +41,20 @@ HEIGHT = 3
 def test_viewbox(viewbox: List[float]):
     """Should be of form [0, 0, +x, +y]"""
     assert len(viewbox) == 4, "viewbox should have exactly 4 values"
-    assert viewbox[:2] == [0., 0.], "[min-x,min-y] should be zero."
+    assert viewbox[:2] == [0.0, 0.0], "[min-x,min-y] should be zero."
     assert viewbox[WIDTH] > 0, "should have positive width"
     assert viewbox[HEIGHT] > 0, "should have positive height"
 
 
 def append_svg(
-        first_dict: dict,
-        snd_dict: dict,
-        centerpad: float = 0.,
-        v_bottom: float = None,
-        v_top: float = None,
-        scale2: float = 1,
-        ndigits: int = 3) -> dict:
+    first_dict: dict,
+    snd_dict: dict,
+    centerpad: float = 0.0,
+    v_bottom: float = None,
+    v_top: float = None,
+    scale2: float = 1,
+    ndigits: int = 3,
+) -> dict:
     """Modifies the first of two xml-svg dictionary containing a viewbox to
     append the second svg to the right of the first image.
 
@@ -89,8 +90,8 @@ def append_svg(
 
     """
 
-    first_svg = first_dict['svg']
-    second_svg = snd_dict['svg']
+    first_svg = first_dict["svg"]
+    second_svg = snd_dict["svg"]
 
     # The value of the viewBox attribute is a list of four numbers:
     #     min-x, min-y, width and height.
@@ -100,53 +101,54 @@ def append_svg(
     # See also
     # https://developer.mozilla.org/en-US/docs/Web/SVG/Attribute/viewBox
 
-    pattern = re.compile(r'\s*,\s*|\s+')
-    viewbox1: List[float] = list(
-        map(float, re.split(pattern, first_svg['@viewBox'])))
-    viewbox2: List[float] = list(
-        map(float, re.split(pattern, second_svg['@viewBox'])))
+    pattern = re.compile(r"\s*,\s*|\s+")
+    viewbox1: List[float] = list(map(float, re.split(pattern, first_svg["@viewBox"])))
+    viewbox2: List[float] = list(map(float, re.split(pattern, second_svg["@viewBox"])))
 
     test_viewbox(viewbox1)  # viewbox1 validation
     test_viewbox(viewbox2)  # viewbox2 validation
 
     trafo_result = f_transform(
-        viewbox1[HEIGHT], viewbox2[HEIGHT], v_bottom, v_top, scale2)
-    vertical_snd = trafo_result['vertical_snd']
-    combine_height = trafo_result['combine_height']
-    scale2 = trafo_result['scale2']
+        viewbox1[HEIGHT], viewbox2[HEIGHT], v_bottom, v_top, scale2
+    )
+    vertical_snd = trafo_result["vertical_snd"]
+    combine_height = trafo_result["combine_height"]
+    scale2 = trafo_result["scale2"]
 
     LOGGER.info(
         "Transformed with vertical_snd=%s combine_height=%s scale2=%s",
-        *(vertical_snd, combine_height, scale2))
+        *(vertical_snd, combine_height, scale2),
+    )
 
     viewbox1[HEIGHT] = round(combine_height - 0.5)
     h_displacement = float(viewbox1[WIDTH]) + centerpad
-    viewbox1[WIDTH] = round(max(float(viewbox1[WIDTH]),
-                                h_displacement + scale2 * viewbox2[WIDTH]) - 0.5)
+    viewbox1[WIDTH] = round(
+        max(float(viewbox1[WIDTH]), h_displacement + scale2 * viewbox2[WIDTH]) - 0.5
+    )
 
     # new viewbox
-    first_svg['@viewBox'] = ' '.join(map(str, viewbox1))  # new viewbox
+    first_svg["@viewBox"] = " ".join(map(str, viewbox1))  # new viewbox
     # update width and height
-    first_svg['@width'] = f"{viewbox1[WIDTH]}pt"
-    first_svg['@height'] = f"{viewbox1[HEIGHT]}pt"
+    first_svg["@width"] = f"{viewbox1[WIDTH]}pt"
+    first_svg["@height"] = f"{viewbox1[HEIGHT]}pt"
     # move second image group next to first
     v_transform = round(max(0, vertical_snd), ndigits)
     transform = f"translate({h_displacement} {v_transform}) scale({scale2}) "
     # now scales with scale2
-    transform += second_svg['g'].get('@transform', '')
-    second_svg['g']['@transform'] = transform
+    transform += second_svg["g"].get("@transform", "")
+    second_svg["g"]["@transform"] = transform
 
     if vertical_snd < 0:
         # move first image, add after other transform
-        transform = first_svg['g'].get('@transform', '')
+        transform = first_svg["g"].get("@transform", "")
         transform += f" translate(0 {round(-vertical_snd,ndigits)})"
-        first_svg['g']['@transform'] = transform
+        first_svg["g"]["@transform"] = transform
 
     # add group to list of 'g'
-    if isinstance(first_svg['g'], list):
-        first_svg['g'].append(second_svg['g'])
+    if isinstance(first_svg["g"], list):
+        first_svg["g"].append(second_svg["g"])
     else:
-        first_svg['g'] = [first_svg['g'], second_svg['g']]
+        first_svg["g"] = [first_svg["g"], second_svg["g"]]
 
     return first_dict
 
@@ -165,10 +167,13 @@ TRANSFORMATION_EXAMPLE = """
 """
 
 
-def f_transform(h_one_, h_two_,
-                v_bottom: Union[float, str, None] = None,
-                v_top: Union[float, str, None] = None,
-                scale2: float = 1) -> Dict[str, float]:
+def f_transform(
+    h_one_,
+    h_two_,
+    v_bottom: Union[float, str, None] = None,
+    v_top: Union[float, str, None] = None,
+    scale2: float = 1,
+) -> Dict[str, float]:
     """Calculate vertical position and scaling of second image.
 
     The input for v_bottom, v_top is in units from\n
@@ -197,14 +202,20 @@ def f_transform(h_one_, h_two_,
         'vertical_snd','combine_height','scale2'
 
     """
-    v_displacement = 0.
+    v_displacement = 0.0
     # cast to float
     h_one = float(h_one_)
     h_two = float(h_two_)
     LOGGER.debug("Calculating with h_one=%f h_two=%f", h_one, h_two)
     # normalize values
-    conversion = {'bottom': 1, 'center': 0.5, 'top': 0, 'inf': 0,
-                  -float('inf'): 1, float('inf'): 0}
+    conversion = {
+        "bottom": 1,
+        "center": 0.5,
+        "top": 0,
+        "inf": 0,
+        -float("inf"): 1,
+        float("inf"): 0,
+    }
     v_bottom = conversion.get(v_bottom, v_bottom)
     if isinstance(v_bottom, str):
         raise ValueError(f"Encountered {v_bottom=} not in {conversion=}")
@@ -227,7 +238,9 @@ def f_transform(h_one_, h_two_,
             # moving the centerline according to value and scaling
             LOGGER.info(
                 "The values of 'v_top', 'v_bottom' are both interpreted "
-                "as %f - interpreting as centerline!", v_top)
+                "as %f - interpreting as centerline!",
+                v_top,
+            )
             half = size2 / h_one / 2
             v_top = v_top - half
             v_bottom = v_bottom + half
@@ -245,22 +258,25 @@ def f_transform(h_one_, h_two_,
     # bottom - top
     combine_height = (max(1, v_bottom) - min(0, v_top)) * h_one
 
-    return {'vertical_snd': v_displacement,
-            'combine_height': combine_height,
-            'scale2': scale2}
+    return {
+        "vertical_snd": v_displacement,
+        "combine_height": combine_height,
+        "scale2": scale2,
+    }
 
 
 def svg_join(
-        base_names: list,
-        folder: str = '',
-        num_images: int = 1,
-        outname: str = 'combined',
-        suffix: str = '%d.svg',
-        preserve_aspectratio: str = 'xMinYMin',
-        padding: Union[int, Iterable[int]] = 0,
-        scale2: Union[float, Iterable[float]] = 1,
-        v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = None,
-        v_bottom: Union[None, float, str, Iterable[Union[None, float, str]]] = None):
+    base_names: list,
+    folder: str = "",
+    num_images: int = 1,
+    outname: str = "combined",
+    suffix: str = "%d.svg",
+    preserve_aspectratio: str = "xMinYMin",
+    padding: Union[int, Iterable[int]] = 0,
+    scale2: Union[float, Iterable[float]] = 1,
+    v_top: Union[None, float, str, Iterable[Union[None, float, str]]] = None,
+    v_bottom: Union[None, float, str, Iterable[Union[None, float, str]]] = None,
+):
     """
     Joines different svg-images from tdvisu placed in 'folder' for every timestep
     in the horizontal order specified in 'in_names'.
@@ -309,7 +325,7 @@ def svg_join(
         LOGGER.warning("svg_join called with one file - nothing to join!")
         return
     # use path library for normalizing the path
-    folder = Path(folder if folder else '')
+    folder = Path(folder if folder else "")
 
     resultname = str(folder / outname) + suffix
     names = [str(folder / name) + suffix for name in base_names]
@@ -326,20 +342,30 @@ def svg_join(
         with open(names[1] % step) as file:
             im_2 = benedict.from_xml(file.read())
 
-        result = append_svg(im_1, im_2, centerpad=next(gen_padding),
-                            v_bottom=next(gen_v_bottom),
-                            v_top=next(gen_v_top), scale2=next(gen_scale2))
+        result = append_svg(
+            im_1,
+            im_2,
+            centerpad=next(gen_padding),
+            v_bottom=next(gen_v_bottom),
+            v_top=next(gen_v_top),
+            scale2=next(gen_scale2),
+        )
 
         # rest:
         for name in names[2:]:
             with open(name % step) as file:
                 image = benedict.from_xml(file.read())
-            result = append_svg(result, image, centerpad=next(gen_padding),
-                                v_bottom=next(gen_v_bottom),
-                                v_top=next(gen_v_top), scale2=next(gen_scale2))
+            result = append_svg(
+                result,
+                image,
+                centerpad=next(gen_padding),
+                v_bottom=next(gen_v_bottom),
+                v_top=next(gen_v_top),
+                scale2=next(gen_scale2),
+            )
 
-        result['svg']['@preserveAspectRatio'] = preserve_aspectratio
-        with open(resultname % step, 'w') as file:
+        result["svg"]["@preserveAspectRatio"] = preserve_aspectratio
+        with open(resultname % step, "w") as file:
             result.to_xml(output=file, pretty=True)
 
         if step < 10:
@@ -349,9 +375,11 @@ def svg_join(
 
 if __name__ == "__main__":  # pragma: no cover
     logging.basicConfig(level=logging.DEBUG)
-    svg_join(['TDStep', 'graph'],
-             'Archive/WheelGraph7',
-             outname="default_06sc15_rise",
-             v_bottom=[1, .85, .7, .55, .4],
-             scale2=1.5,
-             num_images=5)
+    svg_join(
+        ["TDStep", "graph"],
+        "Archive/WheelGraph7",
+        outname="default_06sc15_rise",
+        v_bottom=[1, 0.85, 0.7, 0.55, 0.4],
+        scale2=1.5,
+        num_images=5,
+    )
