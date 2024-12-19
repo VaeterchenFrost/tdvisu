@@ -20,6 +20,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ### Changed
 
+The default branch has been renamed!
+
+**master is now named main**
+
+If you have a local clone, you can update it by running the following commands:
+```shell
+git branch -m master main
+git fetch origin
+git branch -u origin/main main
+git remote set-head origin -a
+```
+
 See [#47]
 
 - Updated GitHub Actions [#48]
