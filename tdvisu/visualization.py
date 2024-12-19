@@ -8,7 +8,7 @@ and
 https://github.com/VaeterchenFrost/GPUSAT
 
 
-Copyright (C) 2020  Martin Röbke
+Copyright (C) 2020-2024 Martin Röbke
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -780,7 +780,7 @@ def main(args: List[str]) -> None:
         nargs="?",
         type=argparse.FileType("r", encoding="UTF-8"),
         default=sys.stdin,
-        help="Input file for the visualization " "must conform with the 'JsonAPI.md'",
+        help="Input file for the visualization must conform with the 'JsonAPI.md'",
     )
     parser.add_argument("outfolder", help="Folder to output the visualization results")
 

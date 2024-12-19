@@ -21,7 +21,7 @@ def main()
 
 
 Copyright (C) 2020  Patrick Thier https://github.com/Fend0r, TU Wien,
-                    Martin Röbke, TU Dresden
+Copyright (C) 2020-2024 Martin Röbke
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by

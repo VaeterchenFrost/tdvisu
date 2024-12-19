@@ -3,7 +3,7 @@
 Helper methods for this module.
 
 
-Copyright (C) 2020  Martin Röbke
+Copyright (C) 2020-2024 Martin Röbke
 
     This program is free software: you can redistribute it and/or modify
     it under the terms of the GNU General Public License as published by
@@ -471,7 +471,7 @@ def get_parser(extra_desc: str = "") -> argparse.ArgumentParser:
     """
     parser = argparse.ArgumentParser(
         description="""
-        Copyright (C) 2020 Martin Röbke
+        Copyright (C) 2020-2024 Martin Röbke
         This program comes with ABSOLUTELY NO WARRANTY
         This is free software, and you are welcome to redistribute it
         under certain conditions; see COPYING for more information.

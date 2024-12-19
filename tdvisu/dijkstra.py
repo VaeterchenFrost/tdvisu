@@ -6,7 +6,7 @@ For more information on the bidirectional agorithm see for example
 cs.princeton.edu/courses/archive/spr06/cos423/Handouts/EPP%20shortest%20path%20algorithms.pdf
 
 
-Copyright (C) 2020 Martin Röbke <martin.roebke@tu-dresden.de>
+Copyright (C) 2020-2024 Martin Röbke
 Modified sourcecode from NetworkX.
 
 Copyright (C) 2004-2020, NetworkX Developers
