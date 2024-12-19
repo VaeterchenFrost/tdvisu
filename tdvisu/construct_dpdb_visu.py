@@ -34,8 +34,8 @@ from pathlib import Path
 from time import sleep
 from typing import List, Optional, Tuple
 
-import psycopg2 as pg
-from psycopg2 import sql
+import psycopg as pg
+from psycopg import sql
 
 from tdvisu.dijkstra import bidirectional_dijkstra as find_path
 from tdvisu.reader import TwReader
@@ -51,35 +51,6 @@ DEFAULT_DBCONFIG = {
     "user": "postgres",
     "application_name": "dpdb-admin"
 }
-
-PSYCOPG2_8_5_TASTATUS = {
-    pg.extensions.TRANSACTION_STATUS_IDLE:
-        ('TRANSACTION_STATUS_IDLE ',
-         '(The session is idle and there is no current transaction.)'),
-
-        pg.extensions.TRANSACTION_STATUS_ACTIVE:
-        ('TRANSACTION_STATUS_ACTIVE ',
-         '(A command is currently in progress.)'),
-
-        pg.extensions.TRANSACTION_STATUS_INTRANS:
-        ('TRANSACTION_STATUS_INTRANS ',
-         '(The session is idle in a valid transaction block.)'),
-
-        pg.extensions.TRANSACTION_STATUS_INERROR:
-        ('TRANSACTION_STATUS_INERROR ',
-         '(The session is idle in a failed transaction block.)'),
-
-        pg.extensions.TRANSACTION_STATUS_UNKNOWN:
-        ('TRANSACTION_STATUS_UNKNOWN ',
-         '(Reported if the connection with the server is bad.)')
-}
-
-
-def good_db_status() -> tuple:
-    """Any good db status to proceed."""
-    return (pg.extensions.TRANSACTION_STATUS_IDLE,
-            pg.extensions.TRANSACTION_STATUS_INTRANS)
-
 
 def read_cfg(cfg_file, section: str, prefer_cfg: bool = False) -> dict:
     """Read the config file and return the result of one section."""
@@ -247,9 +218,8 @@ class IDpdbVisuConstruct(metaclass=abc.ABCMeta):
 class DpdbSharpSatVisu(IDpdbVisuConstruct):
     """Implementation of the JSON-construction for the SharpSat problem."""
 
-    def __init__(self, db: pg.extensions.connection,
-                 problem: int, intermed_nodes: bool):
-        """db : psycopg2.connection
+    def __init__(self, db: pg.Connection, problem: int, intermed_nodes: bool):
+        """db : psycopg.connection
             database to read from.
         problem : int
             index of the problem.
@@ -263,13 +233,14 @@ class DpdbSharpSatVisu(IDpdbVisuConstruct):
         self.num_vars = None
 
         # wait for good connection
-        status = db.get_transaction_status()
         sleeptimer = 0.5
-        while status not in good_db_status():
-            logging.warning("Waiting %fs for DB connection in status %s",
-                            sleeptimer, PSYCOPG2_8_5_TASTATUS[status])
+        while (status:=db.info.status) != pg.pq.ConnStatus.OK:
+            logging.warning(
+                "Waiting %.2fs for DB connection in status %s",
+                sleeptimer,
+                status._name_,
+            )
             sleep(sleeptimer)
-            status = db.get_transaction_status()
 
         self.connection = db
 
@@ -524,14 +495,14 @@ class DpdbMinVcVisu(DpdbSharpSatVisu):
                 'treeDecJson': tree_dec_json}
 
 
-def connect() -> pg.extensions.connection:
+def connect():
     """Connect to the PostgreSQL database server using the params from config."""
 
     conn = None
     try:
         # read connection parameters
-        params = db_config(filename='Archive/database.json')
-        db_name = params['database']
+        params = db_config(filename="database.ini")
+        db_name = params["database"]
         LOGGER.info("Connecting to the PostgreSQL database '%s'...", db_name)
         conn = pg.connect(**params)
         with conn.cursor() as cur:  # create a cursor

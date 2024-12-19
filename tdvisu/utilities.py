@@ -25,21 +25,22 @@ import argparse
 import logging
 import logging.config
 from collections.abc import Iterable as iter_type
-from configparser import ConfigParser, Error as CfgError, ParsingError
+from configparser import ConfigParser
+from configparser import Error as CfgError
+from configparser import ParsingError
 from itertools import chain
 from pathlib import Path
-from typing import (Any, Generator, Iterable, Iterator,
-                    List, Tuple, TypeVar, Union)
-
-from tdvisu.version import __date__, __version__
+from typing import Any, Generator, Iterable, Iterator, List, Tuple, TypeVar, Union
 
 import yaml
 
-LOGGER = logging.getLogger('utilities.py')
+from tdvisu.version import __date__, __version__
 
-CFG_EXT = ('.ini', '.cfg', '.conf', '.config')
+LOGGER = logging.getLogger("utilities.py")
+
+CFG_EXT = (".ini", ".cfg", ".conf", ".config")
 LOGLEVEL_EPILOG = """
-Logging levels for python 3.8.2:
+Logging levels for Python:
     CRITICAL: 50
     ERROR:    40
     WARNING:  30
@@ -48,43 +49,43 @@ Logging levels for python 3.8.2:
     NOTSET:    0 (will traverse the logging hierarchy until a value is found)
     """
 DEFAULT_LOGGING_CFG = {
-    'version': 1,
-    'formatters': {
-        'simple': {
-            'format': '%(asctime)s %(levelname)s %(message)s',
-            'datefmt': '%H:%M:%S'}},
-    'handlers': {
-        'console': {
-            'class': 'logging.StreamHandler',
-            'level': 'WARNING',
-            'formatter': 'simple',
-            'stream': 'ext://sys.stdout'}},
-    'loggers': {
-        'visualization.py': {
-            'level': 'NOTSET',
-            'handlers': ['console'],
-            'propagate': False},
-        'svgjoin.py': {
-            'level': 'NOTSET',
-            'handlers': ['console'],
-            'propagate': False},
-        'reader.py': {
-            'level': 'NOTSET',
-            'handlers': ['console'],
-            'propagate': False},
-        'construct_dpdb_visu.py': {
-            'level': 'NOTSET',
-            'handlers': ['console'],
-            'propagate': False}},
-    'root': {
-        'level': 'WARNING',
-        'handlers': ['console']}}
+    "version": 1,
+    "formatters": {
+        "simple": {
+            "format": "%(asctime)s %(levelname)s %(message)s",
+            "datefmt": "%H:%M:%S",
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "WARNING",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout",
+        }
+    },
+    "loggers": {
+        "visualization.py": {
+            "level": "NOTSET",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+        "svgjoin.py": {"level": "NOTSET", "handlers": ["console"], "propagate": False},
+        "reader.py": {"level": "NOTSET", "handlers": ["console"], "propagate": False},
+        "construct_dpdb_visu.py": {
+            "level": "NOTSET",
+            "handlers": ["console"],
+            "propagate": False,
+        },
+    },
+    "root": {"level": "WARNING", "handlers": ["console"]},
+}
 
-_T = TypeVar('_T')
+_T = TypeVar("_T")
 
 
 def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
-    """ Flatten at first level.
+    """Flatten at first level.
 
     Turn ex=[[1,2],[3,4]] into
     [1, 2, 3, 4]
@@ -94,8 +95,9 @@ def flatten(iterable: Iterable[Iterable[_T]]) -> Iterator[_T]:
     return chain.from_iterable(iterable)
 
 
-def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
-                    cfg_ext=CFG_EXT) -> Any:
+def read_yml_or_cfg(
+    file: Union[str, Path], prefer_cfg: bool = False, cfg_ext=CFG_EXT
+) -> Any:
     """
     Read the file and return its content as a python object.
 
@@ -115,8 +117,10 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
         But maybe just a list or a single object.
 
     """
-    err_str = ("utilities.read_yml_or_cfg encountered '{}' while "
-               "reading config from '{}' and prefer_cfg={}")
+    err_str = (
+        "utilities.read_yml_or_cfg encountered '{}' while "
+        "reading config from '{}' and prefer_cfg={}"
+    )
 
     file = Path(file)
     if not file.exists():
@@ -153,8 +157,9 @@ def read_yml_or_cfg(file: Union[str, Path], prefer_cfg: bool = False,
     return dict()
 
 
-def logging_cfg(filename: str, prefer_cfg: bool = False,
-                loglevel: Union[None, int, str] = None) -> None:
+def logging_cfg(
+    filename: str, prefer_cfg: bool = False, loglevel: Union[None, int, str] = None
+) -> None:
     """Configure logging for this module"""
     logging.basicConfig()
     read_err = "could not read configuration from '%s'"
@@ -168,7 +173,7 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
         except ValueError:
             loglevel = loglevel.upper()
 
-    if prefer_cfg or file.suffix.lower() in CFG_EXT:        # .config
+    if prefer_cfg or file.suffix.lower() in CFG_EXT:  # .config
         try:
             logging.config.fileConfig(file, defaults=DEFAULT_LOGGING_CFG)
             if loglevel is not None:
@@ -181,7 +186,7 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
             LOGGER.error(read_err, file.resolve(), exc_info=True)
         except ValueError:
             LOGGER.error(config_err, file.resolve(), exc_info=True)
-    try:                                                    # dict
+    try:  # dict
         file_content = read_yml_or_cfg(file, prefer_cfg=prefer_cfg)
         logging.config.dictConfig(file_content)
         if loglevel is not None:
@@ -196,8 +201,7 @@ def logging_cfg(filename: str, prefer_cfg: bool = False,
         LOGGER.error(config_err, file.resolve(), exc_info=True)
 
 
-def convert_to_adj(
-        edgelist: Iterable[Tuple[int, int]], directed: bool = False) -> dict:
+def convert_to_adj(edgelist: Iterable[Tuple[int, int]], directed: bool = False) -> dict:
     """
     Helper function to convert the edgelist into the adj-format from NetworkX.
 
@@ -218,7 +222,7 @@ def convert_to_adj(
         https://networkx.github.io/documentation/networkx-2.1/_modules/networkx/classes/graph.html
     """
     adj = dict()
-    for (source, target) in edgelist:
+    for source, target in edgelist:
         if source not in adj:
             adj[source] = {}
         adj[source][target] = {}
@@ -230,11 +234,7 @@ def convert_to_adj(
     return adj
 
 
-def add_edge_to(
-        edges: set,
-        adjacency_dict: dict,
-        vertex1: Any,
-        vertex2: Any) -> None:
+def add_edge_to(edges: set, adjacency_dict: dict, vertex1: Any, vertex2: Any) -> None:
     """
     Adding (undirected) edge from 'vertex1' to 'vertex2'
     to the edges and adjacency-list.
@@ -293,17 +293,14 @@ def gen_arg(arg_or_iter: Any) -> Generator:
         yield item
 
 
-def base_style(
-        graph,
-        node: str,
-        color: str = 'white',
-        penwidth: float = 1.0) -> None:
+def base_style(graph, node: str, color: str = "white", penwidth: float = 1.0) -> None:
     """Style the node with default fillcolor and penwidth."""
     graph.node(node, fillcolor=color, penwidth=str(penwidth))
 
 
-def emphasise_node(graph, node: str, color: str = 'yellow',
-                   penwidth: float = 2.5) -> None:
+def emphasise_node(
+    graph, node: str, color: str = "yellow", penwidth: float = 2.5
+) -> None:
     """Emphasise node with a different fillcolor (default:'yellow')
     and penwidth (default:2.5).
     """
@@ -315,22 +312,23 @@ def emphasise_node(graph, node: str, color: str = 'yellow',
 
 def style_hide_node(graph, node: str) -> None:
     """Make the node invisible during drawing."""
-    graph.node(node, style='invis')
+    graph.node(node, style="invis")
 
 
 def style_hide_edge(graph, source: str, target: str) -> None:
     """Make the edge source->target invisible during drawing."""
-    graph.edge(source, target, style='invis')
+    graph.edge(source, target, style="invis")
 
 
 def bag_node(
-        head,
-        tail,
-        anchor: str = 'anchor',
-        headcolor: str = 'white',
-        tableborder: int = 0,
-        cellborder: int = 0,
-        cellspacing: int = 0) -> str:
+    head,
+    tail,
+    anchor: str = "anchor",
+    headcolor: str = "white",
+    tableborder: int = 0,
+    cellborder: int = 0,
+    cellspacing: int = 0,
+) -> str:
     """HTML format with 'head' as the first label, then appending
     further labels.
 
@@ -356,13 +354,14 @@ def bag_node(
 
 
 def solution_node(
-        solution_table: Iterable[List[str]],
-        toplabel: str = '',
-        bottomlabel: str = '',
-        transpose: bool = False,
-        linesmax: int = 1000,
-        columnsmax: int = 50,
-        fillstr: str = '...') -> str:
+    solution_table: Iterable[List[str]],
+    toplabel: str = "",
+    bottomlabel: str = "",
+    transpose: bool = False,
+    linesmax: int = 1000,
+    columnsmax: int = 50,
+    fillstr: str = "...",
+) -> str:
     """Fill the node from the 2D-matrix 'solution_table' COLUMNBASED!.
     Optionally add a line above and/or below the table for labels.
     The size of the result can be limited by using linesmax and columnsmax.
@@ -398,62 +397,64 @@ def solution_node(
     | botlabel |
     |----------|
     """
-    result = ''
+    result = ""
     if toplabel:
-        result += toplabel + '|'
+        result += toplabel + "|"
 
     if len(solution_table) == 0:
-        result += 'empty'
+        result += "empty"
     else:
         if transpose:
             solution_table = list(zip(*solution_table))
 
         # limit lines backwards from length of column
-        vslice = (min(-1, linesmax - len(solution_table[0]))
-                  if linesmax > 0 else -1)
+        vslice = min(-1, linesmax - len(solution_table[0])) if linesmax > 0 else -1
         # limit columns forwards minus one
-        hslice = (min(len(solution_table), columnsmax)
-                  if columnsmax > 0 else len(solution_table)) - 1
+        hslice = (
+            min(len(solution_table), columnsmax)
+            if columnsmax > 0
+            else len(solution_table)
+        ) - 1
 
-        result += '{'                                       # insert table
+        result += "{"  # insert table
         for column in solution_table[:hslice]:
-            result += '{'                                   # start column
+            result += "{"  # start column
             for row in column[:vslice]:
-                result += str(row) + '|'
-            if vslice < -1:     # add one indicator of shortening
-                result += fillstr + '|'
+                result += str(row) + "|"
+            if vslice < -1:  # add one indicator of shortening
+                result += fillstr + "|"
             for row in column[-1:]:
                 result += str(row)
-            result += '}|'      # sep. between columns
+            result += "}|"  # sep. between columns
         # adding one column-skipping indicator
         if hslice < len(solution_table) - 1:
-            result += '{'                                   # start column
+            result += "{"  # start column
             for row in column[:vslice]:
-                result += fillstr + '|'
-            if vslice < -1:     # add one indicator of shortening
-                result += fillstr + '|'
+                result += fillstr + "|"
+            if vslice < -1:  # add one indicator of shortening
+                result += fillstr + "|"
             for row in column[-1:]:
                 result += fillstr
-            result += '}|'      # sep. between columns
+            result += "}|"  # sep. between columns
         # last column (usually a summary of the previous cols)
         for column in solution_table[-1:]:
-            result += '{'                                   # start column
+            result += "{"  # start column
             for row in column[:vslice]:
-                result += str(row) + '|'
-            if vslice < -1:     # add one indicator of shortening
-                result += fillstr + '|'
+                result += str(row) + "|"
+            if vslice < -1:  # add one indicator of shortening
+                result += fillstr + "|"
             for row in column[-1:]:
                 result += str(row)
-            result += '}'      # sep. between columns
-        result += '}'                                       # close table
+            result += "}"  # sep. between columns
+        result += "}"  # close table
 
     if bottomlabel:
-        result += '|' + bottomlabel
+        result += "|" + bottomlabel
 
-    return '{' + result + '}'
+    return "{" + result + "}"
 
 
-def get_parser(extra_desc: str = '') -> argparse.ArgumentParser:
+def get_parser(extra_desc: str = "") -> argparse.ArgumentParser:
     """
     Prepare an argument parser for TDVisu scripts.
 
@@ -475,11 +476,16 @@ def get_parser(extra_desc: str = '') -> argparse.ArgumentParser:
         This is free software, and you are welcome to redistribute it
         under certain conditions; see COPYING for more information.
         """
-        + "\n" + extra_desc,
+        + "\n"
+        + extra_desc,
         epilog=LOGLEVEL_EPILOG,
-        formatter_class=argparse.RawDescriptionHelpFormatter)
+        formatter_class=argparse.RawDescriptionHelpFormatter,
+    )
 
-    parser.add_argument('--version', action='version',
-                        version='%(prog)s ' + __version__ + ', ' + __date__)
-    parser.add_argument('--loglevel', help="set the minimal loglevel for root")
+    parser.add_argument(
+        "--version",
+        action="version",
+        version="%(prog)s " + __version__ + ", " + __date__,
+    )
+    parser.add_argument("--loglevel", help="set the minimal loglevel for root")
     return parser

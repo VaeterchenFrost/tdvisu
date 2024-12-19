@@ -28,11 +28,12 @@ from typing import Iterable, List, Optional, Union
 @dataclass
 class SvgJoinData:
     """Class for holding different parameters to join the results."""
+
     base_names: Union[str, Iterable[str]]
     folder: Optional[str] = None
-    outname: str = 'combined'
-    suffix: str = '%d.svg'
-    preserve_aspectratio: str = 'xMinYMin'
+    outname: str = "combined"
+    suffix: str = "%d.svg"
+    preserve_aspectratio: str = "xMinYMin"
     num_images: int = 1
     padding: Union[int, Iterable[int]] = 0
     scale2: Union[float, Iterable[float]] = 1.0
@@ -43,38 +44,40 @@ class SvgJoinData:
 @dataclass
 class IncidenceGraphData:
     """Class holding different parameters for the incidence graph."""
+
     edges: list
-    subgraph_name_one: str = 'clauses'
-    subgraph_name_two: str = 'variables'
-    var_name_one: str = ''
-    var_name_two: str = ''
+    subgraph_name_one: str = "clauses"
+    subgraph_name_two: str = "variables"
+    var_name_one: str = ""
+    var_name_two: str = ""
     infer_primal: bool = False
     infer_dual: bool = False
-    primal_file: str = 'PrimalGraphStep'
-    inc_file: str = 'IncidenceGraphStep'
-    dual_file: str = 'DualGraphStep'
+    primal_file: str = "PrimalGraphStep"
+    inc_file: str = "IncidenceGraphStep"
+    dual_file: str = "DualGraphStep"
     fontsize: int = 16
     penwidth: float = 2.2
-    second_shape: str = 'diamond'
+    second_shape: str = "diamond"
     column_distance: float = 0.5
 
 
 @dataclass
 class GeneralGraphData:
     """Class holding different parameters for the general graph."""
+
     edges: list
     extra_nodes: Optional[list] = None
-    graph_name: str = 'graph'
-    file_basename: str = 'graph'
-    var_name: str = ''
+    graph_name: str = "graph"
+    file_basename: str = "graph"
+    var_name: str = ""
     do_sort_nodes: bool = False
     do_adj_nodes: bool = False
     fontsize: int = 20
-    first_color: str = 'yellow'
-    first_style: str = 'filled'
-    second_color: str = 'green'
-    second_style: str = 'dotted,filled'
-    third_color: str = 'red'
+    first_color: str = "yellow"
+    first_style: str = "filled"
+    second_color: str = "green"
+    second_style: str = "dotted,filled"
+    third_color: str = "red"
 
     def __post_init__(self):
         if self.extra_nodes is None:
@@ -84,46 +87,51 @@ class GeneralGraphData:
 @dataclass
 class VisualizationData:
     """Class holding different parameters for Visualization."""
+
     incidence_graphs: Optional[List[IncidenceGraphData]] = None
     general_graphs: Optional[List[GeneralGraphData]] = None
     svg_join: Optional[SvgJoinData] = None
-    td_file: str = 'TDStep'
+    td_file: str = "TDStep"
     colors: Optional[list] = None
-    orientation: str = 'BT'
+    orientation: str = "BT"
     linesmax: int = 100
     columnsmax: int = 20
-    bagcolor: str = 'white'
+    bagcolor: str = "white"
     fontsize: int = 20
     penwidth: float = 2.2
-    fontcolor: str = 'black'
+    fontcolor: str = "black"
     emphasis: Optional[dict] = None
 
     def __post_init__(self):
         if self.colors is None:
             self.colors = [
-                '#0073a1',
-                '#b14923',
-                '#244320',
-                '#b1740f',
-                '#a682ff',
-                '#004066',
-                '#0d1321',
-                '#da1167',
-                '#604909',
-                '#0073a1',
-                '#b14923',
-                '#244320',
-                '#b1740f',
-                '#a682ff']
+                "#0073a1",
+                "#b14923",
+                "#244320",
+                "#b1740f",
+                "#a682ff",
+                "#004066",
+                "#0d1321",
+                "#da1167",
+                "#604909",
+                "#0073a1",
+                "#b14923",
+                "#244320",
+                "#b1740f",
+                "#a682ff",
+            ]
         if self.emphasis is None:
             self.emphasis = dict()
         # merge input over defaults:
-        self.emphasis = {**{"firstcolor": 'yellow',
-                            "secondcolor": 'green',
-                            "firststyle": 'filled',
-                            "secondstyle": 'dotted,filled'
-                            },
-                         **self.emphasis}
+        self.emphasis = {
+            **{
+                "firstcolor": "yellow",
+                "secondcolor": "green",
+                "firststyle": "filled",
+                "secondstyle": "dotted,filled",
+            },
+            **self.emphasis,
+        }
 
 
 if __name__ == "__main__":  # pragma: no cover

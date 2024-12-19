@@ -28,7 +28,7 @@ def read_files(files, delim: str = "\n") -> str:
     data = []
     try:
         for file in files:
-            with open(file, encoding='utf-8') as handle:
+            with open(file, encoding="utf-8") as handle:
                 data.append(handle.read())
     except IOError:
         pass
@@ -37,35 +37,43 @@ def read_files(files, delim: str = "\n") -> str:
 
 description = "Visualizing Dynamic Programming on Tree Decompositions."
 
-long_description = read_files(['README.md', 'CHANGELOG.md'])
+long_description = read_files(["README.md", "CHANGELOG.md"])
 
 classifiers = [
-    'Development Status :: 4 - Beta',
-    'Environment :: Console',
-    'Intended Audience :: Science/Research',
-    'Intended Audience :: Education',
-    'Intended Audience :: Developers',
-    'Operating System :: OS Independent',
-    'License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)',
-    'Programming Language :: Python :: 3',
-    'Programming Language :: Python :: 3.8',
-    'Topic :: Scientific/Engineering :: Visualization',
-    'Topic :: Multimedia :: Graphics :: Presentation']
+    "Development Status :: 4 - Beta",
+    "Environment :: Console",
+    "Intended Audience :: Science/Research",
+    "Intended Audience :: Education",
+    "Intended Audience :: Developers",
+    "Operating System :: OS Independent",
+    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
+    "Programming Language :: Python :: 3",
+    "Programming Language :: Python :: 3.12",
+    "Topic :: Scientific/Engineering :: Visualization",
+    "Topic :: Multimedia :: Graphics :: Presentation",
+]
 
-tests_require = ['hypothesis', 'pytest', 'pytest-mock']
+tests_require = ["hypothesis", "pytest", "pytest-mock"]
 
-setup(name="tdvisu",
-      version=version,
-      description=description,
-      long_description=long_description,
-      long_description_content_type='text/markdown',
-      url="https://github.com/VaeterchenFrost/tdvisu",
-      author="Martin Röbke",
-      author_email="martin.roebke@mailbox.tu-dresden.de",
-      license='GPLv3',
-      packages=['tdvisu'],
-      platforms='any',
-      install_requires=['graphviz', 'psycopg2-binary', 'python-benedict', 'python-benedict[xml]', 'PyYAML'],
-      extras_require={'test': tests_require},
-      classifiers=classifiers,
-      keywords='graph visualization dynamic-programming msol-solver')
+setup(
+    name="tdvisu",
+    version=version,
+    description=description,
+    long_description=long_description,
+    long_description_content_type="text/markdown",
+    url="https://github.com/VaeterchenFrost/tdvisu",
+    author="Martin Röbke",
+    author_email="martin.roebke@web.de",
+    license="GPLv3",
+    packages=["tdvisu"],
+    platforms="any",
+    install_requires=[
+        "graphviz",
+        "psycopg[c]",
+        "python-benedict[xml]",
+        "PyYAML",
+    ],
+    extras_require={"test": tests_require},
+    classifiers=classifiers,
+    keywords="graph visualization dynamic-programming msol-solver",
+)

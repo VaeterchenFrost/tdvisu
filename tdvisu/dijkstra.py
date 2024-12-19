@@ -48,7 +48,7 @@ from heapq import heappop, heappush
 from itertools import count
 
 
-def bidirectional_dijkstra(edges, source, target, weight='weight'):
+def bidirectional_dijkstra(edges, source, target, weight="weight"):
     r"""Dijkstra's algorithm for shortest paths using bidirectional search.
 
     Parameters
@@ -127,7 +127,7 @@ def bidirectional_dijkstra(edges, source, target, weight='weight'):
     push = heappush
     pop = heappop
     # Init:  [Forward, Backward]
-    dists = [{}, {}]   # dictionary of final distances
+    dists = [{}, {}]  # dictionary of final distances
     paths = [{source: [source]}, {target: [target]}]  # dictionary of paths
     fringe = [[], []]  # heap of (distance, node) for choosing node to expand
     seen = [{source: 0}, {target: 0}]  # dict of distances to seen nodes
@@ -164,8 +164,7 @@ def bidirectional_dijkstra(edges, source, target, weight='weight'):
                 vw_length = dists[direction][v] + weight(w, v, d)
             if w in dists[direction]:
                 if vw_length < dists[direction][w]:
-                    raise ValueError(
-                        "Contradictory paths found: negative weights?")
+                    raise ValueError("Contradictory paths found: negative weights?")
             elif w not in seen[direction] or vw_length < seen[direction][w]:
                 # relaxing
                 seen[direction][w] = vw_length
@@ -229,12 +228,14 @@ def _weight_function(weight, multigraph: bool = False):
     return lambda u, v, data: data.get(weight, 1)
 
 
-if __name__ == "__main__":   # pragma: no cover
+if __name__ == "__main__":  # pragma: no cover
     # Show one example and print to console
-    EDGES = {2: {1: {}, 3: {}, 4: {}},
-             1: {2: {}},
-             3: {2: {}},
-             4: {2: {}, 5: {}},
-             5: {4: {}}}
+    EDGES = {
+        2: {1: {}, 3: {}, 4: {}},
+        1: {2: {}},
+        3: {2: {}},
+        4: {2: {}, 5: {}},
+        5: {4: {}},
+    }
     RESULT = bidirectional_dijkstra(EDGES, 3, 5)
     print(RESULT)

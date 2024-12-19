@@ -21,7 +21,6 @@ Copyright (C) 2020  Martin Röbke
 
 """
 import logging
-
 from pathlib import Path
 
 import pytest
@@ -31,7 +30,7 @@ from tdvisu.reader import DimacsReader, Reader, TwReader
 
 def test_reader_valid_input():
     """Create and test the reader on valid input from a file."""
-    twfile = Path(__file__).parent / 'grda16.tw'
+    twfile = Path(__file__).parent / "grda16.tw"
     # from filename
     reader = TwReader.from_filename(twfile)
     _reader_assertions(reader)
@@ -51,7 +50,7 @@ def test_reader_valid_input():
 
 def test_reader_commented_body():
     """Create and test the reader on valid input from a file with comments in the body."""
-    twfile = Path(__file__).parent / 'grda16_comments.tw'
+    twfile = Path(__file__).parent / "grda16_comments.tw"
     # from filename
     reader = TwReader.from_filename(twfile)
     _reader_assertions(reader)
@@ -77,7 +76,7 @@ def test_dimacsreader_has_body():
 
 def test_reader_inval_preamble(caplog):
     """Test message when a unexpected token in the preamble was encountered."""
-    twfile = Path(__file__).parent / 'grda16.tw'
+    twfile = Path(__file__).parent / "grda16.tw"
     # from string
     with open(twfile) as file:
         content = "invalid preamble\n" + file.read()
@@ -86,7 +85,8 @@ def test_reader_inval_preamble(caplog):
         assert (
             "reader.py",
             logging.WARN,
-            "Invalid content in preamble at line 0: invalid preamble") in caplog.record_tuples
+            "Invalid content in preamble at line 0: invalid preamble",
+        ) in caplog.record_tuples
 
 
 def test_reader_no_type_found(caplog):
@@ -94,9 +94,11 @@ def test_reader_no_type_found(caplog):
     content = "c no preamble\n"
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         TwReader.from_string(content)  # should raise SystemExit
-        assert ("reader.py",
-                logging.ERROR,
-                "No type found in DIMACS file!") in caplog.record_tuples
+        assert (
+            "reader.py",
+            logging.ERROR,
+            "No type found in DIMACS file!",
+        ) in caplog.record_tuples
         assert pytest_wrapped_e.type == SystemExit
         assert pytest_wrapped_e.value.code == 1
 
@@ -106,26 +108,26 @@ def test_dimacs_wrong_type_found(caplog):
     content = "p wrong 16 31\n1 2\n2 1\n"
     with pytest.raises(SystemExit) as pytest_wrapped_e:
         TwReader.from_string(content)  # should raise SystemExit
-        assert ("reader.py",
-                logging.ERROR,
-                "Not a tw file!") in caplog.record_tuples
+        assert ("reader.py", logging.ERROR, "Not a tw file!") in caplog.record_tuples
         assert pytest_wrapped_e.type == SystemExit
         assert pytest_wrapped_e.value.code == 1
 
 
 def test_dimacs_col_long_line(caplog):
     """Test message when long line was read in the body."""
-    colfile = Path(__file__).parent / 'col_with_long_line.col'
+    colfile = Path(__file__).parent / "col_with_long_line.col"
 
     TwReader.from_filename(colfile)  # should raise SystemExit
     assert (
         "reader.py",
         logging.WARN,
-        "Expected exactly 2 vertices at line 1, but 3 found") in caplog.record_tuples
+        "Expected exactly 2 vertices at line 1, but 3 found",
+    ) in caplog.record_tuples
     assert (
         "reader.py",
         logging.WARN,
-        "Expected exactly 2 vertices at line 1, but 3 found") in caplog.record_tuples
+        "Expected exactly 2 vertices at line 1, but 3 found",
+    ) in caplog.record_tuples
 
 
 def test_dimacs_fewer_edges(caplog):
@@ -135,7 +137,8 @@ def test_dimacs_fewer_edges(caplog):
     assert (
         "reader.py",
         logging.WARN,
-        "Number of edges mismatch preamble (2 vs 3)") in caplog.record_tuples
+        "Number of edges mismatch preamble (2 vs 3)",
+    ) in caplog.record_tuples
     assert reader.num_vertices == 3
     assert reader.num_edges == 3
     assert len(reader.edges) == 2
@@ -146,18 +149,63 @@ def _reader_assertions(reader: TwReader):
     as well as the number of vertices and number of edges.
     """
 
-    expected_edges = {(1, 2), (2, 1), (2, 3), (3, 2), (3, 4), (3, 5),
-                      (4, 3), (4, 5), (4, 6), (5, 3), (5, 4), (6, 4),
-                      (6, 7), (6, 15), (7, 6), (7, 8), (7, 14), (8, 7),
-                      (8, 9), (9, 8), (9, 10), (9, 11), (10, 9),
-                      (11, 9), (11, 12), (11, 14), (12, 11), (12, 13),
-                      (12, 14), (13, 12), (14, 7), (14, 11), (14, 12),
-                      (15, 6), (15, 16), (16, 15)}
+    expected_edges = {
+        (1, 2),
+        (2, 1),
+        (2, 3),
+        (3, 2),
+        (3, 4),
+        (3, 5),
+        (4, 3),
+        (4, 5),
+        (4, 6),
+        (5, 3),
+        (5, 4),
+        (6, 4),
+        (6, 7),
+        (6, 15),
+        (7, 6),
+        (7, 8),
+        (7, 14),
+        (8, 7),
+        (8, 9),
+        (9, 8),
+        (9, 10),
+        (9, 11),
+        (10, 9),
+        (11, 9),
+        (11, 12),
+        (11, 14),
+        (12, 11),
+        (12, 13),
+        (12, 14),
+        (13, 12),
+        (14, 7),
+        (14, 11),
+        (14, 12),
+        (15, 6),
+        (15, 16),
+        (16, 15),
+    }
 
-    expected_adj = {1: {2}, 2: {1, 3}, 3: {2, 4, 5}, 4: {3, 5, 6},
-                    5: {3, 4}, 6: {4, 7, 15}, 7: {6, 8, 14}, 8: {7, 9},
-                    9: {8, 10, 11}, 10: {9}, 11: {9, 12, 14}, 12: {11, 13, 14},
-                    13: {12}, 14: {7, 11, 12}, 15: {6, 16}, 16: {15}}
+    expected_adj = {
+        1: {2},
+        2: {1, 3},
+        3: {2, 4, 5},
+        4: {3, 5, 6},
+        5: {3, 4},
+        6: {4, 7, 15},
+        7: {6, 8, 14},
+        8: {7, 9},
+        9: {8, 10, 11},
+        10: {9},
+        11: {9, 12, 14},
+        12: {11, 13, 14},
+        13: {12},
+        14: {7, 11, 12},
+        15: {6, 16},
+        16: {15},
+    }
 
     assert reader.num_vertices == 16
     assert reader.num_edges == 36
