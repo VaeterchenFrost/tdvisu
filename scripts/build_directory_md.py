@@ -30,7 +30,7 @@ import os
 from typing import Iterator
 from urllib.parse import quote
 
-URL_BASE = "https://github.com/VaeterchenFrost/tdvisu/blob/master"
+URL_BASE = "https://github.com/VaeterchenFrost/tdvisu/blob/main"
 
 AFFECTED_EXT = (
     ".py",

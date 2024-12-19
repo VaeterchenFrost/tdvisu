@@ -3,7 +3,7 @@
 ![Maintenance](https://img.shields.io/badge/Maintained%3F-yes-green.svg)
 [![PyPI license](https://img.shields.io/pypi/l/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
 ![Tests](https://github.com/VaeterchenFrost/tdvisu/workflows/Tests/badge.svg)
-[![codecov](https://codecov.io/gh/VaeterchenFrost/tdvisu/branch/master/graph/badge.svg)](https://codecov.io/gh/VaeterchenFrost/tdvisu)
+[![codecov](https://codecov.io/gh/VaeterchenFrost/tdvisu/branch/main/graph/badge.svg)](https://codecov.io/gh/VaeterchenFrost/tdvisu)
 
 ![GitHub release (latest SemVer including pre-releases)](https://img.shields.io/github/v/release/vaeterchenfrost/tdvisu?include_prereleases)
 [![PyPI version fury.io](https://badge.fury.io/py/tdvisu.svg)](https://pypi.python.org/pypi/tdvisu/)
@@ -132,11 +132,11 @@ pytest ./test/
 
 # How to use
 
-The visualization needs input in the form of the [Json API](https://github.com/VaeterchenFrost/gpusat-VISU/blob/master/JsonAPI_v1.3.md).
+The visualization needs input in the form of the [Json API](https://github.com/VaeterchenFrost/gpusat-VISU/blob/main/JsonAPI_v1.3.md).
 The creation of this file is exemplary implemented in _construct_dpdb_visu.py_ or the fork [GPUSAT](https://github.com/VaeterchenFrost/GPUSAT) and _--visufile filename_ (optionally disabling preprocessing with _-p_).
 
 Run the python file with the above dependencies installed:
-[visualization.py](https://github.com/VaeterchenFrost/gpusat-VISU/blob/master/satvisualization_repo/satvisu/visualization.py)
+[visualization.py](https://github.com/VaeterchenFrost/gpusat-VISU/blob/main/satvisualization_repo/satvisu/visualization.py)
 
 **visualization.py** takes two parameters, the json-**infile** to read from, and optionally one **outputfolder**.
 With both arguments a run might look like this:
@@ -153,13 +153,13 @@ For #SAT it produces for example three different graphs suffixed with a running 
 
 The graphs are images encoded in resolution independent **.svg files** (see https://www.lifewire.com/svg-file-4120603)
 
-<p align="center"><img src="https://raw.githubusercontent.com/VaeterchenFrost/tdvisu/master/doc/images/combined6DA4.svg?sanitize=true" width="70%"/></p>
+<p align="center"><img src="https://raw.githubusercontent.com/VaeterchenFrost/tdvisu/main/doc/images/combined6DA4.svg?sanitize=true" width="70%"/></p>
 
 ## How to use construct_dpdb_visu.py
 
 After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) with the there listed [requirements](https://github.com/hmarkus/dp_on_dbs#requirements), we need to
 
-- edit the [database.ini](https://github.com/VaeterchenFrost/tdvisu/blob/master/tdvisu/database.ini) with our password to [postgresql](https://www.postgresql.org/)
+- edit the [database.ini](https://github.com/VaeterchenFrost/tdvisu/blob/main/tdvisu/database.ini) with our password to [postgresql](https://www.postgresql.org/)
 - Solve a problem with `python dpdb.py [GENERAL-OPTIONS] -f <INPUT-FILE> <PROBLEM> [PROBLEM-SPECIFIC-OPTIONS]`
   - for the problem **VertexCover**
     - with flag `--gr-file` to store the htd Input (if the input was in a different format)
@@ -206,7 +206,7 @@ In case dependencies have changed, or just to update some, check
 
 ## Push
 
-- Push changes to master
+- Push changes to main
 - Wait for all automated checks! (All checks have passed...)
 
 ## Create Release
@@ -219,7 +219,7 @@ In case dependencies have changed, or just to update some, check
 
 ## Should automatically release to [PyPI](https://pypi.org/project/tdvisu/)
 
-- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/master/.github/workflows/python-publish.yml)
+- For details see: [Upload Python Package](https://github.com/VaeterchenFrost/tdvisu/blob/main/.github/workflows/python-publish.yml)
 
 **Now you are set for the new release :tada:**
 

@@ -98,7 +98,7 @@ See [#47]
 
 - Added the possibility to specify and create multiple graph-visualizations in one file [#25]
 - Added test case _test_vc_multiple_and_join_ in [commit aa31901](https://github.com/VaeterchenFrost/tdvisu/commit/aa319016ac71f9a54023474bf820cb30929c52a8)
-- Added test cases for [construct_dpdb_visu](https://github.com/VaeterchenFrost/tdvisu/blob/master/test/test_construct_dpdb.py)
+- Added test cases for [construct_dpdb_visu](https://github.com/VaeterchenFrost/tdvisu/blob/main/test/test_construct_dpdb.py)
 - Add pytest-mock to tests_require
 
 ### Changed
@@ -275,9 +275,9 @@ See [#47]
 [@VaeterchenFrost]: https://github.com/VaeterchenFrost
 [PyPI]: https://pypi.org/project/tdvisu/
 [mypy]: https://github.com/python/mypy
-[DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/master/DIRECTORY.md
+[DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/main/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.2.0...master
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.2.0...main
 [1.2.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.2.0
 [1.1.9]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.9
 [1.1.8]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.8
