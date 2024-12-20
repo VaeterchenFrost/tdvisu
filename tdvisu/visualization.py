@@ -59,10 +59,8 @@ from tdvisu.visualization_data import (
 
 LOGGER = logging.getLogger("visualization.py")
 
-StrOrIo = NewType("StrOrIo", Union[str, io.TextIOWrapper])
 
-
-def read_json(json_data: StrOrIo) -> dict:
+def read_json(json_data: Union[str, io.TextIOWrapper]) -> dict:
     """
     Read json data into a callable object.
     Throws AssertionError if the parsed object has length 0.
@@ -95,14 +93,14 @@ class Visualization:
     of dynamic programming on tree decomposition.
     """
 
-    def __init__(self, infile: StrOrIo, outfolder: Path):
+    def __init__(self, infile: Union[str, io.TextIOWrapper], outfolder: Path):
         """Copy needed fields from arguments and create VisualizationData."""
         self.data: VisualizationData = self.inspect_json(infile)
         self.outfolder = Path(outfolder).resolve()
         self.tree_dec_digraph = None
         LOGGER.debug("Initialized: %s", self)
 
-    def inspect_json(self, infile: StrOrIo) -> VisualizationData:
+    def inspect_json(self, infile: Union[str, io.TextIOWrapper]) -> VisualizationData:
         """Read and preprocess the needed data from the infile into VisualizationData."""
         LOGGER.debug("Reading from: %s", infile)
         visudata = read_json(infile)
