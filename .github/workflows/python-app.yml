@@ -27,7 +27,7 @@ jobs:
     runs-on: ubuntu-latest
     strategy:
       matrix:
-        python-version: ["3.8", "3.12"]
+        python-version: ["3.9", "3.10", "3.11", "3.12", "3.13"]
 
     steps:
       - uses: actions/checkout@v4
@@ -72,10 +72,21 @@ jobs:
         run: |
           pip install .[test]
 
+      - name: Verify PostgreSQL setup
+        run: |
+          # Check pre-installed PostgreSQL components
+          echo "PostgreSQL client version:"
+          pg_config --version || echo "pg_config not found"
+          psql --version || echo "psql not found"
+          echo "PostgreSQL development libraries:"
+          pkg-config --exists libpq && echo "✅ libpq available" || echo "❌ libpq not found"
+
       - name: Lint with flake8
         run: |
           # stop the build if there are Python syntax errors or undefined names
           flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+          # Check for unused imports and other common issues (warnings only)
+          flake8 . --count --exit-zero --select=F401,E225,E231,E302,E203 --show-source --statistics
           # exit-zero treats all errors as warnings. The GitHub editor is 127 chars wide
           flake8 . --count --exit-zero --max-complexity=10 --max-line-length=127 --statistics
 
@@ -106,10 +117,10 @@ jobs:
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Python 3.12
+      - name: Set up Python 3.13
         uses: actions/setup-python@v5
         with:
-          python-version: 3.12
+          python-version: 3.13
 
       - name: Install workflow dependencies
         run: |

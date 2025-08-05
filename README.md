@@ -70,7 +70,7 @@ git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
 With [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html) on the system installed you can isolate the environment, for example
 
 ```shell
-virtualenv tdvisu_dir -p 3.12
+virtualenv tdvisu_dir -p 3.13
 cd tdvisu_dir/bin/
 source activate
 # Windows: ./tdvisu_dir/Scripts/activate
