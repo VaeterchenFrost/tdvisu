@@ -70,7 +70,7 @@ git clone --depth 1 --single https://github.com/VaeterchenFrost/tdvisu
 With [virtualenv](https://virtualenv.pypa.io/en/latest/installation.html) on the system installed you can isolate the environment, for example
 
 ```shell
-virtualenv tdvisu_dir -p 3.12
+virtualenv tdvisu_dir -p 3.13
 cd tdvisu_dir/bin/
 source activate
 # Windows: ./tdvisu_dir/Scripts/activate
@@ -170,11 +170,61 @@ After installing the project [dp_on_dbs](https://github.com/hmarkus/dp_on_dbs) w
   - **VertexCover**: `python construct_dpdb_visu.py [PROBLEMNUMBER] --twfile [TWFILE]`
     with the file in DIMACS tw-format containing the edges of the graph.
 
-# Installation of the psycopg package 
+# Installation of PostgreSQL Dependencies
 
-See https://www.psycopg.org/psycopg3/docs/basic/install.html
+TdVisu requires PostgreSQL client libraries for database connectivity through psycopg.
 
-**Note** Whatever version of `libpq` psycopg is compiled with, it will be possible to connect to PostgreSQL servers of any [supported version](https://www.psycopg.org/docs/install.html#prerequisites): just install the most recent libpq version or the most practical, without trying to match it to the version of the PostgreSQL server you will have to connect to.
+## Windows
+Install PostgreSQL from [postgresql.org](https://www.postgresql.org/download/windows/) or use the client-only installer:
+```shell
+# Option 1: Full PostgreSQL installation (includes server + client)
+# Download from: https://www.postgresql.org/download/windows/
+
+# Option 2: Client libraries only (recommended for development)
+# Download "Command Line Tools" from PostgreSQL download page
+```
+
+## macOS
+```shell
+# Using Homebrew
+brew install postgresql@16
+# OR just the client libraries
+brew install libpq
+```
+
+## Linux (Ubuntu/Debian)
+```shell
+# Client libraries and development headers
+sudo apt-get install postgresql-client-16 libpq-dev
+
+# OR just client libraries for runtime
+sudo apt-get install libpq5
+```
+
+## Linux (CentOS/RHEL/Fedora)
+```shell
+# Client libraries and development headers  
+sudo dnf install postgresql16 postgresql16-devel
+# OR
+sudo yum install postgresql-client postgresql-devel
+```
+
+## Conda Environment
+```shell
+# Cross-platform solution
+conda install postgresql libpq
+```
+
+## Verification
+After installing PostgreSQL, verify the installation:
+```shell
+pg_config --version  # Should show PostgreSQL version
+python -c "import psycopg; print('✅ psycopg works!')"
+```
+
+**Note:** Whatever version of `libpq` psycopg is compiled with, it will be possible to connect to PostgreSQL servers of any [supported version](https://www.psycopg.org/docs/install.html#prerequisites). Install the most recent libpq version available for your platform.
+
+For more details see: https://www.psycopg.org/psycopg3/docs/basic/install.html
 
 ---
 
