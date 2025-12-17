@@ -7,7 +7,8 @@ TdVisu is a Python-based visualization tool for dynamic programming on tree deco
 **Primary Language**: Python (3.9+)
 
 **Key Dependencies**:
-- Graphviz (>=2.38, tested with 12.2.1)
+- Graphviz system binary (>=2.38, tested with 12.2.1) - external dependency
+- graphviz Python package (>=0.20) - Python interface to Graphviz
 - psycopg[c] (>=3.2.0) for PostgreSQL connectivity
 - python-benedict[xml] (>=0.34.0) for JSON/XML handling
 - PyYAML (>=6.0) for configuration
