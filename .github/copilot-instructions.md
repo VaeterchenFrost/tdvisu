@@ -153,17 +153,17 @@ pylint tdvisu/ test/
 3. **Documentation**: Update documentation for API changes
 4. **Dependencies**: Avoid adding new dependencies unless absolutely necessary
 5. **Python Version**: Support Python 3.9+ (tested on 3.9, 3.10, 3.11, 3.12, 3.13)
-6. **Graphviz Compatibility**: Test with Graphviz 12.2.1 for consistency
+6. **Graphviz Compatibility**: The project currently tests with Graphviz 12.2.1; be aware that different major versions may have different default layouts
 
 ## Platform Considerations
 
 ### PostgreSQL Requirements
-Different platforms require different PostgreSQL client library installations:
-- **Windows**: PostgreSQL installer or Command Line Tools
-- **macOS**: `brew install postgresql@16` or `brew install libpq`
-- **Linux (Debian/Ubuntu)**: `apt-get install postgresql-client-16 libpq-dev`
-- **Linux (RHEL/CentOS)**: `dnf install postgresql16 postgresql16-devel`
-- **Conda**: `conda install postgresql libpq`
+Different platforms require different PostgreSQL client library installations. The project is tested with PostgreSQL 16:
+- **Windows**: PostgreSQL installer or Command Line Tools from [postgresql.org](https://www.postgresql.org/download/windows/)
+- **macOS**: `brew install postgresql` or `brew install libpq` (for client libraries only)
+- **Linux (Debian/Ubuntu)**: `apt-get install postgresql-client libpq-dev`
+- **Linux (RHEL/CentOS)**: `dnf install postgresql postgresql-devel`
+- **Conda**: `conda install postgresql libpq` (cross-platform solution)
 
 ## Related Projects
 
