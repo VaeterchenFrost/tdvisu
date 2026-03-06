@@ -33,9 +33,10 @@ from hypothesis import Verbosity, given, settings
 from hypothesis.strategies import (
     booleans, floats, integers, lists, none, recursive, text, tuples)
 
-from pytest import mark, param
+from pytest import mark, param, raises
 
-from tdvisu.svgjoin import append_svg, f_transform, gen_arg
+from tdvisu.svgjoin import append_svg, f_transform, gen_arg, svg_join
+from tdvisu.svgjoin import test_viewbox as svgjoin_test_viewbox
 
 
 WRITE = False  # ??? Write Testimages instead of just reading them ???
@@ -222,3 +223,53 @@ def test_append_svg_pinned(otherargs, filename, reverse, padding, write=WRITE):
                     result.to_xml(output=outfile, pretty=True)
             with open(join(DIR, filename), 'r') as expected:
                 assert result == benedict.from_xml(expected.read())
+
+
+@mark.parametrize(
+    "viewbox, expected_error",
+    [
+        param([0.0, 0.0, 100.0], "viewbox should have exactly 4 values",
+              id="too short"),
+        param([0.0, 0.0, 100.0, 200.0, 300.0], "viewbox should have exactly 4 values",
+              id="too long"),
+        param([1.0, 0.0, 100.0, 200.0], r"\[min-x,min-y\] should be zero.",
+              id="non-zero min-x"),
+        param([0.0, 1.0, 100.0, 200.0], r"\[min-x,min-y\] should be zero.",
+              id="non-zero min-y"),
+        param([0.0, 0.0, -100.0, 200.0], "should have positive width",
+              id="negative width"),
+        param([0.0, 0.0, 100.0, -200.0], "should have positive height",
+              id="negative height"),
+    ],
+)
+def test_viewbox_invalid(viewbox, expected_error):
+    """Test test_viewbox raises AssertionError for invalid viewbox inputs."""
+    with raises(AssertionError, match=expected_error):
+        svgjoin_test_viewbox(viewbox)
+
+
+def test_viewbox_valid():
+    """Test test_viewbox accepts a valid viewbox without raising."""
+    svgjoin_test_viewbox([0.0, 0.0, 100.0, 200.0])  # should not raise
+
+
+def test_svg_join_empty_names():
+    """Test svg_join with empty base_names logs a warning and returns early."""
+    svg_join([])  # should not raise, just log warning
+
+
+def test_svg_join_single_name():
+    """Test svg_join with a single base_name logs a warning and returns early."""
+    svg_join(["single_image"])  # should not raise, just log warning
+
+
+def test_f_transform_invalid_string_v_bottom():
+    """Test f_transform raises ValueError for an unknown string v_bottom."""
+    with raises(ValueError):
+        f_transform(100, 100, v_bottom="unknown_value")
+
+
+def test_f_transform_invalid_string_v_top():
+    """Test f_transform raises ValueError for an unknown string v_top."""
+    with raises(ValueError):
+        f_transform(100, 100, v_top="unknown_value")

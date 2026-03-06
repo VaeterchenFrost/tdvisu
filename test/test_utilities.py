@@ -27,8 +27,11 @@ from hypothesis.strategies import (integers, none, one_of)
 
 from pytest import mark, param, raises
 
-from tdvisu.utilities import (add_edge_to, bag_node, convert_to_adj, flatten,
-                              read_yml_or_cfg, solution_node)
+from graphviz import Digraph
+
+from tdvisu.utilities import (add_edge_to, bag_node, base_style, convert_to_adj,
+                              emphasise_node, flatten, get_parser, read_yml_or_cfg,
+                              solution_node, style_hide_edge, style_hide_node)
 
 
 @mark.parametrize(
@@ -219,3 +222,65 @@ def test_solution_node_filler(columns, lines, columnsmax, linesmax):
     # number of fillers:
     assert result.count(fill) == (bool(lines >= cmax + 1) * min(columns, lmax + 1) +
                                   bool(columns >= lmax + 2) * min(lines, cmax + 1))
+
+
+def test_get_parser():
+    """Test get_parser returns a working ArgumentParser with loglevel option."""
+    parser = get_parser("Test description")
+    args = parser.parse_args(["--loglevel", "DEBUG"])
+    assert args.loglevel == "DEBUG"
+
+
+def test_get_parser_no_loglevel():
+    """Test get_parser default loglevel is None."""
+    parser = get_parser()
+    args = parser.parse_args([])
+    assert args.loglevel is None
+
+
+def test_base_style_sets_fillcolor_and_penwidth():
+    """Test base_style adds fillcolor and penwidth to graph node."""
+    g = Digraph()
+    g.node("testnode")
+    base_style(g, "testnode")
+    body = " ".join(g.body)
+    assert "fillcolor=white" in body
+    assert "penwidth=1.0" in body
+
+
+def test_base_style_custom_color():
+    """Test base_style uses provided color and penwidth."""
+    g = Digraph()
+    g.node("testnode")
+    base_style(g, "testnode", color="blue", penwidth=3.0)
+    body = " ".join(g.body)
+    assert "fillcolor=blue" in body
+    assert "penwidth=3.0" in body
+
+
+def test_emphasise_node_sets_fillcolor_and_penwidth():
+    """Test emphasise_node adds yellow fillcolor and penwidth 2.5."""
+    g = Digraph()
+    g.node("mynode")
+    emphasise_node(g, "mynode")
+    body = " ".join(g.body)
+    assert "fillcolor=yellow" in body
+    assert "penwidth=2.5" in body
+
+
+def test_style_hide_node_makes_invis():
+    """Test style_hide_node sets the node style to invis."""
+    g = Digraph()
+    g.node("mynode")
+    style_hide_node(g, "mynode")
+    body = " ".join(g.body)
+    assert "style=invis" in body
+
+
+def test_style_hide_edge_makes_invis():
+    """Test style_hide_edge sets the edge style to invis."""
+    g = Digraph()
+    g.edge("a", "b")
+    style_hide_edge(g, "a", "b")
+    body = " ".join(g.body)
+    assert "style=invis" in body

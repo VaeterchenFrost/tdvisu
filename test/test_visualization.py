@@ -21,12 +21,28 @@ Copyright (C) 2020-2024 Martin Röbke
 
 """
 
+import json
 from pathlib import Path
 
+import pytest
+
 from tdvisu import visualization as module
-from tdvisu.visualization import main
+from tdvisu.visualization import Visualization, main, read_json
 
 EXPECT_DIR = Path(__file__).parent / 'expected_files'
+
+MINIMAL_JSON = json.dumps({
+    "tdTimeline": [[1], [2]],
+    "treeDecJson": {
+        "bagpre": "bag%s",
+        "edgearray": [[1, 2]],
+        "labeldict": [
+            {"id": 1, "labels": ["a"], "items": [1]},
+            {"id": 2, "labels": ["b"], "items": [2]},
+        ],
+        "num_vars": 1,
+    },
+})
 
 
 def test_sat_and_join(tmpdir):
@@ -95,3 +111,51 @@ def test_init(mocker):
 
     main.assert_called_once()
     assert mock_exit.call_args[0][0] == expected
+
+
+def test_read_json_from_string():
+    """Test read_json with a valid JSON string returns the parsed dict."""
+    data = '{"key": "value"}'
+    result = read_json(data)
+    assert result == {"key": "value"}
+
+
+def test_read_json_from_file(tmp_path):
+    """Test read_json with a TextIOWrapper (open file) returns parsed dict."""
+    json_file = tmp_path / "test.json"
+    json_file.write_text('{"key": "value"}')
+    with open(json_file, "r", encoding="UTF-8") as f:
+        result = read_json(f)
+    assert result == {"key": "value"}
+
+
+def test_read_json_empty_raises():
+    """Test that read_json raises AssertionError for an empty JSON object."""
+    with pytest.raises(AssertionError):
+        read_json("{}")
+
+
+def test_read_json_already_parsed():
+    """Test read_json with an already-parsed dict uses it directly."""
+    data = {"key": "value"}
+    result = read_json(data)
+    assert result == {"key": "value"}
+
+
+def test_inspect_json_minimal():
+    """Test inspect_json with minimal valid JSON creates VisualizationData."""
+    visu = Visualization.__new__(Visualization)
+    result = visu.inspect_json(MINIMAL_JSON)
+    assert result.incidence_graphs == []
+    assert result.general_graphs == []
+    assert result.svg_join is None
+    assert visu.timeline == [[1], [2]]
+    assert visu.bagpre == "bag%s"
+
+
+def test_inspect_json_missing_key():
+    """Test inspect_json raises KeyError when a required key is missing."""
+    bad_json = json.dumps({"tdTimeline": [[1]]})
+    visu = Visualization.__new__(Visualization)
+    with pytest.raises(KeyError):
+        visu.inspect_json(bad_json)
