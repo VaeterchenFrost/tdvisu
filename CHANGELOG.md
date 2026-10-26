@@ -9,6 +9,18 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 - No unreleased changes yet.
 
+## [1.2.1] - 2026-10-26
+
+### Added
+
+- Added regression tests for intermediate visualization steps.
+
+### Changed
+
+- Raised the minimum supported Python version to 3.10.
+- Updated dependency constraints, stable requirements, and CI/release workflows.
+- Updated PostgreSQL installation and Python support documentation.
+
 ## [1.2.0] - 2024-12-24
 
 ### Added
@@ -289,7 +301,8 @@ See [#47]
 [mypy]: https://github.com/python/mypy
 [DIRECTORY]: https://github.com/VaeterchenFrost/tdvisu/blob/main/DIRECTORY.md
 [Codecov]: https://codecov.io/gh/VaeterchenFrost/tdvisu
-[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.2.0...main
+[Unreleased]: https://github.com/VaeterchenFrost/tdvisu/compare/v1.2.1...main
+[1.2.1]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.2.1
 [1.2.0]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.2.0
 [1.1.9]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.9
 [1.1.8]: https://github.com/VaeterchenFrost/tdvisu/releases/tag/v1.1.8
