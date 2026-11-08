@@ -7,7 +7,9 @@ project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
 ## [Unreleased]
 
-- No unreleased changes yet.
+### Changed
+
+- Replaced the deprecated GPL license classifier with the SPDX identifier `GPL-3.0-or-later`.
 
 ## [1.2.1] - 2026-10-26
 

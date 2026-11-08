@@ -46,7 +46,6 @@ classifiers = [
     "Intended Audience :: Education",
     "Intended Audience :: Developers",
     "Operating System :: OS Independent",
-    "License :: OSI Approved :: GNU General Public License v3 or later (GPLv3+)",
     "Programming Language :: Python :: 3",
     "Programming Language :: Python :: 3.10",
     "Programming Language :: Python :: 3.11",
@@ -67,7 +66,7 @@ setup(
     url="https://github.com/VaeterchenFrost/tdvisu",
     author="Martin Röbke",
     author_email="martin.roebke@web.de",
-    license="GPLv3",
+    license="GPL-3.0-or-later",
     packages=["tdvisu"],
     platforms="any",
     install_requires=[
